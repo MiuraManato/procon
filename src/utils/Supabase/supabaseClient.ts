@@ -10,6 +10,6 @@ const createSupabaseClient = () => {
 	} else {
 		throw new Error("Supabase URL or API key is undefined");
 	}
-}
+};
 
 export const supabase = createSupabaseClient();
