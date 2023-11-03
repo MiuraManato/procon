@@ -101,11 +101,11 @@ model ProductAllergy {
 }
 
 model ProductIngredient {
-  productIngredientId Int      @id @default(autoincrement()) @map("product_ingredient_id")
-  product             Product  @relation(fields: [productId], references: [productId])
-  productId           Int      @map("product_id")
+  productIngredientId Int         @id @default(autoincrement()) @map("product_ingredient_id")
+  product             Product     @relation(fields: [productId], references: [productId])
+  productId           Int         @map("product_id")
   ingredient          Ingredient  @relation(fields: [ingredientId], references: [ingredientId])
-  ingredientId        Int      @map("ingredient_id")
+  ingredientId        Int         @map("ingredient_id")
 }
 
 model MenuProduct {
