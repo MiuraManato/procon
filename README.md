@@ -197,3 +197,43 @@ const foo = () => {
 - フラグ引数は基本的に使用しないでください。
 - 基本的に 1 ファイルにつき 1 export です。
 - export default は src/pages/ 以外では使用しないでください。
+
+今回のプロジェクトでのルーティングは以下のようにしてください。
+例えば、サインアップの画面を作る場合は、`/src/pages/user/auth/signup/create-account/index.tsx`で実体を呼び出してください。
+
+| 大画面名 | 画面名               | Path                                   |
+| -------- | -------------------- | -------------------------------------- |
+| お客様   | サインアップ         | /user/auth/signup/create-account       |
+| お客様   | サインアップ完了     | /user/auth/signup/complete             |
+| お客様   | ログイン             | /user/auth/login                       |
+| お客様   | パスワードリセット   | /user/auth/password/reset              |
+| お客様   | 新規パスワード入力   | /user/auth/password/new                |
+| お客様   | トップ               | /user/top                              |
+| お客様   | QRコード             | /user/qr                               |
+| お客様   | 過去の注文履歴       | /user/order-history                    |
+| お客様   | 好きな食べ物         | /user/settings/like                    |
+| お客様   | 嫌いな食べ物         | /user/settings/dislike                 |
+| お客様   | アレルギー           | /user/settings/allergy                 |
+| お客様   | アカウント情報       | /user/account                          |
+| お客様   | アカウント情報変更   | /user/account/settings/edit-profile    |
+| お客様   | パスワード変更       | /user/account/settings/change-password |
+| お客様   | 退会確認             | /user/account/deactivate/confirm       |
+| お客様   | 退会完了             | /user/account/deactivate/complete      |
+| 注文端末 | テーブル設定ログイン | /order/employee/login                  |
+| 注文端末 | テーブル設定         | /order/employee/settings               |
+| 注文端末 | テーブル選択         | /order/employee/settings/table         |
+| 注文端末 | 人数登録             | /order                                 |
+| 注文端末 | ログイン             | /order/login                           |
+| 注文端末 | ログイン確認         | /order/login/confirm                   |
+| 注文端末 | カテゴリ別メニュー   | /order/menu/:id                        |
+| 注文端末 | 商品詳細        　　 | /order/menu/detail/:id                 |
+| 注文端末 | 注文履歴             | /order/history                         |
+| 注文端末 | 会計                 | /order/payment                         |
+| 従業員   | ログイン             | /employee/login                        |
+| 従業員   | トップ               | /employee/top                          |
+| 従業員   | オーダー一覧         | /employee/order-list                   |
+| 従業員   | テーブル編集         | /employee/table/edit                   |
+| 従業員   | テーブル詳細         | /employee/table/detail                 |
+| 従業員   | メニュー設定         | /employee/menu/settings                |
+| 従業員   | 商品登録　　　　　　 | /employee/menu/add                     |
+| 従業員   | 商品編集     　　    | /employee/menu/edit                    |
