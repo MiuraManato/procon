@@ -199,26 +199,26 @@ const foo = () => {
 - export default は src/pages/ 以外では使用しないでください。
 
 今回のプロジェクトでのルーティングは以下のようにしてください。
-例えば、サインアップの画面を作る場合は、`/src/pages/user/auth/signup/create-account/index.tsx`で実体を呼び出してください。
+例えば、サインアップの画面を作る場合は、`/src/features/User/Authentication/Signup/index.tsx`に画面と処理の実体を書き、`/src/pages/user/auth/signup/create-account/index.tsx`で実体を呼び出してください。
 
-| 大画面名 | 画面名               | Path                                   |
-| -------- | -------------------- | -------------------------------------- |
-| お客様   | サインアップ         | /user/auth/signup/create-account       |
-| お客様   | サインアップ完了     | /user/auth/signup/complete             |
-| お客様   | ログイン             | /user/auth/login                       |
-| お客様   | パスワードリセット   | /user/auth/password/reset              |
-| お客様   | 新規パスワード入力   | /user/auth/password/new                |
-| お客様   | トップ               | /user/top                              |
-| お客様   | QRコード             | /user/qr                               |
-| お客様   | 過去の注文履歴       | /user/order-history                    |
-| お客様   | 好きな食べ物         | /user/settings/like                    |
-| お客様   | 嫌いな食べ物         | /user/settings/dislike                 |
-| お客様   | アレルギー           | /user/settings/allergy                 |
-| お客様   | アカウント情報       | /user/account                          |
-| お客様   | アカウント情報変更   | /user/account/settings/edit-profile    |
-| お客様   | パスワード変更       | /user/account/settings/change-password |
-| お客様   | 退会確認             | /user/account/deactivate/confirm       |
-| お客様   | 退会完了             | /user/account/deactivate/complete      |
+| 大画面名 | 画面名               | Path (/pages)                          | 実体Path (/features)                   |
+| -------- | -------------------- | -------------------------------------- | -------------------------------------- |
+| お客様   | サインアップ         | /user/auth/signup/create-account       | /User/Authentication/Signup            |
+| お客様   | サインアップ完了     | /user/auth/signup/complete             | /User/Authentication/SignupComplete    |
+| お客様   | ログイン             | /user/auth/login                       | /User/Authentication/Login             |
+| お客様   | パスワードリセット   | /user/auth/password/reset              | /User/Authentication/PasswordReset     |
+| お客様   | 新規パスワード入力   | /user/auth/password/new                | /User/Authentication/PasswordNew       |
+| お客様   | トップ               | /user/top                              | /User/Top                              |
+| お客様   | QRコード             | /user/qr                               | /User/QR                               |
+| お客様   | 過去の注文履歴       | /user/order-history                    | /User/OrderHistory                     |
+| お客様   | 好きな食べ物         | /user/settings/like                    | /User/Settings/Like                    |
+| お客様   | 嫌いな食べ物         | /user/settings/dislike                 | /User/Settings/Dislike                 |
+| お客様   | アレルギー           | /user/settings/allergy                 | /User/Settings/Allergy                 |
+| お客様   | アカウント情報       | /user/account                          | /User/Account                          |
+| お客様   | アカウント情報変更   | /user/account/settings/edit-profile    | /User/AccountSettings/EditProfile      |
+| お客様   | パスワード変更       | /user/account/settings/change-password | /User/AccountSettings/ChangePassword   |
+| お客様   | 退会確認             | /user/account/deactivate/confirm       | /User/AccountDeactivate/Confirm        |
+| お客様   | 退会完了             | /user/account/deactivate/complete      | /User/AccountDeactivate/Complete       |
 | 注文端末 | テーブル設定ログイン | /order/employee/login                  |
 | 注文端末 | テーブル設定         | /order/employee/settings               |
 | 注文端末 | テーブル選択         | /order/employee/settings/table         |
