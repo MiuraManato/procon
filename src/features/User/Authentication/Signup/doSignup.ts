@@ -6,7 +6,7 @@ export const doSignup = async (email: string, password: string): Promise<boolean
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    sendEmailVerification(user);
+    await sendEmailVerification(user);
     return true;
   } catch (e) {
     if (e instanceof FirebaseError) throw new Error(e.message);

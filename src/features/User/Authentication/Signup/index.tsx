@@ -38,8 +38,17 @@ export const Signup = () => {
   };
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    doSignup(email, password);
-    // TODO: DBへの登録処理
+    event.preventDefault();
+    doSignup(email, password)
+      .then((res) => {
+        console.log(res);
+        // 登録に成功した際の処理
+        // TODO: DBへの登録処理
+      })
+      .catch((err) => {
+        console.log(err);
+        // 登録に失敗した際の処理
+      });
   }
 
   return (
