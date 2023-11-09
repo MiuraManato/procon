@@ -11,36 +11,37 @@ datasource db {
 }
 
 model User {
-  userId      String           @id @map("user_id")
+  userId      String           @id
   username    String
-  firstName   String           @map("first_name")
-  lastName    String           @map("last_name")
+  firstName   String
+  lastName    String
   age         Int
   email       String           @unique
   authority   Int              @default(0)
-  createdAt   DateTime         @default(now()) @map("created_at")
-  updatedAt   DateTime         @updatedAt @map("updated_at")
-  deleted     Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  isDeleted   Boolean          @default(false)
+  deletedAt   DateTime?
   preferences UserPreference[]
   allergies   UserAllergy[]
   orders      OrderUser[]
 }
 
 model Allergy {
-  allergyId Int              @id @default(autoincrement()) @map("allergy_id")
+  allergyId Int              @id @default(autoincrement())
   name      String           @unique
   users     UserAllergy[]
   products  ProductAllergy[]
 }
 
 model Product {
-  productId          Int                 @id @default(autoincrement()) @map("product_id")
-  productName        String              @unique @map("product_name")
+  productId          Int                 @id @default(autoincrement())
+  productName        String
   price              Int
   category           Category            @relation(fields: [categoryId], references: [categoryId])
-  categoryId         Int                 @map("category_id")
+  categoryId         Int
   description        String
-  isSoldOut          Boolean             @default(false) @map("is_sold_out")
+  isSoldOut          Boolean             @default(false)
   productAllergies   ProductAllergy[]
   productIngredients ProductIngredient[]
   orderDetails       OrderDetail[]
@@ -48,134 +49,134 @@ model Product {
 }
 
 model Category {
-  categoryId   Int       @id @default(autoincrement()) @map("category_id")
-  categoryName String    @unique @map("category_name")
+  categoryId   Int       @id @default(autoincrement())
+  categoryName String    @unique
   products     Product[]
 }
 
 model Ingredient {
-  ingredientId    Int                 @id @default(autoincrement()) @map("ingredient_id")
-  ingredientName  String              @unique @map("ingredient_name")
+  ingredientId    Int                 @id @default(autoincrement())
+  ingredientName  String              @unique
   products        ProductIngredient[]
   userPreferences UserPreference[]
 }
 
 model Store {
-  storeId   Int          @id @default(autoincrement()) @map("store_id")
-  storeName String       @unique @map("store_name")
+  storeId   Int          @id @default(autoincrement())
+  storeName String       @unique
   tables    StoreTable[]
 }
 
 model UserPreference {
-  userPreferenceId Int        @id @default(autoincrement()) @map("user_preference_id")
-  ingredientType   TYPE       @map("ingredient_type")
+  userPreferenceId Int        @id @default(autoincrement())
+  ingredientType   TYPE
   ingredient       Ingredient @relation(fields: [ingredientId], references: [ingredientId])
-  ingredientId     Int        @map("ingredient_id")
+  ingredientId     Int
   user             User       @relation(fields: [userId], references: [userId])
-  userId           String     @map("user_id")
+  userId           String
 }
 
 model StoreTable {
-  tableId          Int                @id @default(autoincrement()) @map("table_id")
+  tableId          Int                @id @default(autoincrement())
   store            Store              @relation(fields: [storeId], references: [storeId])
-  storeId          Int                @map("store_id")
-  tableName        String             @map("table_name")
+  storeId          Int
+  tableName        String
   orders           Order[]
   storeTableStatus StoreTableStatus[]
 }
 
 model UserAllergy {
-  userAllergyId Int     @id @default(autoincrement()) @map("user_allergy_id")
+  userAllergyId Int     @id @default(autoincrement())
   user          User    @relation(fields: [userId], references: [userId])
-  userId        String  @map("user_id")
+  userId        String
   allergy       Allergy @relation(fields: [allergyId], references: [allergyId])
-  allergyId     Int     @map("allergy_id")
+  allergyId     Int
 }
 
 model ProductAllergy {
-  productAllergyId Int     @id @default(autoincrement()) @map("product_allergy_id")
+  productAllergyId Int     @id @default(autoincrement())
   product          Product @relation(fields: [productId], references: [productId])
-  productId        Int     @map("product_id")
+  productId        Int
   allergy          Allergy @relation(fields: [allergyId], references: [allergyId])
-  allergyId        Int     @map("allergy_id")
+  allergyId        Int
 }
 
 model ProductIngredient {
-  productIngredientId Int        @id @default(autoincrement()) @map("product_ingredient_id")
+  productIngredientId Int        @id @default(autoincrement())
   product             Product    @relation(fields: [productId], references: [productId])
-  productId           Int        @map("product_id")
+  productId           Int
   ingredient          Ingredient @relation(fields: [ingredientId], references: [ingredientId])
-  ingredientId        Int        @map("ingredient_id")
+  ingredientId        Int
 }
 
 model MenuProduct {
-  menuProductId Int     @id @default(autoincrement()) @map("menu_product_id")
+  menuProductId Int     @id @default(autoincrement())
   menu          Menu    @relation(fields: [menuId], references: [menuId])
-  menuId        Int     @map("menu_id")
+  menuId        Int
   product       Product @relation(fields: [productId], references: [productId])
-  productId     Int     @map("product_id")
+  productId     Int
   pages         Int
-  displayOrder  Int     @map("display_order")
+  displayOrder  Int
 }
 
 model Menu {
-  menuId           Int           @id @default(autoincrement()) @map("menu_id")
-  menuCategoryName String        @unique @map("menu_category_name")
-  displayOrder     Int           @map("display_order")
+  menuId           Int           @id @default(autoincrement())
+  menuCategoryName String        @unique
+  displayOrder     Int
   menuProducts     MenuProduct[]
 }
 
 model Order {
-  orderId     Int           @id @default(autoincrement()) @map("order_id")
-  orderedAt   DateTime      @default(now()) @map("ordered_at")
+  orderId     Int           @id @default(autoincrement())
+  orderedAt   DateTime      @default(now())
   storeTable  StoreTable    @relation(fields: [tableId], references: [tableId])
-  tableId     Int           @map("table_id")
+  tableId     Int
   orderDetail OrderDetail[]
   orderUser   OrderUser[]
 }
 
 model OrderDetail {
-  orderDetailId Int         @id @default(autoincrement()) @map("order_detail_id")
+  orderDetailId Int         @id @default(autoincrement())
   order         Order       @relation(fields: [orderId], references: [orderId])
-  orderId       Int         @map("order_id")
+  orderId       Int
   product       Product     @relation(fields: [productId], references: [productId])
-  productId     Int         @map("product_id")
+  productId     Int
   quantity      Int
-  orderStatus   ORDERSTATUS @default(COOKING) @map("order_status")
+  orderStatus   ORDERSTATUS @default(COOKING)
 }
 
 model OrderUser {
-  orderUserId Int    @id @default(autoincrement()) @map("order_user_id")
+  orderUserId Int    @id @default(autoincrement())
   order       Order  @relation(fields: [orderId], references: [orderId])
-  orderId     Int    @map("order_id")
+  orderId     Int
   user        User   @relation(fields: [userId], references: [userId])
-  userId      String @map("user_id")
+  userId      String
 }
 
 model StoreTableStatus {
-  storeTableStatusId Int         @id @default(autoincrement()) @map("store_table_status_id")
+  storeTableStatusId Int         @id @default(autoincrement())
   storeTable         StoreTable  @relation(fields: [tableId], references: [tableId])
-  tableId            Int         @map("table_id")
+  tableId            Int
   status             TABLESTATUS @default(EMPTY)
-  numberOfPeople     Int         @map("number_of_people")
+  numberOfPeople     Int
   calling            Boolean     @default(false)
 }
 
 model OrderHistoryLog {
-  orderHistoryLogId Int              @id @default(autoincrement()) @map("order_history_log_id")
-  orderId           Int              @map("order_id")
-  orderedAt         DateTime         @map("ordered_at")
-  tableId           Int              @map("table_id")
+  orderHistoryLogId Int              @id @default(autoincrement())
+  orderId           Int
+  orderedAt         DateTime
+  tableId           Int
   orderDetails      OrderDetailLog[]
 }
 
 model OrderDetailLog {
-  orderDetailLogId  Int             @id @default(autoincrement()) @map("order_detail_log_id")
+  orderDetailLogId  Int             @id @default(autoincrement())
   orderHistoryLog   OrderHistoryLog @relation(fields: [orderHistoryLogId], references: [orderHistoryLogId])
-  orderHistoryLogId Int             @map("order_history_log_id")
-  productId         Int             @map("product_id")
-  quantity          Int             @map("quantity")
-  orderStatus       ORDERSTATUS     @map("order_status")
+  orderHistoryLogId Int
+  productId         Int
+  quantity          Int
+  orderStatus       ORDERSTATUS
 }
 
 enum ORDERSTATUS {
