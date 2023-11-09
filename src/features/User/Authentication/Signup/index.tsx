@@ -4,6 +4,7 @@ import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { doSignup } from "./doSignup";
 
 export const Signup = () => {
   const [email, setEmail] = useState<string>("");
@@ -37,7 +38,8 @@ export const Signup = () => {
   };
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    // TODO: ユーザー登録処理
+    doSignup(email, password);
+    // TODO: DBへの登録処理
   }
 
   return (
