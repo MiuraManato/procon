@@ -2,20 +2,19 @@ import { FormEvent, useState } from "react";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 export const Signup = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [touched, setTouched] = useState({
     email: false,
     password: false,
     passwordConfirmation: false,
   });
-
-  const handleBlur = (field: string): void => {
-    setTouched({ ...touched, [field]: true });
-  };
 
   const handleEmailChange = (email: string): void => {
     setEmail(email);
@@ -27,6 +26,14 @@ export const Signup = () => {
 
   const handlePasswordConfirmation = (passwordConfirmation: string): void => {
     setPasswordConfirmation(passwordConfirmation);
+  };
+
+  const togglePasswordVisibility = (): void => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleBlur = (field: string): void => {
+    setTouched({ ...touched, [field]: true });
   };
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -50,13 +57,16 @@ export const Signup = () => {
         <label>
           パスワード
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onBlur={() => handleBlur("password")}
             onChange={(e) => handlePasswordChange(e.target.value)}
           />
+          <button type="button" onClick={togglePasswordVisibility}>
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+          </button>
           {touched.password && password && !ValidatePassword(password) && (
-            <span>パスワードは8文字以上で入力してください</span>
+            <span>パスワードは小文字、大文字、数字を含む8文字以上にする必要があります。</span>
           )}
         </label>
         <br />
