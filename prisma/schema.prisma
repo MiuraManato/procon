@@ -46,6 +46,8 @@ model Product {
   productIngredients ProductIngredient[]
   orderDetails       OrderDetail[]
   menuProducts       MenuProduct[]
+  isDeleted          Boolean             @default(false)
+  deletedAt          DateTime?
 }
 
 model Category {
