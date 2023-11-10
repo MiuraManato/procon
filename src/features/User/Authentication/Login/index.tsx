@@ -5,24 +5,29 @@ import { doLogin } from "./doLogin";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isFailed, setIsFailed] = useState(false);
   const router = useRouter();
 
-  const handleEmailChange = (email: string) => {
+  const handleEmailChange = (email: string): void => {
     setEmail(email);
   };
 
-  const handlePasswordChange = (password: string) => {
+  const handlePasswordChange = (password: string): void => {
     setPassword(password);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSetIsFailedChange = (isFaile: boolean): void => {
+    setIsFailed(isFaile);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     doLogin(email, password)
       .then(async (res) => {
         if (res) {
-          await router.push("/user");
+          await router.push("/user/top");
         } else {
-          throw new Error("ログインに失敗しました");
+          handleSetIsFailedChange(true);
         }
       })
       .catch((err: Error) => {
@@ -33,6 +38,7 @@ export const Login = () => {
   return (
     <>
       <div>
+        {isFailed && <div>ログインに失敗しました。</div>}
         <form onSubmit={handleSubmit}>
           <label>
             <div>メールアドレス</div>
