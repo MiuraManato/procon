@@ -5,17 +5,44 @@ import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { doSignup } from "./doSignup";
+import { useRouter } from "next/router";
 
 export const Signup = () => {
+  const [username, setUsername] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [age, setAge] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [touched, setTouched] = useState({
+    username: false,
+    firstName: false,
+    lastName: false,
+    age: false,
     email: false,
     password: false,
     passwordConfirmation: false,
   });
+
+  const router = useRouter();
+
+  const handleUsernameChange = (username: string): void => {
+    setUsername(username);
+  };
+
+  const handleFirstNameChange = (firstName: string): void => {
+    setFirstName(firstName);
+  };
+
+  const handleLastNameChange = (lastName: string): void => {
+    setLastName(lastName);
+  };
+
+  const handleAgeChange = (age: number): void => {
+    setAge(age);
+  };
 
   const handleEmailChange = (email: string): void => {
     setEmail(email);
@@ -37,23 +64,70 @@ export const Signup = () => {
     setTouched({ ...touched, [field]: true });
   };
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     doSignup(email, password)
-      .then((res) => {
-        console.log(res);
-        // 登録に成功した際の処理
-        // TODO: DBへの登録処理
+      .then(async (uid) => {
+        const res = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ uid, username, firstName, lastName, age, email }),
+        });
+        if (res.status === 200) {
+          await router.push("/user/auth/signup/complete");
+        } else {
+          throw new Error("ユーザー登録に失敗しました。時間をあけ、再度お試しください。");
+        }
       })
-      .catch((err) => {
-        console.log(err);
-        // 登録に失敗した際の処理
+      .catch((e: Error) => {
+        alert(e.message);
       });
-  }
+  };
 
   return (
     <>
       <form method={"post"} onSubmit={handleSubmit}>
+        <label>
+          ユーザー名
+          <input
+            type="text"
+            value={username}
+            onBlur={() => handleBlur("username")}
+            onChange={(e) => handleUsernameChange(e.target.value)}
+          />
+          {touched.username && !username && <span>ユーザー名を入力してください</span>}
+        </label>
+        <br />
+        <label>
+          名前
+          <input
+            type="text"
+            value={lastName}
+            onBlur={() => handleBlur("lastName")}
+            onChange={(e) => handleLastNameChange(e.target.value)}
+          />
+          <input
+            type="text"
+            value={firstName}
+            onBlur={() => handleBlur("firstName")}
+            onChange={(e) => handleFirstNameChange(e.target.value)}
+          />
+          {touched.firstName && !firstName && touched.lastName && !lastName && <span>名前を入力してください</span>}
+        </label>
+        <br />
+        <label>
+          年齢
+          <input
+            type="number"
+            value={age}
+            onBlur={() => handleBlur("age")}
+            onChange={(e) => handleAgeChange(Number(e.target.value))}
+          />
+          {touched.age && !age && <span>年齢を入力してください</span>}
+        </label>
+        <br />
         <label>
           メールアドレス
           <input
@@ -97,6 +171,7 @@ export const Signup = () => {
         <button
           type="submit"
           disabled={
+            !username ||
             !email ||
             !password ||
             !passwordConfirmation ||
