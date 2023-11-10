@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiResponse } from "next";
-import { NextApiRequestExtendsUser } from "./type";
+import { NextApiRequestExtendsUser } from "@/types/api/signup";
 
 const signupHandler = async (req: NextApiRequestExtendsUser, res: NextApiResponse) => {
   const prisma = new PrismaClient();
