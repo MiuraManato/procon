@@ -5,40 +5,28 @@ import { doLogin } from "./doLogin";
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isFailed, setIsFailed] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const router = useRouter();
 
-  const handleEmailChange = (email: string): void => {
-    setEmail(email);
-  };
-
-  const handlePasswordChange = (password: string): void => {
-    setPassword(password);
-  };
-
-  const handleSetIsFailedChange = (isFaile: boolean): void => {
-    setIsFailed(isFaile);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    doLogin(email, password)
-      .then(async (res) => {
-        if (res) {
-          await router.push("/user/top");
-        } else {
-          handleSetIsFailedChange(true);
-        }
-      })
-      .catch((err: Error) => {
-        throw new Error(err.message);
-      });
+    try {
+      const loginSuccess = await doLogin(email, password);
+      if (loginSuccess) {
+        await router.push("/user/top");
+      } else {
+        setLoginError("メールアドレスまたはパスワードが間違っています。");
+      }
+    } catch (err) {
+      console.error(err);
+      setLoginError("ログイン中にエラーが発生しました。後ほど再試行してください。");
+    }
   };
 
   return (
     <>
       <div>
-        {isFailed && <div>ログインに失敗しました。</div>}
+        {loginError && <div>{loginError}</div>}
         <form onSubmit={handleSubmit}>
           <label>
             <div>メールアドレス</div>
@@ -47,7 +35,7 @@ export const Login = () => {
               name="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => handleEmailChange(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <br />
@@ -56,9 +44,9 @@ export const Login = () => {
             <input
               type="password"
               name="password"
-              autoComplete="password"
+              autoComplete="current-password"
               value={password}
-              onChange={(e) => handlePasswordChange(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </label>
           <button type="submit" disabled={!email || !password}>
