@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { doSignup } from "./doSignup";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export const Signup = () => {
   const [username, setUsername] = useState<string>("");
@@ -88,6 +89,9 @@ export const Signup = () => {
 
   return (
     <>
+      <Head>
+        <title>ユーザー登録</title>
+      </Head>
       <form method={"post"} onSubmit={handleSubmit}>
         <label>
           ユーザー名
