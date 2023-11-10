@@ -35,7 +35,7 @@ export const Login = () => {
       <div>
         <form onSubmit={handleSubmit}>
           <label>
-            メールアドレス
+            <div>メールアドレス</div>
             <input
               type="email"
               name="email"
@@ -44,8 +44,9 @@ export const Login = () => {
               onChange={(e) => handleEmailChange(e.target.value)}
             />
           </label>
+          <br />
           <label>
-            パスワード
+            <div>パスワード</div>
             <input
               type="password"
               name="password"
@@ -54,7 +55,9 @@ export const Login = () => {
               onChange={(e) => handlePasswordChange(e.target.value)}
             />
           </label>
-          <button type="submit">ログイン</button>
+          <button type="submit" disabled={!email || !password}>
+            ログイン
+          </button>
         </form>
       </div>
     </>
