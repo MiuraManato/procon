@@ -6,7 +6,8 @@ export const doLogin = async (email: string, password: string): Promise<boolean>
     const auth = getAuth(firebaseApp);
     await signInWithEmailAndPassword(auth, email, password);
     return true;
-  } catch (error) {
+  } catch (e) {
+    console.error(e);
     return false;
   }
 };
