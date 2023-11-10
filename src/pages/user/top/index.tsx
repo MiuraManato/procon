@@ -1,7 +1,7 @@
 import { Top } from "@/features/User/Top";
 
 const TopPage = () => {
-	return <Top />
-}
+  return <Top />;
+};
 
 export default TopPage;
