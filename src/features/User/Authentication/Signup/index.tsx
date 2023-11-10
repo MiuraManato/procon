@@ -7,6 +7,7 @@ import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { doSignup } from "./doSignup";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 
 export const Signup = () => {
   const [username, setUsername] = useState<string>("");
@@ -187,6 +188,9 @@ export const Signup = () => {
           登録
         </button>
       </form>
+      <div>
+        <Link href={"/user/auth/login"}>ログインはこちら</Link>
+      </div>
     </>
   );
 };
