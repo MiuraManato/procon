@@ -5,6 +5,11 @@ import { FormEvent, useState } from "react";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
 
+/**
+ *パスワードを変更するページの実体部分
+ *
+ * @returns 入力フォーム欄
+ */
 export const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -24,18 +29,38 @@ export const ChangePassword = () => {
     setTouched({ ...touched, [field]: true });
   };
 
+  /**
+   *古いパスワードの入力欄が変更した時のハンドラー
+   *
+   * @param string
+   */
   const handleOldPassword = (oldPassword: string) => {
     setOldPassword(oldPassword);
   };
 
+  /**
+   *新しいパスワードの入力欄が変更した時のハンドラー
+   *
+   * @param string
+   */
   const handleNewPasswordChange = (newPassword: string) => {
     setNewPassword(newPassword);
   };
 
+  /**
+   *新しいパスワード（再入力）の入力欄が変更した時のハンドラー
+   *
+   * @param string
+   */
   const handleNewPasswordConfirmation = (newPasswordConfirmation: string) => {
     setNewPasswordConfirmation(newPasswordConfirmation);
   };
 
+  /**
+   *新しいパスワード（再入力）の入力欄が変更した時のハンドラー
+   *
+   * @param FormEvent<HTMLFormElement>
+   */
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     // TODO: パスワード変更処理
   }
