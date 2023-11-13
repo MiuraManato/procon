@@ -1,9 +1,7 @@
 //パスワード変更画面
 //制作者：吉澤
-import { ChangePassword } from "@/features/User/AccountSettings/ChangePassword/"
+import { ChangePassword } from "@/features/User/AccountSettings/ChangePassword";
 
-const ChangePasswordPage = () => {
+export default function ChangePasswordPage() {
   return <ChangePassword />;
-};
-
-export default ChangePasswordPage;
+}
