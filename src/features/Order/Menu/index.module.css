@@ -1,16 +1,22 @@
 .menu-container {
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-around; */
+  /* padding: 20px; */
 }
 
 .category-container {
-  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #333;
+  background-color: #f5f5dc;
 }
 
 .category-list {
-  display: flex;
-  flex-direction: row;
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+  text-align: center;
+  padding: 15px 30px;
 }
