@@ -4,6 +4,7 @@
 import { FormEvent, useState } from "react";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
+import { DoChangePassword } from "./doChangePassword";
 
 /**
  *パスワードを変更するページの実体部分
@@ -57,12 +58,14 @@ export const ChangePassword = () => {
   };
 
   /**
-   *新しいパスワード（再入力）の入力欄が変更した時のハンドラー
+   *新しいパスワードを変更するための処理
    *
    * @param FormEvent<HTMLFormElement>
    */
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    // TODO: パスワード変更処理
+    event.preventDefault();
+    const result = DoChangePassword(oldPassword, newPassword);
+    console.log(result);
   }
 
   return (
