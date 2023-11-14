@@ -1,0 +1,16 @@
+.menu-container {
+  width: 100%;
+}
+
+.category-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: row;
+}
