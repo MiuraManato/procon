@@ -4,19 +4,18 @@ import { NextApiRequestEditUser } from "@/types/api/edit-profile";
 
 const updateUserHandler = async (req: NextApiRequestEditUser, res: NextApiResponse) => {
   const prisma = new PrismaClient();
-  const { userId, username, firstName, lastName, age, email } = req.body;
+  const { id, firstName, lastName, age, email } = req.body;
 
-  if (!userId || !username || !firstName || !lastName || !email) {
+  if (!id || !firstName || !lastName || !email) {
     return res.status(400).json({ message: "Invalid request" });
   }
 
   try {
     const updatedUser = await prisma.user.update({
       where: {
-        userId: userId,
+        userId: id,
       },
       data: {
-        username: username,
         firstName: firstName,
         lastName: lastName,
         age: age,
