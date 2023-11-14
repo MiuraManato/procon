@@ -1,7 +1,9 @@
 import { FormEvent, useState } from "react";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
+import useAuth from "@/features/hooks/useAuth";
 import Head from "next/head";
 import Link from "next/link";
+import router from "next/router";
 
 export const EditProfile = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -14,6 +16,14 @@ export const EditProfile = () => {
     age: false,
     email: false,
   });
+
+  const user = useAuth();
+  if (!user) {
+    return <>;</>;
+  }
+
+  const id = user.uid;
+  console.log(id);
 
   const handleFirstNameChange = (firstName: string): void => {
     setFirstName(firstName);
@@ -35,10 +45,21 @@ export const EditProfile = () => {
     setTouched({ ...touched, [field]: true });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    // ここでプロフィールの更新処理を行う
-    // 更新が成功したら適切なリダイレクトやメッセージを表示する
+
+    const res = await fetch("/api/auth/edit-profile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, firstName, lastName, age, email }),
+    });
+    if (res.status === 200) {
+      await router.push("/user/auth/edit-profile/complete");
+    } else {
+      throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
+    }
   };
 
   return (
@@ -88,8 +109,8 @@ export const EditProfile = () => {
         <br />
         <button
           type="submit"
-          disabled={!firstName || !lastName || !age || !email || !ValidateEmail(email)}
-          onClick={() => console.log(firstName, lastName, age, email)}
+          disabled={!id || !firstName || !lastName || !age || !email || !ValidateEmail(email)}
+          onClick={() => console.log(id, firstName, lastName, age, email)}
         >
           情報を保存する
         </button>
