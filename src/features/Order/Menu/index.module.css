@@ -20,3 +20,39 @@
   text-align: center;
   padding: 15px 30px;
 }
+
+.category-button {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5em;
+  color: #333;
+  cursor: pointer;
+}
+
+.menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.product-item {
+  border: 1px solid #ddd;
+  width: 20%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+}
+
+.product-item p:first-child {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.product-item p:nth-child(2) {
+  font-size: 1em;
+  color: #555;
+  margin-top: 5px;
+}
