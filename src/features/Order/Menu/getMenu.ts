@@ -34,6 +34,5 @@ export const getMenuData = async () => {
       },
     },
   });
-  await prisma.$disconnect();
   return menu;
 };
