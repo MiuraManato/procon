@@ -23,6 +23,12 @@ export const getMenuData = async () => {
               description: true,
               isSoldOut: true,
               isDeleted: true,
+              productAllergies: {
+                select: {
+                  productId: true,
+                  allergyId: true,
+                },
+              },
             },
           },
         },
