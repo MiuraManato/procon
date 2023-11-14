@@ -2,8 +2,7 @@ import { NextApiRequest } from "next";
 
 export interface NextApiRequestEditUser extends NextApiRequest {
   body: {
-    userId: string;
-    username: string;
+    id: string;
     firstName: string;
     lastName: string;
     age: number;
