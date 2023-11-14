@@ -89,7 +89,7 @@ export const EditProfile = () => {
         <button
           type="submit"
           disabled={!firstName || !lastName || !age || !email || !ValidateEmail(email)}
-          onClick = {() => console.log(firstName, lastName, age, email)}
+          onClick={() => console.log(firstName, lastName, age, email)}
         >
           情報を保存する
         </button>
