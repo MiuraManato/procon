@@ -6,6 +6,7 @@
 }
 
 .category-container {
+  width: 15%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +19,7 @@
   font-size: 1.5em;
   color: #333;
   text-align: center;
-  padding: 15px 30px;
+  padding: 10px 0px;
 }
 
 .category-button {
@@ -27,6 +28,7 @@
   font-size: 1.5em;
   color: #333;
   cursor: pointer;
+  width: 100%;
 }
 
 .menu-list {
