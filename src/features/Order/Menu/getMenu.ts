@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/Prisma/PrismaClient";
 
 export const getMenuData = async () => {
-  const prisma = new PrismaClient();
   const menu = await prisma.menu.findMany({
     select: {
       menuId: true,
