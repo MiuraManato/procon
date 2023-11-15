@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import { useState } from "react";
 
 export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
-  const [nowCategory, setNowCategory] = useState<string | null>(null);
+  const [nowCategory, setNowCategory] = useState<string | null>(menuData[0].menuCategoryName);
   console.log(menuData);
   return (
     <>
@@ -17,8 +17,31 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
             </div>
           </>
         ))}
-      </div>
-      <div>
+        <div className={`${styles["utilities-container"]}`}>
+          <button className={`${styles["category-button"]}`}>
+            <p className={`${styles["category-list"]}`}>フィルター</p>
+          </button>
+        </div>
+        <div className={`${styles["utilities-container"]}`}>
+          <button className={`${styles["category-button"]}`}>
+            <p className={`${styles["category-list"]}`}>注文履歴</p>
+          </button>
+        </div>
+        <div className={`${styles["utilities-container"]}`}>
+          <button className={`${styles["category-button"]}`}>
+            <p className={`${styles["category-list"]}`}>ログイン</p>
+          </button>
+        </div>
+        <div className={`${styles["utilities-container"]}`}>
+          <button className={`${styles["category-button"]}`}>
+            <p className={`${styles["category-list"]}`}>呼び出し</p>
+          </button>
+        </div>
+        <div className={`${styles["utilities-container"]}`}>
+          <button className={`${styles["category-button"]}`}>
+            <p className={`${styles["category-list"]}`}>会計</p>
+          </button>
+        </div>
         {menuData.map(
           (menu) =>
             nowCategory === menu.menuCategoryName && (
@@ -32,6 +55,11 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
               </div>
             ),
         )}
+        <div className={`${styles["cart-container"]}`}>
+          <p className={`${styles["cart-title"]}`}>現在のカート</p>
+          <div className={`${styles["cart-product"]}`}>商品１</div>
+          <div className={`${styles["cart-product"]}`}>商品２</div>
+        </div>
       </div>
     </>
   );

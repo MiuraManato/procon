@@ -1,17 +1,25 @@
 .menu-container {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
-  /* padding: 20px; */
 }
 
 .category-container {
-  width: 15%;
+  width: 11%;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid #333;
   background-color: #f5f5dc;
+}
+
+.utilities-container {
+  width: 11%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #333;
+  background-color: #dadad9;
 }
 
 .category-list {
@@ -25,7 +33,7 @@
 .category-button {
   border: none;
   background-color: transparent;
-  font-size: 1.5em;
+  font-size: 1em;
   color: #333;
   cursor: pointer;
   width: 100%;
@@ -36,6 +44,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   margin-top: 20px;
+  width: 78%;
 }
 
 .product-item {
@@ -57,4 +66,35 @@
   font-size: 1em;
   color: #555;
   margin-top: 5px;
+}
+
+/* カートコンテナのスタイル */
+.cart-container {
+  width: 20%;
+  border: 1px solid #333;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+/* カートタイトルのスタイル */
+.cart-title {
+  font-size: 1.5em; /* フォントサイズを大きく */
+  font-weight: bold; /* フォントを太字に */
+  margin-bottom: 15px; /* 下側の余白を設定 */
+  color: #333; /* 文字色を設定 */
+  text-align: center; /* 中央揃えに設定 */
+}
+
+/* カート内商品のスタイル */
+.cart-product {
+  border: 1px solid #ddd; /* 枠線を追加 */
+  padding: 10px; /* 内側の余白を設定 */
+  margin-bottom: 10px; /* 商品同士の余白を設定 */
+  border-radius: 5px; /* 角を丸くする */
+  background-color: #f9f9f9; /* 背景色を設定 */
+  font-size: 1em; /* フォントサイズを設定 */
+  color: #555; /* 文字色を設定 */
 }
