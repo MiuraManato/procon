@@ -3,7 +3,14 @@ import styles from "./index.module.css";
 import { useState } from "react";
 
 export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
-  const [nowCategory, setNowCategory] = useState<string | null>(menuData[0].menuCategoryName);
+  const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
+  const [nowPage, setNowPage] = useState<number>(1);
+
+  const handleSetNowCategory = (menuId: number) => {
+    setNowCategoryId(menuId);
+    setNowPage(1);
+  };
+
   console.log(menuData);
   return (
     <>
@@ -11,7 +18,7 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
         {menuData.map((menu) => (
           <>
             <div key={menu.menuCategoryName} className={`${styles["category-container"]}`}>
-              <button className={`${styles["category-button"]}`} onClick={() => setNowCategory(menu.menuCategoryName)}>
+              <button className={`${styles["category-button"]}`} onClick={() => handleSetNowCategory(menu.menuId)}>
                 <p className={`${styles["category-list"]}`}>{menu.menuCategoryName}</p>
               </button>
             </div>
@@ -44,14 +51,17 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
         </div>
         {menuData.map(
           (menu) =>
-            nowCategory === menu.menuCategoryName && (
+            nowCategoryId === menu.menuId && (
               <div key={menu.menuId} className={styles["menu-list"]}>
-                {menu.menuProducts.map((product) => (
-                  <div key={product.menuProductId} className={styles["product-item"]}>
-                    <p>{product.product.productName}</p>
-                    <p>{product.product.price}</p>
-                  </div>
-                ))}
+                {menu.menuProducts.map(
+                  (menuProduct) =>
+                    menuProduct.pages === nowPage && (
+                      <div key={menuProduct.menuProductId} className={styles["product-item"]}>
+                        <p>{menuProduct.product.productName}</p>
+                        <p>{menuProduct.product.price}</p>
+                      </div>
+                    ),
+                )}
               </div>
             ),
         )}
@@ -60,6 +70,22 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
           <div className={`${styles["cart-product"]}`}>商品１</div>
           <div className={`${styles["cart-product"]}`}>商品２</div>
         </div>
+      </div>
+      <div>
+        {menuData.map(
+          (menu) =>
+            nowCategoryId === menu.menuId &&
+            [...Array(menu.menuProducts[menu.menuProducts.length - 1].pages)].map((_, index) => (
+              <button
+                className={`${styles["page-button"]} ${
+                  nowPage === index + 1 ? styles["page-button-active"] : styles["page-button"]
+                }`}
+                onClick={() => setNowPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            )),
+        )}
       </div>
     </>
   );

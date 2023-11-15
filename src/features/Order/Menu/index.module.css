@@ -97,3 +97,17 @@
   font-size: 1em;
   color: #555;
 }
+
+.page-button {
+  background-color: transparent;
+  font-size: 1em;
+  color: #333;
+  cursor: pointer;
+  padding: 5px 0px 5px 0px;
+  width: 5%;
+}
+
+.page-button-active {
+  background-color: #333;
+  color: #fff;
+}
