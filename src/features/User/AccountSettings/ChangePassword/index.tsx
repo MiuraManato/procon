@@ -68,10 +68,10 @@ export const ChangePassword = () => {
     event.preventDefault();
     if (!user) return;
     try {
-      await doChangePassword(user, oldPassword, newPassword)
-        .then(async (res: boolean) => {
-          console.log(res);
-          res ?? (await router.push("/user/account"));
+      await doChangePassword(oldPassword, newPassword)
+        .then(async () => {
+          console.log();
+          await router.push("/user/account");
         })
         .catch((e: Error) => {
           console.error(e);
