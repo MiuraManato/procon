@@ -5,13 +5,34 @@ import { useState } from "react";
 export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
   const [nowPage, setNowPage] = useState<number>(1);
+  const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
+  const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
     setNowPage(1);
   };
 
-  console.log(menuData);
+  const handleSetAllergyFilter = (allergyId: number) => {
+    if (allergyFilter.includes(allergyId)) {
+      setAllergyFilter(allergyFilter.filter((filter) => filter !== allergyId));
+    } else {
+      setAllergyFilter([...allergyFilter, allergyId]);
+    }
+  };
+
+  const handleSetIsOpenedFilterModal = () => {
+    setIsOpenedFilterModal(!isOpenedFilterModal);
+  };
+
+  const handleModalOutsideClick = () => {
+    setIsOpenedFilterModal(false);
+  };
+
+  const handleModalInsideClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
   return (
     <>
       <div className={`${styles["menu-container"]}`}>
@@ -25,7 +46,7 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
           </>
         ))}
         <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`}>
+          <button className={`${styles["category-button"]}`} onClick={() => handleSetIsOpenedFilterModal()}>
             <p className={`${styles["category-list"]}`}>フィルター</p>
           </button>
         </div>
@@ -87,6 +108,13 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
             )),
         )}
       </div>
+      {isOpenedFilterModal && (
+        <div className={`${styles["modal"]}`} onClick={handleModalOutsideClick}>
+          <div className={`${styles["filter-modal"]}`} onClick={handleModalInsideClick}>
+            {/* モーダルの内容 */}
+          </div>
+        </div>
+      )}
     </>
   );
 };
