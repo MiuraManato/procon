@@ -6,20 +6,20 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
-  const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
+  // const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
     setNowPage(1);
   };
 
-  const handleSetAllergyFilter = (allergyId: number) => {
-    if (allergyFilter.includes(allergyId)) {
-      setAllergyFilter(allergyFilter.filter((filter) => filter !== allergyId));
-    } else {
-      setAllergyFilter([...allergyFilter, allergyId]);
-    }
-  };
+  // const handleSetAllergyFilter = (allergyId: number) => {
+  //   if (allergyFilter.includes(allergyId)) {
+  //     setAllergyFilter(allergyFilter.filter((filter) => filter !== allergyId));
+  //   } else {
+  //     setAllergyFilter([...allergyFilter, allergyId]);
+  //   }
+  // };
 
   const handleSetIsOpenedFilterModal = () => {
     setIsOpenedFilterModal(!isOpenedFilterModal);
@@ -100,8 +100,9 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
         {menuData.map(
           (menu) =>
             nowCategoryId === menu.menuId &&
-            [...Array(menu.menuProducts[menu.menuProducts.length - 1].pages)].map((_, index) => (
+            [...Array<number>(menu.menuProducts[menu.menuProducts.length - 1].pages)].map((_, index) => (
               <button
+                key={index + 1}
                 className={`${styles["page-button"]} ${
                   nowPage === index + 1 ? styles["page-button-active"] : styles["page-button"]
                 }`}
