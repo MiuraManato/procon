@@ -39,6 +39,15 @@
   width: 100%;
 }
 
+.category-button-active {
+  border: none;
+  background-color: cadetblue;
+  font-size: 1em;
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+}
+
 .menu-list {
   display: flex;
   flex-wrap: wrap;

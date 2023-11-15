@@ -39,7 +39,11 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
         {menuData.map((menu) => (
           <>
             <div key={menu.menuCategoryName} className={`${styles["category-container"]}`}>
-              <button className={`${styles["category-button"]}`} onClick={() => handleSetNowCategory(menu.menuId)}>
+              <button
+                className={`${styles["category-button"]} 
+                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
+                onClick={() => handleSetNowCategory(menu.menuId)}
+              >
                 <p className={`${styles["category-list"]}`}>{menu.menuCategoryName}</p>
               </button>
             </div>
