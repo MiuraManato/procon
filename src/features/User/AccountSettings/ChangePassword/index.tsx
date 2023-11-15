@@ -1,10 +1,9 @@
-//パスワード変更画面
-//吉澤
-
 import { FormEvent, useState } from "react";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
-import { DoChangePassword } from "./doChangePassword";
+import { doChangePassword } from "./doChangePassword";
+import useAuth from "@/features/hooks/useAuth";
+import router from "next/router";
 
 /**
  *パスワードを変更するページの実体部分
@@ -15,11 +14,14 @@ export const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState<string>("");
+  const [changePasswordError, setChangePasswordError] = useState("");
   const [touched, setTouched] = useState({
     oldPassword: false,
     newPassword: false,
     newPasswordConfirmation: false,
   });
+
+  const user = useAuth();
 
   /**
    * フォームの入力欄にフォーカスが当たった際、そのフィールドをtrueに変更する
@@ -62,20 +64,34 @@ export const ChangePassword = () => {
    *
    * @param FormEvent<HTMLFormElement>
    */
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const result = DoChangePassword(oldPassword, newPassword);
-    console.log(result);
-  }
+    if (!user) return;
+    try {
+      await doChangePassword(user, oldPassword, newPassword)
+        .then(async (res: boolean) => {
+          console.log(res);
+          res ?? (await router.push("/user/account"));
+        })
+        .catch((e: Error) => {
+          console.error(e);
+          setChangePasswordError("パスワードが間違っています。お確かめ下さい。");
+        });
+    } catch (err) {
+      console.error(err);
+      setChangePasswordError("パスワード変更中にエラーが発生しました。時間をあけ、再度実行してください。");
+    }
+  };
 
   return (
     <>
+      {changePasswordError && <div>{changePasswordError}</div>}
       <form method={"post"} onSubmit={handleSubmit}>
         <label>
           <br />
           現在のパスワード
           <input
-            type="password"
+            type="text"
             onBlur={() => handleBlur("oldPassword")}
             value={oldPassword}
             onChange={(e) => handleOldPassword(e.target.value)}
@@ -85,7 +101,7 @@ export const ChangePassword = () => {
           <br />
           新しいパスワード
           <input
-            type="password"
+            type="text"
             onBlur={() => handleBlur("newPassword")}
             onChange={(e) => handleNewPasswordChange(e.target.value)}
             value={newPassword}
@@ -98,7 +114,7 @@ export const ChangePassword = () => {
           <br />
           新しいパスワード（再度入力）
           <input
-            type="password"
+            type="text"
             onBlur={() => handleBlur("newPasswordConfirmation")}
             onChange={(e) => handleNewPasswordConfirmation(e.target.value)}
             value={newPasswordConfirmation}

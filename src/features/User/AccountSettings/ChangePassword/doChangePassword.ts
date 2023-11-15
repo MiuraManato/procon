@@ -1,21 +1,31 @@
 import { FirebaseError } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, updatePassword } from "firebase/auth";
-import useAuth from "@/features/hooks/useAuth";
+import { User, getAuth, signInWithEmailAndPassword, updatePassword } from "firebase/auth";
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 
-export const DoChangePassword = async (oldPassword: string, newPassword: string): Promise<boolean> => {
-  const user = useAuth();
+export const doChangePassword = async (user: User, oldPassword: string, newPassword: string): Promise<boolean> => {
+  const auth = getAuth(firebaseApp);
   try {
-    const auth = getAuth(firebaseApp);
     if (user === null || user.email === null) {
       return false;
     }
     const email = user.email;
-    await signInWithEmailAndPassword(auth, email, oldPassword);
-    await updatePassword(user, newPassword);
-    return true;
+    await signInWithEmailAndPassword(auth, email, oldPassword)
+      .then(() => {
+        updatePassword(user, newPassword)
+          .then(() => {
+            console.log("success")
+            return true;
+          })
+          .catch(() => {
+            console.log("fail")
+            return false;
+          });
+      })
+      .catch((e) => {
+        if (e instanceof FirebaseError) throw new Error(e.message);
+      });
   } catch (e) {
     if (e instanceof FirebaseError) throw new Error(e.message);
-    return false;
   }
+  return false;
 };
