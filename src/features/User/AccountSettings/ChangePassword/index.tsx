@@ -66,16 +66,19 @@ export const ChangePassword = () => {
    */
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    if (!user) return;
+    if (!user) {
+      setChangePasswordError("ログインしていません。");
+      return;
+    }
     try {
       await doChangePassword(oldPassword, newPassword)
-        .then(async () => {
-          console.log();
-          await router.push("/user/account");
+        .then(async (res) => {
+          res
+            ? await router.push("/user/account")
+            : setChangePasswordError("パスワードが間違っています。お確かめ下さい。");
         })
         .catch((e: Error) => {
           console.error(e);
-          setChangePasswordError("パスワードが間違っています。お確かめ下さい。");
         });
     } catch (err) {
       console.error(err);
@@ -91,7 +94,7 @@ export const ChangePassword = () => {
           <br />
           現在のパスワード
           <input
-            type="text"
+            type="password"
             onBlur={() => handleBlur("oldPassword")}
             value={oldPassword}
             onChange={(e) => handleOldPassword(e.target.value)}
@@ -101,7 +104,7 @@ export const ChangePassword = () => {
           <br />
           新しいパスワード
           <input
-            type="text"
+            type="password"
             onBlur={() => handleBlur("newPassword")}
             onChange={(e) => handleNewPasswordChange(e.target.value)}
             value={newPassword}
@@ -114,7 +117,7 @@ export const ChangePassword = () => {
           <br />
           新しいパスワード（再度入力）
           <input
-            type="text"
+            type="password"
             onBlur={() => handleBlur("newPasswordConfirmation")}
             onChange={(e) => handleNewPasswordConfirmation(e.target.value)}
             value={newPasswordConfirmation}
