@@ -138,7 +138,7 @@ export const ChangePassword = () => {
               !CheckPasswordMatch(newPassword, newPasswordConfirmation)
             }
           >
-            登録
+            変更
           </button>
         </label>
       </form>
