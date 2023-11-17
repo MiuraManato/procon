@@ -1,5 +1,6 @@
 import { AccountInfo } from "@/features/User/Account";
 
-export default function AccountInfoPage() {
+const AccountInfoPage = () => {
   return <AccountInfo />;
 }
+export default AccountInfoPage;
