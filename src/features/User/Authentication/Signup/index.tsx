@@ -5,9 +5,9 @@ import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { doSignup } from "./doSignup";
-import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import styles from "./index.module.css";
 
 export const Signup = () => {
   const [username, setUsername] = useState<string>("");
@@ -27,8 +27,7 @@ export const Signup = () => {
     password: false,
     passwordConfirmation: false,
   });
-
-  const router = useRouter();
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const handleUsernameChange = (username: string): void => {
     setUsername(username);
@@ -66,6 +65,10 @@ export const Signup = () => {
     setTouched({ ...touched, [field]: true });
   };
 
+  const handleSetOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     doSignup(email, password)
@@ -78,7 +81,7 @@ export const Signup = () => {
           body: JSON.stringify({ uid, username, firstName, lastName, age, email }),
         });
         if (res.status === 200) {
-          await router.push("/user/auth/signup/complete");
+          handleSetOpenModal();
         } else {
           throw new Error("ユーザー登録に失敗しました。時間をあけ、再度お試しください。");
         }
@@ -191,6 +194,15 @@ export const Signup = () => {
       <div>
         <Link href={"/user/auth/login"}>ログインはこちら</Link>
       </div>
+      {modalIsOpen && (
+        <div className={`${styles["outside-modal"]}`}>
+          <div className={`${styles["confirm-modal"]}`}>
+            <p>ユーザー登録が完了しました。</p>
+            <p>メールアドレス認証をした後、ログインをしてください。</p>
+            <Link href={"/user/auth/login"}>ログインはこちら</Link>
+          </div>
+        </div>
+      )}
     </>
   );
 };
