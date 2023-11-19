@@ -1,25 +1,24 @@
 import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import { useState } from "react";
+import { Allergy } from "@prisma/client";
 
-export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
+export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
-  // const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
+  const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
     setNowPage(1);
   };
 
-  // const handleSetAllergyFilter = (allergyId: number) => {
-  //   if (allergyFilter.includes(allergyId)) {
-  //     setAllergyFilter(allergyFilter.filter((filter) => filter !== allergyId));
-  //   } else {
-  //     setAllergyFilter([...allergyFilter, allergyId]);
-  //   }
-  // };
+  const handleSetAllergyFilter = (allergyId: number) => {
+    setAllergyFilter((prevFilter) =>
+      prevFilter.includes(allergyId) ? prevFilter.filter((filter) => filter !== allergyId) : [...prevFilter, allergyId],
+    );
+  };
 
   const handleSetIsOpenedFilterModal = () => {
     setIsOpenedFilterModal(!isOpenedFilterModal);
@@ -116,7 +115,19 @@ export const CategoryMenu = ({ menuData }: { menuData: MenuData }) => {
       {isOpenedFilterModal && (
         <div className={`${styles["modal"]}`} onClick={handleModalOutsideClick}>
           <div className={`${styles["filter-modal"]}`} onClick={handleModalInsideClick}>
-            {/* モーダルの内容 */}
+            {allergies.map((allergy) => (
+              <button
+                key={allergy.allergyId}
+                onClick={() => handleSetAllergyFilter(allergy.allergyId)}
+                className={
+                  allergyFilter.includes(allergy.allergyId)
+                    ? `${styles["filter-button-active"]}`
+                    : `${styles["filter-button"]}`
+                }
+              >
+                {allergy.allergyName}
+              </button>
+            ))}
           </div>
         </div>
       )}
