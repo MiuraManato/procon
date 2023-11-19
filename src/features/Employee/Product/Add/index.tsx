@@ -88,7 +88,6 @@ export const AddProduct = ({ allergies, ingredients }: { allergies: Allergy[]; i
   const closeModal = () => {
     setOpenIngredientModal(false);
     setOpenAllergyModal(false);
-    console.log(selectedIngredients);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -148,7 +147,7 @@ export const AddProduct = ({ allergies, ingredients }: { allergies: Allergy[]; i
       }
     } catch (error) {
       console.error("Upload failed", error);
-      alert("画像のアップロードに失敗しました。");
+      alert("DBへの登録に失敗しました。");
     }
   };
 
