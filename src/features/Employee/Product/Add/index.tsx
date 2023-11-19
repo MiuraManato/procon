@@ -1,12 +1,21 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { storage } from "@/utils/Firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { Allergy, Ingredient } from "@prisma/client";
+import { Allergy, Category, Ingredient } from "@prisma/client";
 import styles from "./index.module.css";
 
-export const AddProduct = ({ allergies, ingredients }: { allergies: Allergy[]; ingredients: Ingredient[] }) => {
+export const AddProduct = ({
+  allergies,
+  ingredients,
+  categories,
+}: {
+  allergies: Allergy[];
+  ingredients: Ingredient[];
+  categories: Category[];
+}) => {
   const [productName, setProductName] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
+  const [category, setCategory] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
   const [ingredient, setIngredient] = useState<number[]>([]);
   const [allergy, setAllergy] = useState<number[]>([]);
@@ -125,6 +134,7 @@ export const AddProduct = ({ allergies, ingredients }: { allergies: Allergy[]; i
       const productData = {
         productName,
         price,
+        category,
         description,
         ingredients: ingredient,
         allergies: allergy,
@@ -191,6 +201,24 @@ export const AddProduct = ({ allergies, ingredients }: { allergies: Allergy[]; i
                 onChange={(e) => handleSetDescription(e.target.value)}
                 className={styles["form-textarea"]}
               />
+            </label>
+          </div>
+
+          <div className={styles["form-group"]}>
+            <label htmlFor="category" className={styles["form-label"]}>
+              カテゴリー
+              <select
+                id="category"
+                onChange={(e) => setCategory(parseInt(e.target.value))}
+                className={styles["form-select"]}
+              >
+                <option value={0}>カテゴリーを選択</option>
+                {categories.map((category) => (
+                  <option key={category.categoryId} value={category.categoryId}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
 

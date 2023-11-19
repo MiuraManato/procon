@@ -125,3 +125,27 @@
 .close-button:hover {
   color: #555;
 }
+
+.form-select {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1rem;
+  color: #333;
+}
+
+.form-select:focus {
+  border-color: #0056b3;
+  outline: none;
+}
+
+.form-select option {
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.form-select option:hover {
+  background-color: #f2f2f2;
+}
