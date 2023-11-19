@@ -77,15 +77,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           (menu) =>
             nowCategoryId === menu.menuId && (
               <div key={menu.menuId} className={styles["menu-list"]}>
-                {menu.menuProducts.map(
-                  (menuProduct) =>
-                    menuProduct.pages === nowPage && (
-                      <div key={menuProduct.menuProductId} className={styles["product-item"]}>
-                        <p>{menuProduct.product.productName}</p>
-                        <p>{menuProduct.product.price}</p>
-                      </div>
-                    ),
-                )}
+                {menu.menuProducts
+                  .filter(
+                    (menuProduct) =>
+                      !menuProduct.product.productAllergies.some((allergy) =>
+                        allergyFilter.includes(allergy.allergyId),
+                      ),
+                  )
+                  .filter((menuProduct) => menuProduct.pages === nowPage)
+                  .map((menuProduct) => (
+                    <div key={menuProduct.menuProductId} className={styles["product-item"]}>
+                      <p>{menuProduct.product.productName}</p>
+                      <p>{menuProduct.product.price}</p>
+                    </div>
+                  ))}
               </div>
             ),
         )}
