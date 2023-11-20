@@ -3,6 +3,7 @@ import { storage } from "@/utils/Firebase/firebaseConfig";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Allergy, Category, Ingredient } from "@prisma/client";
 import styles from "./index.module.css";
+import { useRouter } from "next/router";
 
 export const AddProduct = ({
   allergies,
@@ -27,13 +28,20 @@ export const AddProduct = ({
 
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>([]);
+  const [touched, setTouched] = useState({
+    productName: false,
+    price: false,
+    description: false,
+  });
+
+  const router = useRouter();
 
   const handleSetProductName = (value: string) => {
     setProductName(value);
   };
 
   const handleSetPrice = (value: string) => {
-    const newPrice = parseFloat(value);
+    const newPrice = parseInt(value);
     if (!isNaN(newPrice) && newPrice >= 0) {
       setPrice(newPrice);
     }
@@ -41,6 +49,10 @@ export const AddProduct = ({
 
   const handleSetDescription = (value: string) => {
     setDescription(value);
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched({ ...touched, [field]: true });
   };
 
   const toggleIngredientSelection = (ingredientId: number) => {
@@ -90,11 +102,6 @@ export const AddProduct = ({
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
-  };
-
-  const closeModal = () => {
-    setOpenIngredientModal(false);
-    setOpenAllergyModal(false);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +157,7 @@ export const AddProduct = ({
       if (res.ok) {
         console.log("DBへの登録に成功");
         alert("商品の登録に成功しました。");
-        window.location.href = "/employee/menu/add";
+        await router.push("/employee/menu/add");
       } else {
         const errorText = await res.text();
         throw new Error(`DBへの登録中にエラーが発生しました: ${errorText}`);
@@ -174,9 +181,11 @@ export const AddProduct = ({
                 id="productName"
                 type="text"
                 placeholder="料理名を入力"
+                onBlur={() => handleBlur("productName")}
                 onChange={(e) => handleSetProductName(e.target.value)}
                 className={styles["form-input"]}
               />
+              {touched.productName && !productName && <span className={styles["error"]}>料理名を入力してください</span>}
             </label>
           </div>
 
@@ -187,9 +196,11 @@ export const AddProduct = ({
                 id="price"
                 type="number"
                 placeholder="価格を入力"
+                onBlur={() => handleBlur("price")}
                 onChange={(e) => handleSetPrice(e.target.value)}
                 className={styles["form-input"]}
               />
+              {touched.price && !price && <span className={styles["error"]}>価格を入力してください</span>}
             </label>
           </div>
 
@@ -199,9 +210,11 @@ export const AddProduct = ({
               <textarea
                 id="description"
                 placeholder="説明を入力"
+                onBlur={() => handleBlur("description")}
                 onChange={(e) => handleSetDescription(e.target.value)}
                 className={styles["form-textarea"]}
               />
+              {touched.description && !description && <span className={styles["error"]}>説明を入力してください</span>}
             </label>
           </div>
 
@@ -241,9 +254,6 @@ export const AddProduct = ({
             {openIngredientModal && (
               <div className={styles["modal"]} onClick={handleModalOutsideClick}>
                 <div className={styles["modal-content"]} onClick={handleModalInsideClick}>
-                  <button onClick={closeModal} className={styles["close-button"]} aria-label="Close">
-                    閉じる
-                  </button>
                   {ingredients.map((item) => (
                     <button
                       type="button"
@@ -256,6 +266,12 @@ export const AddProduct = ({
                       {item.ingredientName}
                     </button>
                   ))}
+                </div>
+                <div className={styles["preview-selected-item"]}>
+                  <div className={styles["preview-selected-item-title"]}>選択された食材</div>
+                  <div className={styles["preview-selected-item-content"]}>
+                    {selectedIngredients.length > 0 ? selectedIngredients.join(", ") : "なし"}
+                  </div>
                 </div>
               </div>
             )}
@@ -277,25 +293,30 @@ export const AddProduct = ({
               <div>選択された食材: {selectedAllergies.join(", ")}</div>
             </label>
             {openAllergyModal && (
-              <div className={styles["modal"]} onClick={handleModalOutsideClick}>
-                <div className={styles["modal-content"]} onClick={handleModalInsideClick}>
-                  <button onClick={closeModal} className={styles["close-button"]} aria-label="Close">
-                    閉じる
-                  </button>
-                  {allergies.map((all) => (
-                    <button
-                      type="button"
-                      key={all.allergyId}
-                      onClick={() => toggleAllergySelection(all.allergyId)}
-                      className={
-                        allergy.includes(all.allergyId) ? styles["modal-button-active"] : styles["modal-button"]
-                      }
-                    >
-                      {all.allergyName}
-                    </button>
-                  ))}
+              <>
+                <div className={styles["modal"]} onClick={handleModalOutsideClick}>
+                  <div className={styles["modal-content"]} onClick={handleModalInsideClick}>
+                    {allergies.map((all) => (
+                      <button
+                        type="button"
+                        key={all.allergyId}
+                        onClick={() => toggleAllergySelection(all.allergyId)}
+                        className={
+                          allergy.includes(all.allergyId) ? styles["modal-button-active"] : styles["modal-button"]
+                        }
+                      >
+                        {all.allergyName}
+                      </button>
+                    ))}
+                  </div>
+                  <div className={styles["preview-selected-item"]}>
+                    <div className={styles["preview-selected-item-title"]}>選択されたアレルギー</div>
+                    <div className={styles["preview-selected-item-content"]}>
+                      {selectedAllergies.length > 0 ? selectedAllergies.join(", ") : "なし"}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
 

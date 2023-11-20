@@ -18,6 +18,13 @@
   color: #333;
 }
 
+.form-label .error {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
 .form-input,
 .form-textarea,
 .form-button {
@@ -108,10 +115,11 @@
   color: #333;
   border: 1px solid #ddd;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
   width: 100%;
   margin-bottom: 0.5rem;
   background-color: #0056b3;
+  color: #ddd;
 }
 
 .image-preview {
@@ -157,4 +165,27 @@
 
 .form-select option:hover {
   background-color: #f2f2f2;
+}
+
+.preview-selected-item {
+  position: absolute; /* 親要素である.modal-contentに対して絶対位置指定 */
+  bottom: 0; /* 下部に配置 */
+  left: 0; /* 左端から */
+  width: 100%; /* paddingを考慮した幅 */
+  box-sizing: border-box; /* box-sizingをborder-boxに設定 */
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* z-index: 9; */
+}
+
+.preview-selected-item-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.preview-selected-item-content {
+  color: #666;
 }
