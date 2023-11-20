@@ -149,6 +149,8 @@ export const AddProduct = ({
 
       if (res.ok) {
         console.log("DBへの登録に成功");
+        alert("商品の登録に成功しました。");
+        window.location.href = "/employee/menu/add";
       } else {
         const errorText = await res.text();
         throw new Error(`DBへの登録中にエラーが発生しました: ${errorText}`);
@@ -163,6 +165,7 @@ export const AddProduct = ({
     <>
       <div className={styles.container}>
         <h1>商品登録</h1>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles["form-label"]}>
           <div className={styles["form-group"]}>
             <label htmlFor="productName" className={styles["form-label"]}>
@@ -300,6 +303,7 @@ export const AddProduct = ({
             <label htmlFor="image" className={styles["form-label"]}>
               画像
               <input type="file" onChange={handleFileChange} className={styles["form-input"]} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className={styles["image-preview"]} />}
             </label>
           </div>
