@@ -28,6 +28,15 @@
   margin-bottom: 0.5rem;
 }
 
+.form-textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  resize: none;
+}
+
 .form-input:focus,
 .form-textarea:focus {
   border-color: #0056b3;

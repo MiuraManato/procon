@@ -43,10 +43,9 @@ export const AddProduct = ({
     setDescription(value);
   };
 
-  const toggleIngredientSelection = (ingredientId: number, ingredientName: string) => {
+  const toggleIngredientSelection = (ingredientId: number) => {
     setIngredient((prev) => {
       const newSelection = new Set(prev);
-      let newSelectedIngredients;
 
       if (newSelection.has(ingredientId)) {
         newSelection.delete(ingredientId);
@@ -54,7 +53,7 @@ export const AddProduct = ({
         newSelection.add(ingredientId);
       }
 
-      newSelectedIngredients = ingredients
+      const newSelectedIngredients = ingredients
         .filter((ingredient) => newSelection.has(ingredient.ingredientId))
         .map((ingredient) => ingredient.ingredientName);
 
@@ -63,10 +62,9 @@ export const AddProduct = ({
     });
   };
 
-  const toggleAllergySelection = (allergyId: number, allergyName: string) => {
+  const toggleAllergySelection = (allergyId: number) => {
     setAllergy((prev) => {
       const newSelection = new Set(prev);
-      let newSelectedAllergies;
 
       if (newSelection.has(allergyId)) {
         newSelection.delete(allergyId);
@@ -74,7 +72,7 @@ export const AddProduct = ({
         newSelection.add(allergyId);
       }
 
-      newSelectedAllergies = allergies
+      const newSelectedAllergies = allergies
         .filter((allergy) => newSelection.has(allergy.allergyId))
         .map((allergy) => allergy.allergyName);
 
@@ -247,7 +245,7 @@ export const AddProduct = ({
                     <button
                       type="button"
                       key={item.ingredientId}
-                      onClick={() => toggleIngredientSelection(item.ingredientId, item.ingredientName)}
+                      onClick={() => toggleIngredientSelection(item.ingredientId)}
                       className={
                         ingredient.includes(item.ingredientId) ? styles["modal-button-active"] : styles["modal-button"]
                       }
@@ -285,7 +283,7 @@ export const AddProduct = ({
                     <button
                       type="button"
                       key={all.allergyId}
-                      onClick={() => toggleAllergySelection(all.allergyId, all.allergyName)}
+                      onClick={() => toggleAllergySelection(all.allergyId)}
                       className={
                         allergy.includes(all.allergyId) ? styles["modal-button-active"] : styles["modal-button"]
                       }
