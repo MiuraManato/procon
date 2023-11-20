@@ -211,7 +211,7 @@ export const AddProduct = ({
                 placeholder="価格を入力"
                 onBlur={() => handleBlur("price")}
                 onChange={(e) => handleSetPrice(e.target.value)}
-                className={styles["form-input"]}
+                className={`${styles["form-input"]} ${styles["no-spin"]}`}
               />
               {touched.price && !price && <span className={styles["error"]}>価格を入力してください</span>}
             </label>
@@ -360,7 +360,7 @@ export const AddProduct = ({
             <button
               type="submit"
               className={styles["submit-button"]}
-              disabled={productName === "" || description === ""}
+              disabled={productName === "" || description === "" || price === 0 || category === 0 || file === null}
             >
               追加
             </button>
