@@ -93,6 +93,19 @@ export const AddProduct = ({
     });
   };
 
+  const clearSelectedItems = (key: "allergy" | "ingredient") => {
+    switch (key) {
+      case "allergy":
+        setAllergy([]);
+        setSelectedAllergies([]);
+        break;
+      case "ingredient":
+        setIngredient([]);
+        setSelectedIngredients([]);
+        break;
+    }
+  };
+
   const handleModalOutsideClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       setOpenIngredientModal(false);
@@ -269,6 +282,13 @@ export const AddProduct = ({
                 </div>
                 <div className={styles["preview-selected-item"]}>
                   <div className={styles["preview-selected-item-title"]}>選択された食材</div>
+                  <button
+                    type="button"
+                    className={styles["clear-selected-item"]}
+                    onClick={() => clearSelectedItems("ingredient")}
+                  >
+                    すべて解除する
+                  </button>
                   <div className={styles["preview-selected-item-content"]}>
                     {selectedIngredients.length > 0 ? selectedIngredients.join(", ") : "なし"}
                   </div>
@@ -311,6 +331,13 @@ export const AddProduct = ({
                   </div>
                   <div className={styles["preview-selected-item"]}>
                     <div className={styles["preview-selected-item-title"]}>選択されたアレルギー</div>
+                    <button
+                      type="button"
+                      className={styles["clear-selected-item"]}
+                      onClick={() => clearSelectedItems("allergy")}
+                    >
+                      すべて解除する
+                    </button>
                     <div className={styles["preview-selected-item-content"]}>
                       {selectedAllergies.length > 0 ? selectedAllergies.join(", ") : "なし"}
                     </div>
