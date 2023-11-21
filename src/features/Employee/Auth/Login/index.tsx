@@ -28,7 +28,7 @@ export const EmployeeLogin = () => {
     try {
       const loginSuccess = await doEmployeeLogin(email, password);
       if (loginSuccess) {
-        await router.push("/employee");
+        await router.push("/employee/top");
       } else {
         setLoginError("ログインに失敗しました");
       }
