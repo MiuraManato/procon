@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./index.module.css";
 
-export const EHeader = () => {
+export const EmployeeHeader = () => {
   return (
     <>
       <div className={styles["header-container"]}>

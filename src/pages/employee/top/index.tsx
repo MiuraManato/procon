@@ -1,10 +1,10 @@
-import { EHeader } from "@/components/Employee/Header";
+import { EmployeeHeader } from "@/components/Employee/Header";
 import { EmployeeTop } from "@/features/Employee/Top";
 
 const EmployeeTopPage = () => {
   return (
     <div>
-      <EHeader />
+      <EmployeeHeader />
       <EmployeeTop />
     </div>
   );
