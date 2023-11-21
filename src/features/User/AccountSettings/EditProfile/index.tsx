@@ -1,12 +1,13 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import useAuth from "@/features/hooks/useAuth";
 import Head from "next/head";
 import Link from "next/link";
 import router from "next/router";
-import { getUserData } from "./getUserData";
+import { User } from "@prisma/client";
 
 export const EditProfile = () => {
+  const [id, setId] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [age, setAge] = useState<number>(0);
@@ -19,28 +20,21 @@ export const EditProfile = () => {
   });
 
   const user = useAuth();
-  if (!user) {
-    return <>;</>;
-  }
-
-  const id = user.uid;
-  console.log(id);
-
-  const fetchData = async () => {
-    try {
-      const userData = await getUserData(id);
-      if (userData) {
-        setFirstName(userData.firstName);
-        setLastName(userData.lastName);
-        setAge(userData.age);
-        setEmail(userData.email);
-      }
-    } catch (error) {
-      console.error(error);
-      throw new Error("Failed to fetch user data");
+  useEffect(() => {
+    if (user == null || user.uid == null) {
+      return;
     }
-  };
-  fetchData();
+    const fetchUser = async () => {
+      const userData: User = await fetch(`/api/user/${user.uid}`).then((res: Response): Promise<User> => res.json());
+      setId(user.uid);
+      setFirstName(userData.firstName);
+      setLastName(userData.lastName);
+      setAge(userData.age);
+      setEmail(userData.email);
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchUser();
+  }, [user]);
 
   const handleFirstNameChange = (firstName: string): void => {
     setFirstName(firstName);
@@ -84,6 +78,7 @@ export const EditProfile = () => {
       <Head>
         <title>プロフィール編集</title>
       </Head>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form method="post" onSubmit={handleSubmit}>
         <label>
           名前
