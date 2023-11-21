@@ -4,6 +4,7 @@ import useAuth from "@/features/hooks/useAuth";
 import Head from "next/head";
 import Link from "next/link";
 import router from "next/router";
+import { getUserData } from "./getUserData";
 
 export const EditProfile = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -24,6 +25,22 @@ export const EditProfile = () => {
 
   const id = user.uid;
   console.log(id);
+
+  const fetchData = async () => {
+    try {
+      const userData = await getUserData(id);
+      if (userData) {
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setAge(userData.age);
+        setEmail(userData.email);
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error("Failed to fetch user data");
+    }
+  };
+  fetchData();
 
   const handleFirstNameChange = (firstName: string): void => {
     setFirstName(firstName);
@@ -72,7 +89,7 @@ export const EditProfile = () => {
           名前
           <input
             type="text"
-            value={lastName}
+            value={firstName}
             onBlur={() => handleBlur("lastName")}
             onChange={(e) => handleLastNameChange(e.target.value)}
           />
