@@ -2,6 +2,7 @@ import { Tables } from "./type";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import { StoreTable } from "@prisma/client";
+import Link from "next/link";
 
 export const EmployeeTop = ({ tables }: { tables: Tables }) => {
   const [callingTables, setCallingTables] = useState<StoreTable[]>([]);
@@ -43,9 +44,11 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
           {tables.map((table) => {
             const key = table.storeTableStatus[0]?.storeTableStatusId || table.tableId;
             return (
-              <div className={styles["table-item"]} key={key}>
-                <div className={styles["table-name"]}>{table.tableName}</div>
-              </div>
+              <Link href={`/employee/tables/detail/${table.tableId}`} key={key}>
+                <div className={styles["table-item"]} key={key}>
+                  <div className={styles["table-name"]}>{table.tableName}</div>
+                </div>
+              </Link>
             );
           })}
         </div>
