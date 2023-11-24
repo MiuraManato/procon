@@ -1,11 +1,11 @@
 import { EmployeeHeader } from "@/components/Employee/Header";
 import { TableDetail } from "@/features/Employee/Table/Detail";
 import { getTable } from "@/features/Employee/Top/getTables";
-import { Tables } from "@/features/Employee/Top/type";
+import { Table } from "@/features/Employee/Table/Detail/type";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
-const TableDetailPage = ({ table }: { table: Tables }) => {
+const TableDetailPage = ({ table }: { table: Table }) => {
   return (
     <>
       <EmployeeHeader />
