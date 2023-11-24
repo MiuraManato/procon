@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 export const TableDetail = ({ table }: { table: Table }) => {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
 
+  /**
+   * テーブルの状態がEMPTYであれば、isEmptyをtrueにする。
+   */
   useEffect(() => {
     if (table.storeTableStatus[0].status === "EMPTY") {
       setIsEmpty(true);

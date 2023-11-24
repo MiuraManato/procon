@@ -14,6 +14,15 @@ const TableDetailPage = ({ table }: { table: Table }) => {
   );
 };
 
+/**
+ *
+ * @param params tableIdを含むクエリパラメータ
+ * @returns TableId or null
+ *
+ * この関数は、クエリパラメータからtableIdを取り出す。
+ * tableIdが文字列であれば、数値に変換して返す。
+ * tableIdが数値でなければ、nullを返す。
+ */
 const extractTableId = (params: ParsedUrlQuery): number | null => {
   const tableId = params.tableId;
   if (typeof tableId === "string") {
@@ -23,6 +32,15 @@ const extractTableId = (params: ParsedUrlQuery): number | null => {
   return null;
 };
 
+/**
+ *
+ * @param tableId
+ * @returns Table or null
+ *
+ * この関数は、tableIdを引数にして、テーブル情報を取得する。
+ * テーブル情報が取得できれば、テーブル情報を返す。
+ * テーブル情報が取得できなければ、nullを返す。
+ */
 const fetchTableData = async (tableId: number) => {
   try {
     const table = await getTable(tableId);
@@ -33,6 +51,16 @@ const fetchTableData = async (tableId: number) => {
   }
 };
 
+/**
+ *
+ * @param context
+ * @returns
+ *
+ * この関数は、サーバーサイドで実行される。
+ * クエリパラメータからtableIdを取り出し、テーブル情報を取得する。
+ * テーブル情報が取得できれば、propsとして渡す。
+ * テーブル情報が取得できなければ、notFoundを返す。
+ */
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const tableId = context.params ? extractTableId(context.params) : null;
 
