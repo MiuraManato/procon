@@ -1,4 +1,3 @@
-// Order type
 type Order = {
   orderId: number;
   orderedAt: string;
