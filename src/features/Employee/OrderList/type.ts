@@ -8,7 +8,7 @@ enum ORDERSTATUS {
 // Order type
 type Order = {
   orderId: number;
-  orderedAt: Date;
+  orderedAt: string;
   tableId: number;
   storeTable: {
     tableName: string;
