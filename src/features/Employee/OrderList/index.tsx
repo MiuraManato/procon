@@ -2,6 +2,7 @@ import { Order } from "./type";
 import { formatTime } from "@/utils/Formatters/formatTime";
 import styles from "./index.module.css";
 import { useState } from "react";
+import { ORDERSTATUS } from "@prisma/client";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
   // モーダルの表示状態を管理するstate
@@ -15,8 +16,32 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
     setIsModalOpen(true);
   };
 
+  // ステータス更新関数
+  const handleStatusChange = (e: React.MouseEvent, orderDetailId: number, newStatus: ORDERSTATUS) => {
+    e.stopPropagation();
+    setSelectedOrder((currentOrder) => {
+      if (!currentOrder) return null;
+
+      // 新しいorderDetail配列を作成
+      const newOrderDetails = currentOrder.orderDetail.map((detail) =>
+        detail.orderDetailId === orderDetailId ? { ...detail, orderStatus: newStatus } : detail,
+      );
+
+      // 新しいOrderオブジェクトを返す
+      return { ...currentOrder, orderDetail: newOrderDetails };
+    });
+  };
+
   // モーダルを閉じる関数
   const handleCloseModal = () => {
+    console.log(selectedOrder!.orderDetail);
+    if (selectedOrder) {
+      selectedOrder.orderDetail.forEach((detail) => {
+        console.log(`OrderDetailID: ${detail.orderDetailId}, New Status: ${detail.orderStatus}`);
+        // ここにサーバーへの送信処理を追加
+        // 例: fetch(`/api/order-details/${detail.orderDetailId}`, { ... })
+      });
+    }
     setIsModalOpen(false);
   };
 
@@ -62,6 +87,35 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
         <div className={styles.modal} onClick={handleClickOutside}>
           <div className={styles.modalContent} onClick={handleCLickModal}>
             <h2>{selectedOrder.storeTable.tableName}</h2>
+            <ul className={styles["order-details"]}>
+              {selectedOrder.orderDetail.map((detail) => (
+                <li key={detail.orderDetailId}>
+                  <span>{detail.product.productName}</span>
+                  <span>
+                    <button
+                      className={
+                        detail.orderStatus === ORDERSTATUS.COOKING ? styles["status-active"] : styles["status"]
+                      }
+                      onClick={(e) => handleStatusChange(e, detail.orderDetailId, ORDERSTATUS.COOKING)}
+                    >
+                      調理中
+                    </button>
+                    <button
+                      className={detail.orderStatus === ORDERSTATUS.COOKED ? styles["status-active"] : styles["status"]}
+                      onClick={(e) => handleStatusChange(e, detail.orderDetailId, ORDERSTATUS.COOKED)}
+                    >
+                      完成
+                    </button>
+                    <button
+                      className={detail.orderStatus === ORDERSTATUS.SERVED ? styles["status-active"] : styles["status"]}
+                      onClick={(e) => handleStatusChange(e, detail.orderDetailId, ORDERSTATUS.SERVED)}
+                    >
+                      お届け済み
+                    </button>
+                  </span>
+                </li>
+              ))}
+            </ul>
             <button className={styles["button"]} onClick={handleCloseModal}>
               閉じる
             </button>
