@@ -22,31 +22,31 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
     setSelectedOrder((currentOrder) => {
       if (!currentOrder) return null;
 
-      // 新しいorderDetail配列を作成
-      const newOrderDetails = currentOrder.orderDetail.map((detail) =>
-        detail.orderDetailId === orderDetailId ? { ...detail, orderStatus: newStatus } : detail,
-      );
-
-      // 新しいOrderオブジェクトを返す
-      return { ...currentOrder, orderDetail: newOrderDetails };
+      return {
+        ...currentOrder,
+        orderDetail: currentOrder.orderDetail.map((detail) =>
+          detail.orderDetailId === orderDetailId ? { ...detail, orderStatus: newStatus } : detail,
+        ),
+      };
     });
   };
 
   // モーダルを閉じる関数
   const handleCloseModal = async () => {
-    if (selectedOrder) {
-      const updates = selectedOrder.orderDetail.map((detail) => ({
-        orderDetailId: detail.orderDetailId,
-        newStatus: detail.orderStatus,
-      }));
+    // 選択されたオーダーの最新のステータスを取得する
+    const updatedOrderDetails = selectedOrder?.orderDetail.map((detail) => ({
+      orderDetailId: detail.orderDetailId,
+      orderStatus: detail.orderStatus,
+    }));
 
+    if (updatedOrderDetails) {
       try {
         const response = await fetch("/api/order/detail/update", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ updates }),
+          body: JSON.stringify({ updates: updatedOrderDetails }),
         });
 
         if (!response.ok) {
