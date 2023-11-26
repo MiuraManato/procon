@@ -1,8 +1,8 @@
 import { Order } from "./type";
 import { formatTime } from "@/utils/Formatters/formatTime";
-import styles from "./index.module.css";
 import { useState } from "react";
 import { ORDERSTATUS } from "@prisma/client";
+import styles from "./index.module.css";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
   // モーダルの表示状態を管理するstate
@@ -33,15 +33,32 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
   };
 
   // モーダルを閉じる関数
-  const handleCloseModal = () => {
-    console.log(selectedOrder!.orderDetail);
+  const handleCloseModal = async () => {
     if (selectedOrder) {
-      selectedOrder.orderDetail.forEach((detail) => {
-        console.log(`OrderDetailID: ${detail.orderDetailId}, New Status: ${detail.orderStatus}`);
-        // ここにサーバーへの送信処理を追加
-        // 例: fetch(`/api/order-details/${detail.orderDetailId}`, { ... })
-      });
+      const updates = selectedOrder.orderDetail.map((detail) => ({
+        orderDetailId: detail.orderDetailId,
+        newStatus: detail.orderStatus,
+      }));
+
+      try {
+        const response = await fetch("/api/order/detail/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updates),
+        });
+
+        if (!response.ok) {
+          throw new Error("Server error occurred");
+        }
+
+        console.log("All statuses updated successfully");
+      } catch (error) {
+        console.error("Error updating statuses", error);
+      }
     }
+
     setIsModalOpen(false);
   };
 
@@ -116,6 +133,7 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
                 </li>
               ))}
             </ul>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <button className={styles["button"]} onClick={handleCloseModal}>
               閉じる
             </button>
