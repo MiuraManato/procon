@@ -97,12 +97,16 @@
   margin-top: 20px; /* モーダル内のボタンに上マージンを設定 */
 }
 
+.modalContent .status:hover {
+  background-color: skyblue; /* 濃い赤色 */
+}
+
 .modalContent .status-active {
   background-color: blue;
   margin-top: 20px; /* モーダル内のボタンに上マージンを設定 */
 }
 
 /* モーダル内のステータスボタンホバー時 */
-.modalContent .status:hover {
-  background-color: deepskyblue;
+.modalContent .status-active:hover {
+  background-color: rgb(17, 178, 241);
 }
