@@ -1,10 +1,3 @@
-// OrderStatus enum from Prisma schema
-enum ORDERSTATUS {
-  COOKING,
-  COOKED,
-  SERVED,
-}
-
 // Order type
 type Order = {
   orderId: number;
@@ -18,7 +11,7 @@ type Order = {
     orderId: number;
     productId: number;
     quantity: number;
-    orderStatus: ORDERSTATUS;
+    orderStatus: string;
     product: {
       productId: number;
       productName: string;
