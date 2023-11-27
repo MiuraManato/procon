@@ -5,6 +5,7 @@ import { ORDERSTATUS } from "@prisma/client";
 import styles from "./index.module.css";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
+  // オーダー一覧を管理するstate
   const [orderList, setOrderList] = useState<Order[]>(orders);
   // モーダルの表示状態を管理するstate
   const [isModalOpen, setIsModalOpen] = useState(false);
