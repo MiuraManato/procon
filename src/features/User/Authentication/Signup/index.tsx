@@ -10,6 +10,7 @@ import Link from "next/link";
 import styles from "./index.module.css";
 
 export const Signup = () => {
+  // 入力を管理するstate
   const [username, setUsername] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -18,6 +19,7 @@ export const Signup = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  // 入力欄に一回でもフォーカスが当たったかどうかを管理するstate
   const [touched, setTouched] = useState({
     username: false,
     firstName: false,
@@ -27,48 +29,60 @@ export const Signup = () => {
     password: false,
     passwordConfirmation: false,
   });
+  // ユーザー登録完了モーダルの表示を管理するstate
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
+  // 入力欄の変更を管理する関数
   const handleUsernameChange = (username: string): void => {
     setUsername(username);
   };
 
+  // 入力欄の変更を管理する関数
   const handleFirstNameChange = (firstName: string): void => {
     setFirstName(firstName);
   };
 
+  // 入力欄の変更を管理する関数
   const handleLastNameChange = (lastName: string): void => {
     setLastName(lastName);
   };
 
+  // 入力欄の変更を管理する関数
   const handleAgeChange = (age: number): void => {
     setAge(age);
   };
 
+  // 入力欄の変更を管理する関数
   const handleEmailChange = (email: string): void => {
     setEmail(email);
   };
 
+  // 入力欄の変更を管理する関数
   const handlePasswordChange = (password: string): void => {
     setPassword(password);
   };
 
+  // 入力欄の変更を管理する関数
   const handlePasswordConfirmation = (passwordConfirmation: string): void => {
     setPasswordConfirmation(passwordConfirmation);
   };
 
+  // パスワード表示・非表示を管理する関数
   const togglePasswordVisibility = (): void => {
     setShowPassword(!showPassword);
   };
 
+  // フォーカスが外れた時にフォームのバリデーションを行う関数
   const handleBlur = (field: string): void => {
     setTouched({ ...touched, [field]: true });
   };
 
+  // ユーザー登録完了モーダルを表示する関数
   const handleSetOpenModal = () => {
     setModalIsOpen(true);
   };
 
+  // ユーザー登録を行う関数
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     doSignup(email, password)
