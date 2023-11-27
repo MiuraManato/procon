@@ -2,6 +2,7 @@ import { auth } from "@/utils/Firebase/firebaseConfig";
 import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
+// メールアドレスとパスワードを受け取り、ユーザーを作成する
 export const doSignup = async (email: string, password: string): Promise<string> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
