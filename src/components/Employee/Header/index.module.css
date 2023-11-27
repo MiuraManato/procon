@@ -1,0 +1,32 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-item {
+  margin: 0 10px;
+}
+
+.header-item a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.header-item p {
+  cursor: pointer;
+}
+
+.header-item a:hover,
+.header-item p:hover {
+  opacity: 0.7;
+}
