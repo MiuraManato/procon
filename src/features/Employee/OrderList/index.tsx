@@ -5,6 +5,7 @@ import { ORDERSTATUS } from "@prisma/client";
 import styles from "./index.module.css";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
+  const [orderList, setOrderList] = useState<Order[]>(orders);
   // モーダルの表示状態を管理するstate
   const [isModalOpen, setIsModalOpen] = useState(false);
   // 選択されたオーダーを管理するstate
@@ -49,7 +50,31 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
           body: JSON.stringify({ updates: updatedOrderDetails }),
         });
 
-        if (!response.ok) {
+        // 表示するオーダーステータスを更新する
+        if (response.ok) {
+          const updatedOrderList = orderList.map((order) => {
+            if (order.orderId === selectedOrder?.orderId) {
+              return {
+                ...order,
+                orderDetail: order.orderDetail.map((detail) => {
+                  const updatedDetail = updatedOrderDetails.find(
+                    (updatedDetail) => updatedDetail.orderDetailId === detail.orderDetailId,
+                  );
+                  if (updatedDetail) {
+                    return {
+                      ...detail,
+                      orderStatus: updatedDetail.orderStatus,
+                    };
+                  }
+                  return detail;
+                }),
+              };
+            }
+            return order;
+          });
+
+          setOrderList(updatedOrderList);
+        } else if (!response.ok) {
           throw new Error("Server error occurred");
         }
 
@@ -78,7 +103,7 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
         <h1>オーダー一覧</h1>
         <div className={styles["order-list"]}>
           <div className={styles["order-container"]}>
-            {orders.map((order) => (
+            {orderList.map((order) => (
               <div key={order.orderId} className={styles["order-card"]}>
                 <div className={styles["order-header"]}>
                   <h2>{order.storeTable.tableName}</h2>
