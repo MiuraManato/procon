@@ -6,23 +6,28 @@ import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { doEmployeeLogin } from "./doEmployeeLogin";
 
 export const EmployeeLogin = () => {
+  // 入力を管理するstate
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  // 入力のバリデーションを管理するstate
   const [touched, setTouched] = useState({
     email: false,
     password: false,
   });
   const router = useRouter();
 
+  // 入力値をstateにセットする関数
   const handleSetEmail = (email: string) => {
     setEmail(email);
   };
 
+  // 入力欄からフォーカスが外れたときにバリデーションを行う関数
   const handleBlur = (field: "email" | "password") => {
     setTouched({ ...touched, [field]: true });
   };
 
+  // ログインボタンを押したときの処理
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {

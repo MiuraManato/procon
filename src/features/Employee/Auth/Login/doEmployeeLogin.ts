@@ -2,6 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 import { User } from "@prisma/client";
 
+// 従業員ログイン処理
 export const doEmployeeLogin = async (email: string, password: string): Promise<boolean> => {
   const auth = getAuth(firebaseApp);
   try {
@@ -10,6 +11,7 @@ export const doEmployeeLogin = async (email: string, password: string): Promise<
     if (!user) throw new Error("User not found");
 
     const userData: User = await fetch(`/api/user/${user.uid}`).then((res: Response): Promise<User> => res.json());
+    // 従業員以上の権限がある場合はtrueを返す
     if (userData.authority >= 1) {
       return true;
     } else {
