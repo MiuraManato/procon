@@ -1,9 +1,15 @@
+import { EmployeeHeader } from "@/components/Employee/Header";
 import { OrderList } from "@/features/Employee/OrderList";
 import { getOrders } from "@/features/Employee/OrderList/getOrders";
 import { Order } from "@/features/Employee/OrderList/type";
 
 const OrderListPage = ({ orders }: { orders: Order[] }) => {
-  return <OrderList orders={orders} />;
+  return (
+    <>
+      <EmployeeHeader />
+      <OrderList orders={orders} />
+    </>
+  );
 };
 
 export const getServerSideProps = async () => {
