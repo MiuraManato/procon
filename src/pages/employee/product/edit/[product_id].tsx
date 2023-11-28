@@ -43,9 +43,7 @@ const fetchProductData = async (productId: number) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log(context.params);
   const productId = context.params ? extractProductId(context.params) : null;
-  console.log(productId);
 
   if (productId === null) {
     return {
