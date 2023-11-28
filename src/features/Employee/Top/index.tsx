@@ -44,7 +44,7 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
           {tables.map((table) => {
             const key = table.storeTableStatus[0]?.storeTableStatusId || table.tableId;
             return (
-              <Link href={`/employee/tables/detail/${table.tableId}`} key={key}>
+              <Link href={`/employee/table/detail/${table.tableId}`} key={key}>
                 <div className={styles["table-item"]} key={key}>
                   <div className={styles["table-name"]}>{table.tableName}</div>
                 </div>
