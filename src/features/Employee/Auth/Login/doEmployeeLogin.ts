@@ -4,6 +4,7 @@ import { User } from "@prisma/client";
 
 // 従業員ログイン処理
 export const doEmployeeLogin = async (email: string, password: string): Promise<boolean> => {
+  let errorMessage = "メールアドレスまたはパスワードが間違っています。";
   const auth = getAuth(firebaseApp);
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -16,10 +17,11 @@ export const doEmployeeLogin = async (email: string, password: string): Promise<
       return true;
     } else {
       await auth.signOut();
-      throw new Error("Not enough authority");
+      errorMessage = "権限がありません。";
+      throw new Error(errorMessage);
     }
   } catch (e) {
     await auth.signOut();
-    throw new Error("メールアドレスまたはパスワードが間違っています。");
+    throw new Error(errorMessage);
   }
 };

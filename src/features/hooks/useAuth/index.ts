@@ -7,19 +7,15 @@ const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (getApps().length) {
+    if (!getApps().length) {
       initializeApp(firebaseConfig);
     }
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+      setUser(user);
     });
 
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
   return user;
