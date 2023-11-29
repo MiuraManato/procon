@@ -1,16 +1,25 @@
 import { EmployeeHeader } from "@/components/Employee/Header";
 import { getCategory } from "@/features/Employee/Product/Add/getCategory";
+import { getIngredients } from "@/features/Employee/Product/Add/getIngredients";
 import { ProductEdit } from "@/features/Employee/Product/Edit";
 import { getProduct } from "@/features/Employee/Product/Edit/getProduct";
-import { Category, Product } from "@prisma/client";
+import { Category, Ingredient, Product } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
-const ProductEditPage = ({ product, categories }: { product: Product; categories: Category[] }) => {
+const ProductEditPage = ({
+  product,
+  categories,
+  ingredients,
+}: {
+  product: Product;
+  categories: Category[];
+  ingredients: Ingredient[];
+}) => {
   return (
     <>
       <EmployeeHeader />
-      <ProductEdit product={product} categories={categories} />
+      <ProductEdit product={product} categories={categories} ingredients={ingredients} />
     </>
   );
 };
@@ -61,11 +70,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const categories = await getCategory();
+  const ingredients = await getIngredients();
 
   return {
     props: {
       product,
       categories,
+      ingredients,
     },
   };
 };
