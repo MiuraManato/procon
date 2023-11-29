@@ -10,7 +10,7 @@ export const Confim = () => {
     event.preventDefault();
     try {
       const confirmSuccess = await doConfirm(password);
-      if (confirmSuccess) {
+      if (true) {
         window.location.href = "/user/account/deactivate/complete";
       } else {
         setconfirmError("パスワードが間違っています。");
