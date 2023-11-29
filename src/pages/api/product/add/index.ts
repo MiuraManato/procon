@@ -15,7 +15,7 @@ const addProductHandler = async (req: NextApiRequestWithAddProduct, res: NextApi
         price: price,
         description: description,
         categoryId: category,
-        // imageUrl,
+        imageUrl,
       },
     });
 
