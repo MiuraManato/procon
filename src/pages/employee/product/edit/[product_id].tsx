@@ -3,7 +3,8 @@ import { getCategory } from "@/features/Employee/Product/Add/getCategory";
 import { getIngredients } from "@/features/Employee/Product/Add/getIngredients";
 import { ProductEdit } from "@/features/Employee/Product/Edit";
 import { getProduct } from "@/features/Employee/Product/Edit/getProduct";
-import { Category, Ingredient, Product } from "@prisma/client";
+import { ProductType } from "@/features/Employee/Product/Edit/type";
+import { Category, Ingredient } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
@@ -12,7 +13,7 @@ const ProductEditPage = ({
   categories,
   ingredients,
 }: {
-  product: Product;
+  product: ProductType;
   categories: Category[];
   ingredients: Ingredient[];
 }) => {
