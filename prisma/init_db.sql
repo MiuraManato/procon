@@ -239,6 +239,20 @@ INSERT INTO "StoreTableStatus" ("storeTableStatusId", "tableId", "status", "numb
 (10, 10, 'EMPTY', 0, false),
 (11, 11, 'EMPTY', 0, false);
 
+INSERT INTO "OrderHistoryLog" ("orderId", "orderedAt", "tableId") VALUES 
+(1, '2023-11-01 12:30:00', 1),
+(2, '2023-11-02 13:15:00', 2),
+(3, '2023-11-02 14:05:00', 3);
+
+INSERT INTO "OrderDetailLog" ("orderHistoryLogId", "productId", "quantity", "orderStatus") VALUES 
+(1, 1, 2, 'SERVED'),
+(1, 7, 1, 'SERVED'),
+(2, 3, 1, 'SERVED'),
+(2, 19, 1, 'SERVED'),
+(3, 5, 1, 'SERVED'),
+(3, 10, 1, 'SERVED'),
+(3, 13, 1, 'SERVED');
+
 SELECT setval(pg_get_serial_sequence('"Product"', 'productId'), (SELECT MAX("productId") FROM "Product") + 1);
 SELECT setval(pg_get_serial_sequence('"ProductAllergy"', 'productAllergyId'), (SELECT MAX("productAllergyId") FROM "ProductAllergy") + 1);
 SELECT setval(pg_get_serial_sequence('"ProductIngredient"', 'productIngredientId'), (SELECT MAX("productIngredientId") FROM "ProductIngredient") + 1);
@@ -255,3 +269,5 @@ SELECT setval(pg_get_serial_sequence('"StoreTable"', 'tableId'), (SELECT MAX("ta
 SELECT setval(pg_get_serial_sequence('"Store"', 'storeId'), (SELECT MAX("storeId") FROM "Store") + 1);
 SELECT setval(pg_get_serial_sequence('"Category"', 'categoryId'), (SELECT MAX("categoryId") FROM "Category") + 1);
 SELECT setval(pg_get_serial_sequence('"Allergy"', 'allergyId'), (SELECT MAX("allergyId") FROM "Allergy") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderHistoryLog"', 'orderHistoryLogId'), (SELECT MAX("orderHistoryLogId") FROM "OrderHistoryLog") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderDetailLog"', 'orderDetailLogId'), (SELECT MAX("orderDetailLogId") FROM "OrderDetailLog") + 1);
