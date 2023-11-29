@@ -1,4 +1,4 @@
-import { Category, Ingredient } from "@prisma/client";
+import { Allergy, Category, Ingredient } from "@prisma/client";
 import { FormEvent, useState } from "react";
 import styles from "./index.module.css";
 import { ProductType } from "./type";
@@ -7,17 +7,24 @@ export const ProductEdit = ({
   product,
   categories,
   ingredients,
+  allergies,
 }: {
   product: ProductType;
   categories: Category[];
   ingredients: Ingredient[];
+  allergies: Allergy[];
 }) => {
   const [newProduct, setNewProduct] = useState<ProductType>(product);
   const [openIngredientModal, setOpenIngredientModal] = useState<boolean>(false);
+  const [openAllergyModal, setOpenAllergyModal] = useState<boolean>(false);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(
     product.productIngredients.map((item) => item.ingredient.ingredientName),
   );
   const [ingredient, setIngredient] = useState<number[]>(product.productIngredients.map((item) => item.ingredientId));
+  const [selectedAllergies, setSelectedAllergies] = useState<string[]>(
+    product.productAllergies.map((item) => item.allergy.allergyName),
+  );
+  const [allergy, setAllergy] = useState<number[]>(product.productAllergies.map((item) => item.allergyId));
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -42,7 +49,7 @@ export const ProductEdit = ({
   const handleModalOutsideClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       setOpenIngredientModal(false);
-      // setOpenAllergyModal(false);
+      setOpenAllergyModal(false);
     }
   };
 
@@ -69,12 +76,31 @@ export const ProductEdit = ({
     });
   };
 
+  const toggleAllergySelection = (allergyId: number) => {
+    setAllergy((prev) => {
+      const newSelection = new Set(prev);
+
+      if (newSelection.has(allergyId)) {
+        newSelection.delete(allergyId);
+      } else {
+        newSelection.add(allergyId);
+      }
+
+      const newSelectedAllergies = allergies
+        .filter((allergy) => newSelection.has(allergy.allergyId))
+        .map((allergy) => allergy.allergyName);
+
+      setSelectedAllergies(newSelectedAllergies);
+      return Array.from(newSelection);
+    });
+  };
+
   const clearSelectedItems = (key: "allergy" | "ingredient") => {
     switch (key) {
-      // case "allergy":
-      //   setAllergy([]);
-      //   setSelectedAllergies([]);
-      //   break;
+      case "allergy":
+        setAllergy([]);
+        setSelectedAllergies([]);
+        break;
       case "ingredient":
         setIngredient([]);
         setSelectedIngredients([]);
@@ -194,6 +220,56 @@ export const ProductEdit = ({
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          <div className={styles["form-group"]}>
+            <label htmlFor="allergy" className={styles["form-label"]}>
+              アレルギー
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenAllergyModal(true);
+                }}
+                className={styles["form-button"]}
+              >
+                アレルギーを選択
+              </button>
+              <div>選択された食材: {selectedAllergies.join(", ")}</div>
+            </label>
+            {openAllergyModal && (
+              <>
+                <div className={styles["modal"]} onClick={handleModalOutsideClick}>
+                  <div className={styles["modal-content"]} onClick={handleModalInsideClick}>
+                    {allergies.map((all) => (
+                      <button
+                        type="button"
+                        key={all.allergyId}
+                        onClick={() => toggleAllergySelection(all.allergyId)}
+                        className={
+                          allergy.includes(all.allergyId) ? styles["modal-button-active"] : styles["modal-button"]
+                        }
+                      >
+                        {all.allergyName}
+                      </button>
+                    ))}
+                  </div>
+                  <div className={styles["preview-selected-item"]}>
+                    <div className={styles["preview-selected-item-title"]}>選択されたアレルギー</div>
+                    <button
+                      type="button"
+                      className={styles["clear-selected-item"]}
+                      onClick={() => clearSelectedItems("allergy")}
+                    >
+                      すべて解除する
+                    </button>
+                    <div className={styles["preview-selected-item-content"]}>
+                      {selectedAllergies.length > 0 ? selectedAllergies.join(", ") : "なし"}
+                    </div>
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </form>
