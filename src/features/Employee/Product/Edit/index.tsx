@@ -1,20 +1,23 @@
-import { Category, Ingredient, Product } from "@prisma/client";
+import { Category, Ingredient } from "@prisma/client";
 import { FormEvent, useState } from "react";
 import styles from "./index.module.css";
+import { ProductType } from "./type";
 
 export const ProductEdit = ({
   product,
   categories,
   ingredients,
 }: {
-  product: Product;
+  product: ProductType;
   categories: Category[];
   ingredients: Ingredient[];
 }) => {
-  const [newProduct, setNewProduct] = useState<Product>(product);
+  const [newProduct, setNewProduct] = useState<ProductType>(product);
   const [openIngredientModal, setOpenIngredientModal] = useState<boolean>(false);
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
-  const [ingredient, setIngredient] = useState<number[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>(
+    product.productIngredients.map((item) => item.ingredient.ingredientName),
+  );
+  const [ingredient, setIngredient] = useState<number[]>(product.productIngredients.map((item) => item.ingredientId));
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
