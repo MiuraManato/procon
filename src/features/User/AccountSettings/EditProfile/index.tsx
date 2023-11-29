@@ -22,8 +22,9 @@ export const EditProfile = () => {
   const user = useAuth();
 
   useEffect(() => {
-    if (user == null || user.uid == null) {
-      console.log(user);
+    if (user === undefined) return;
+    if (user === null) {
+      window.location.href = "/user/auth/login";
       return;
     }
     const fetchUser = async () => {
