@@ -37,6 +37,7 @@ model Product {
   price              Int
   categoryId         Int
   description        String
+  imageUrl           String
   isSoldOut          Boolean             @default(false)
   isDeleted          Boolean             @default(false)
   deletedAt          DateTime?
