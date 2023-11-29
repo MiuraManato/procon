@@ -1,25 +1,40 @@
 import { useState } from "react";
 import { doConfirm } from "./doConfirm";
-export const Confim = () => {
+import router from "next/router";
+
+export const Confirm = () => {
   const [password, setPassword] = useState("");
-  const [confirmError, setconfirmError] = useState("");
+  const [confirmError, setConfirmError] = useState("");
   const [touched, setTouched] = useState({
     password: false,
   });
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const confirmSuccess = await doConfirm(password);
-      if (true) {
-        window.location.href = "/user/account/deactivate/complete";
+      if (confirmSuccess) {
+        const res = await fetch("/api/auth/confirm", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ uid }), // uidの定義がないので注意してください
+        });
+        if (res.status === 200) {
+          await router.push("/user/auth/edit-profile/complete");
+        } else {
+          throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
+        }
       } else {
-        setconfirmError("パスワードが間違っています。");
+        setConfirmError("パスワードが間違っています。");
       }
     } catch (err) {
       console.error(err);
-      setconfirmError("退会中にエラーが発生しました。時間をあけ、再度実行してください。");
+      setConfirmError("退会中にエラーが発生しました。時間をあけ、再度実行してください。");
     }
   };
+
   return (
     <>
       <div>
