@@ -1,10 +1,11 @@
 import { EmployeeHeader } from "@/components/Employee/Header";
+import { getAllergies } from "@/features/Employee/Product/Add/getAllergies";
 import { getCategory } from "@/features/Employee/Product/Add/getCategory";
 import { getIngredients } from "@/features/Employee/Product/Add/getIngredients";
 import { ProductEdit } from "@/features/Employee/Product/Edit";
 import { getProduct } from "@/features/Employee/Product/Edit/getProduct";
 import { ProductType } from "@/features/Employee/Product/Edit/type";
-import { Category, Ingredient } from "@prisma/client";
+import { Allergy, Category, Ingredient } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
@@ -12,15 +13,17 @@ const ProductEditPage = ({
   product,
   categories,
   ingredients,
+  allergies,
 }: {
   product: ProductType;
   categories: Category[];
   ingredients: Ingredient[];
+  allergies: Allergy[];
 }) => {
   return (
     <>
       <EmployeeHeader />
-      <ProductEdit product={product} categories={categories} ingredients={ingredients} />
+      <ProductEdit product={product} categories={categories} ingredients={ingredients} allergies={allergies} />
     </>
   );
 };
@@ -72,12 +75,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const categories = await getCategory();
   const ingredients = await getIngredients();
+  const allergies = await getAllergies();
 
   return {
     props: {
       product,
       categories,
       ingredients,
+      allergies,
     },
   };
 };
