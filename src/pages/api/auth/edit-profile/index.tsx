@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/utils/Prisma/PrismaClient";
 import { NextApiResponse } from "next";
 import { NextApiRequestEditUser } from "@/types/api/edit-profile";
 
 const updateUserHandler = async (req: NextApiRequestEditUser, res: NextApiResponse) => {
-  const prisma = new PrismaClient();
   const { id, firstName, lastName, age, email } = req.body;
 
   if (!id || !firstName || !lastName || !email) {
