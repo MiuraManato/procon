@@ -1,10 +1,9 @@
-import { Product } from "@prisma/client";
+import { Category, Product } from "@prisma/client";
 import { FormEvent, useState } from "react";
 import styles from "./index.module.css";
 
-export const ProductEdit = ({ product }: { product: Product }) => {
+export const ProductEdit = ({ product, categories }: { product: Product; categories: Category[] }) => {
   const [newProduct, setNewProduct] = useState<Product>(product);
-  console.log(product);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -21,6 +20,10 @@ export const ProductEdit = ({ product }: { product: Product }) => {
   function handleSetDescription(value: string): void {
     setNewProduct({ ...newProduct, description: value });
   }
+
+  const handleSetCategory = (value: string): void => {
+    setNewProduct({ ...newProduct, categoryId: parseInt(value, 10) });
+  };
 
   return (
     <>
@@ -49,6 +52,7 @@ export const ProductEdit = ({ product }: { product: Product }) => {
                 id="price"
                 type="number"
                 placeholder="価格を入力"
+                value={newProduct.price}
                 onChange={(e) => handleSetPrice(e.target.value)}
                 className={`${styles["form-input"]} ${styles["no-spin"]}`}
               />
@@ -62,10 +66,29 @@ export const ProductEdit = ({ product }: { product: Product }) => {
               <textarea
                 id="description"
                 placeholder="説明を入力"
+                value={newProduct.description}
                 onChange={(e) => handleSetDescription(e.target.value)}
                 className={styles["form-textarea"]}
               />
               {!newProduct.description && <span className={styles["error"]}>説明を入力してください</span>}
+            </label>
+          </div>
+
+          <div className={styles["form-group"]}>
+            <label htmlFor="category" className={styles["form-label"]}>
+              カテゴリー
+              <select
+                id="category"
+                value={newProduct.categoryId}
+                onChange={(e) => handleSetCategory(e.target.value)}
+                className={styles["form-select"]}
+              >
+                {categories.map((category) => (
+                  <option key={category.categoryId} value={category.categoryId}>
+                    {category.categoryName}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
         </form>
