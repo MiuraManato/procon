@@ -8,6 +8,26 @@ export const getProduct = async (id: number) => {
       price: true,
       categoryId: true,
       description: true,
+      productIngredients: {
+        select: {
+          ingredientId: true,
+          ingredient: {
+            select: {
+              ingredientName: true,
+            },
+          },
+        },
+      },
+      productAllergies: {
+        select: {
+          allergyId: true,
+          allergy: {
+            select: {
+              allergyName: true,
+            },
+          },
+        },
+      },
     },
     where: {
       productId: id,
