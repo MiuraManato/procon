@@ -10,7 +10,7 @@ export const Complete = () => {
       <h1>アカウントが削除されました。</h1>
       <h1>ご利用ありがとうございました。</h1>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <button onClick={async () => await router.push("/user/auth/edit-profile/complete")}>OK</button>
+      <button onClick={async () => await router.push("/user/auth/login")}>OK</button>
     </>
   );
 };
