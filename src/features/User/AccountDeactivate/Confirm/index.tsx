@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { doConfirm } from "./doConfirm";
 import router from "next/router";
+import useAuth from "@/features/hooks/useAuth";
 
 export const Confirm = () => {
   const [password, setPassword] = useState("");
@@ -9,6 +10,8 @@ export const Confirm = () => {
     password: false,
   });
 
+  const user = useAuth();
+  const uid = user?.uid || "";
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
