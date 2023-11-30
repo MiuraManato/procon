@@ -2,9 +2,12 @@ import { useState } from "react";
 import { doConfirm } from "./doConfirm";
 import router from "next/router";
 import useAuth from "@/features/hooks/useAuth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 export const Confirm = () => {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [confirmError, setConfirmError] = useState("");
   const [touched, setTouched] = useState({
     password: false,
@@ -38,6 +41,10 @@ export const Confirm = () => {
     }
   };
 
+  const togglePasswordVisibility = (): void => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <div>
@@ -48,13 +55,16 @@ export const Confirm = () => {
           <label>
             <div>パスワード</div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               autoComplete="current-password"
               value={password}
               onBlur={() => setTouched({ ...touched, password: true })}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <button type="button" onClick={togglePasswordVisibility}>
+              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            </button>
             {touched.password && !password && <span>パスワードを入力してください</span>}
           </label>
           <button type="submit" disabled={!password}>
