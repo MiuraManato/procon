@@ -1,7 +1,7 @@
 import { Complete } from "@/features/User/AccountDeactivate/Complete";
 
-const CompletePage = () => {
+const WithdrawalCompletePage = () => {
   return <Complete />;
 };
 
-export default CompletePage;
+export default WithdrawalCompletePage;
