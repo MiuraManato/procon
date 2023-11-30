@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { doConfirm } from "./doConfirm";
+import { doDelete } from "./doDelete";
 import router from "next/router";
 import useAuth from "@/features/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,7 +23,7 @@ export const Confirm = () => {
 
     try {
       // パスワードの確認を行い、成功したらサーバーに確認を送信
-      const confirmSuccess = await doConfirm(password);
+      const confirmSuccess = await doDelete(password);
       if (confirmSuccess) {
         const res = await fetch("/api/auth/confirm", {
           method: "POST",
@@ -35,7 +35,7 @@ export const Confirm = () => {
 
         // サーバーのステータスコードを確認し、成功ならば特定のページにリダイレクト
         if (res.status === 200) {
-          await router.push("/user/auth/edit-profile/complete");
+          await router.push("/user/auth/login");
         } else {
           throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
         }
