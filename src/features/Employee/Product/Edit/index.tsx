@@ -2,6 +2,8 @@ import { Allergy, Category, Ingredient } from "@prisma/client";
 import { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./index.module.css";
 import { ProductType } from "./type";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/utils/Firebase/firebaseConfig";
 
 export const ProductEdit = ({
   product,
@@ -28,21 +30,60 @@ export const ProductEdit = ({
   const [file, setFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(newProduct.imageUrl);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+  const uploadImageAndGetURL = async (file: File): Promise<string> => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    const snapshot = await uploadBytes(storageRef, file);
+    return getDownloadURL(snapshot.ref);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-  }
 
-  function handleSetProductName(value: string): void {
+    try {
+      const downloadURL = file ? await uploadImageAndGetURL(file) : imagePreviewUrl;
+
+      const productData = {
+        productName: newProduct.productName,
+        price: newProduct.price,
+        category: newProduct.categoryId,
+        description: newProduct.description,
+        ingredients: ingredient,
+        allergies: allergy,
+        imageUrl: downloadURL,
+      };
+
+      const res = await fetch(`/api/product/edit/${product.productId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (res.ok) {
+        console.log("DBの更新に成功");
+        alert("商品の更新に成功しました。");
+      } else {
+        const errorText = await res.text();
+        throw new Error(`DBの更新中にエラーが発生しました: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Upload failed", error);
+      alert("DBへの登録に失敗しました。");
+    }
+  };
+
+  const handleSetProductName = (value: string): void => {
     setNewProduct({ ...newProduct, productName: value });
-  }
+  };
 
-  function handleSetPrice(value: string): void {
+  const handleSetPrice = (value: string): void => {
     setNewProduct({ ...newProduct, price: parseInt(value, 10) });
-  }
+  };
 
-  function handleSetDescription(value: string): void {
+  const handleSetDescription = (value: string): void => {
     setNewProduct({ ...newProduct, description: value });
-  }
+  };
 
   const handleSetCategory = (value: string): void => {
     setNewProduct({ ...newProduct, categoryId: parseInt(value, 10) });
@@ -132,6 +173,7 @@ export const ProductEdit = ({
     <>
       <div className={styles["container"]}>
         <h1>商品編集</h1>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit}>
           <div className={styles["form-group"]}>
             <label htmlFor="productName" className={styles["form-label"]}>
@@ -322,7 +364,7 @@ export const ProductEdit = ({
                 file === null
               }
             >
-              追加
+              更新
             </button>
           </div>
         </form>
