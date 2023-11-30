@@ -1,6 +1,6 @@
-import { Confim } from "@/features/User/AccountDeactivate/Confirm/index";
+import { Confirm } from "@/features/User/AccountDeactivate/Confirm/";
 
 const ConfimPage = () => {
-  return <Confim />;
+  return <Confirm />;
 };
 export default ConfimPage;
