@@ -108,6 +108,15 @@ export const ProductEdit = ({
     }
   };
 
+  // 差分を識別する関数
+  const identifyAddedItems = (original: number[], updated: number[]) => {
+    return updated.filter((item) => !original.includes(item));
+  };
+
+  const identifyRemovedItems = (original: number[], updated: number[]) => {
+    return original.filter((item) => !updated.includes(item));
+  };
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const selectedFile = event.target.files[0];
@@ -138,13 +147,32 @@ export const ProductEdit = ({
     try {
       const downloadURL = file ? await uploadImageAndGetURL(file) : imagePreviewUrl;
 
+      const addedIngredients = identifyAddedItems(
+        product.productIngredients.map((item) => item.ingredientId),
+        ingredient,
+      );
+      const removedIngredients = identifyRemovedItems(
+        product.productIngredients.map((item) => item.ingredientId),
+        ingredient,
+      );
+      const addedAllergies = identifyAddedItems(
+        product.productAllergies.map((item) => item.allergyId),
+        allergy,
+      );
+      const removedAllergies = identifyRemovedItems(
+        product.productAllergies.map((item) => item.allergyId),
+        allergy,
+      );
+
       const productData = {
         productName: newProduct.productName,
         price: newProduct.price,
         category: newProduct.categoryId,
         description: newProduct.description,
-        ingredients: ingredient,
-        allergies: allergy,
+        addedIngredients: addedIngredients,
+        removedIngredients: removedIngredients,
+        addedAllergies: addedAllergies,
+        removedAllergies: removedAllergies,
         imageUrl: downloadURL,
       };
 
@@ -357,12 +385,7 @@ export const ProductEdit = ({
             <button
               type="submit"
               className={styles["submit-button"]}
-              disabled={
-                newProduct.productName === "" ||
-                newProduct.description === "" ||
-                newProduct.price === 0 ||
-                file === null
-              }
+              disabled={newProduct.productName === "" || newProduct.description === ""}
             >
               更新
             </button>
