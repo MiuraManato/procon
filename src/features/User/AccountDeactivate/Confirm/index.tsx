@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { doDelete } from "./doDelete";
+import { doWithdrawal } from "./doWithdrawal";
 import router from "next/router";
 import useAuth from "@/features/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 // 退会確認を行うReactコンポーネント
-export const Confirm = () => {
+export const Withdrawal = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [confirmError, setConfirmError] = useState("");
+  const [withdrawalError, setWithdrawalError] = useState("");
   const [touched, setTouched] = useState({
     password: false,
   });
@@ -23,8 +23,8 @@ export const Confirm = () => {
 
     try {
       // パスワードの確認を行い、成功したらサーバーに確認を送信
-      const confirmSuccess = await doDelete(password);
-      if (confirmSuccess) {
+      const withdrawalSuccess = await doWithdrawal(password);
+      if (withdrawalSuccess) {
         const res = await fetch("/api/auth/confirm", {
           method: "POST",
           headers: {
@@ -35,16 +35,16 @@ export const Confirm = () => {
 
         // サーバーのステータスコードを確認し、成功ならば特定のページにリダイレクト
         if (res.status === 200) {
-          await router.push("/user/auth/login");
+          await router.push("/user/auth/logout");
         } else {
           throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
         }
       } else {
-        setConfirmError("パスワードが間違っています。");
+        setWithdrawalError("パスワードが間違っています。");
       }
     } catch (err) {
       console.error(err);
-      setConfirmError("退会中にエラーが発生しました。時間をあけ、再度実行してください。");
+      setWithdrawalError("退会中にエラーが発生しました。時間をあけ、再度実行してください。");
     }
   };
 
@@ -57,7 +57,7 @@ export const Confirm = () => {
     <>
       <div>
         <h1>退会確認</h1>
-        {confirmError && <p>{confirmError}</p>}
+        {withdrawalError && <p>{withdrawalError}</p>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit}>
           <label>

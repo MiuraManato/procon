@@ -1,6 +1,6 @@
-import { Confirm } from "@/features/User/AccountDeactivate/Confirm/";
+import { Withdrawal } from "@/features/User/AccountDeactivate/Confirm/";
 
-const ConfimPage = () => {
-  return <Confirm />;
+const ConfirmWithdrawalPage = () => {
+  return <Withdrawal />;
 };
-export default ConfimPage;
+export default ConfirmWithdrawalPage;

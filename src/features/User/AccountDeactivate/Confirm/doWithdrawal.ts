@@ -2,7 +2,7 @@ import { getAuth, deleteUser, reauthenticateWithCredential, EmailAuthProvider } 
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 
 // ユーザーアカウントの削除を行う関数
-export const doDelete = async (password: string): Promise<boolean> => {
+export const doWithdrawal = async (password: string): Promise<boolean> => {
   try {
     const auth = getAuth(firebaseApp);
 
