@@ -1,5 +1,5 @@
 import { Allergy, Category, Ingredient } from "@prisma/client";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./index.module.css";
 import { ProductType } from "./type";
 
@@ -25,6 +25,8 @@ export const ProductEdit = ({
     product.productAllergies.map((item) => item.allergy.allergyName),
   );
   const [allergy, setAllergy] = useState<number[]>(product.productAllergies.map((item) => item.allergyId));
+  const [file, setFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -105,6 +107,24 @@ export const ProductEdit = ({
         setIngredient([]);
         setSelectedIngredients([]);
         break;
+    }
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const selectedFile = event.target.files[0];
+      if (!selectedFile.type.startsWith("image/")) {
+        alert("画像ファイルを選択してください。");
+        return;
+      }
+
+      setFile(selectedFile);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -271,6 +291,30 @@ export const ProductEdit = ({
                 </div>
               </>
             )}
+          </div>
+
+          <div className={styles["form-group"]}>
+            <label htmlFor="image" className={styles["form-label"]}>
+              画像
+              <input type="file" onChange={handleFileChange} className={styles["form-input"]} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className={styles["image-preview"]} />}
+            </label>
+          </div>
+
+          <div className={styles["form-group"]}>
+            <button
+              type="submit"
+              className={styles["submit-button"]}
+              disabled={
+                newProduct.productName === "" ||
+                newProduct.description === "" ||
+                newProduct.price === 0 ||
+                file === null
+              }
+            >
+              追加
+            </button>
           </div>
         </form>
       </div>
