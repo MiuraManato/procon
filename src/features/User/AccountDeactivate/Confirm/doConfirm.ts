@@ -1,13 +1,9 @@
-// Firebase Authenticationから必要なメソッドをインポート
 import { getAuth, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
-
-// Firebaseアプリの設定をインポート
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 
 // ユーザーアカウントの削除を行う関数
 export const doConfirm = async (password: string): Promise<boolean> => {
   try {
-    // Firebase Authenticationからauthオブジェクトを取得
     const auth = getAuth(firebaseApp);
 
     // 現在ログインしているユーザー情報を取得
@@ -31,7 +27,6 @@ export const doConfirm = async (password: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error(error);
-    // 削除失敗を示すfalseを返す
     return false;
   }
 };
