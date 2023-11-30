@@ -17,61 +17,18 @@ export const ProductEdit = ({
   allergies: Allergy[];
 }) => {
   const [newProduct, setNewProduct] = useState<ProductType>(product);
-  const [openIngredientModal, setOpenIngredientModal] = useState<boolean>(false);
-  const [openAllergyModal, setOpenAllergyModal] = useState<boolean>(false);
+  const [ingredient, setIngredient] = useState<number[]>(product.productIngredients.map((item) => item.ingredientId));
+  const [allergy, setAllergy] = useState<number[]>(product.productAllergies.map((item) => item.allergyId));
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(
     product.productIngredients.map((item) => item.ingredient.ingredientName),
   );
-  const [ingredient, setIngredient] = useState<number[]>(product.productIngredients.map((item) => item.ingredientId));
   const [selectedAllergies, setSelectedAllergies] = useState<string[]>(
     product.productAllergies.map((item) => item.allergy.allergyName),
   );
-  const [allergy, setAllergy] = useState<number[]>(product.productAllergies.map((item) => item.allergyId));
+  const [openIngredientModal, setOpenIngredientModal] = useState<boolean>(false);
+  const [openAllergyModal, setOpenAllergyModal] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(newProduct.imageUrl);
-
-  const uploadImageAndGetURL = async (file: File): Promise<string> => {
-    const storageRef = ref(storage, `images/${file.name}`);
-    const snapshot = await uploadBytes(storageRef, file);
-    return getDownloadURL(snapshot.ref);
-  };
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-
-    try {
-      const downloadURL = file ? await uploadImageAndGetURL(file) : imagePreviewUrl;
-
-      const productData = {
-        productName: newProduct.productName,
-        price: newProduct.price,
-        category: newProduct.categoryId,
-        description: newProduct.description,
-        ingredients: ingredient,
-        allergies: allergy,
-        imageUrl: downloadURL,
-      };
-
-      const res = await fetch(`/api/product/edit/${product.productId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(productData),
-      });
-
-      if (res.ok) {
-        console.log("DBの更新に成功");
-        alert("商品の更新に成功しました。");
-      } else {
-        const errorText = await res.text();
-        throw new Error(`DBの更新中にエラーが発生しました: ${errorText}`);
-      }
-    } catch (error) {
-      console.error("Upload failed", error);
-      alert("DBへの登録に失敗しました。");
-    }
-  };
 
   const handleSetProductName = (value: string): void => {
     setNewProduct({ ...newProduct, productName: value });
@@ -166,6 +123,49 @@ export const ProductEdit = ({
         setImagePreviewUrl(reader.result as string);
       };
       reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const uploadImageAndGetURL = async (file: File): Promise<string> => {
+    const storageRef = ref(storage, `images/${file.name}`);
+    const snapshot = await uploadBytes(storageRef, file);
+    return getDownloadURL(snapshot.ref);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+
+    try {
+      const downloadURL = file ? await uploadImageAndGetURL(file) : imagePreviewUrl;
+
+      const productData = {
+        productName: newProduct.productName,
+        price: newProduct.price,
+        category: newProduct.categoryId,
+        description: newProduct.description,
+        ingredients: ingredient,
+        allergies: allergy,
+        imageUrl: downloadURL,
+      };
+
+      const res = await fetch(`/api/product/edit/${product.productId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (res.ok) {
+        console.log("DBの更新に成功");
+        alert("商品の更新に成功しました。");
+      } else {
+        const errorText = await res.text();
+        throw new Error(`DBの更新中にエラーが発生しました: ${errorText}`);
+      }
+    } catch (error) {
+      console.error("Upload failed", error);
+      alert("DBへの登録に失敗しました。");
     }
   };
 
