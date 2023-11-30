@@ -12,7 +12,7 @@ const confirmHandler = async (req: NextApiRequestExtendsUser, res: NextApiRespon
   try {
     const updatedUser = await prisma.user.update({
       where: {
-        userId: user.id, // ユーザーのIDを指定
+        userId: uid, // ユーザーのIDを指定
       },
       data: {
         isDeleted: true,
