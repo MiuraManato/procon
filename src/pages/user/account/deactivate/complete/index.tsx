@@ -1,7 +1,7 @@
-import { Complete } from "@/features/User/AccountDeactivate/Complete";
+import { CompleteWithdrawal } from "@/features/User/AccountDeactivate/Complete";
 
-const WithdrawalCompletePage = () => {
-  return <Complete />;
+const CompleteWithdrawalPage = () => {
+  return <CompleteWithdrawal />;
 };
 
-export default WithdrawalCompletePage;
+export default CompleteWithdrawalPage;

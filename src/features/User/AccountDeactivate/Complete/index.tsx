@@ -1,7 +1,7 @@
 import Head from "next/head";
 import router from "next/router";
 
-export const Complete = () => {
+export const CompleteWithdrawal = () => {
   //ボタンを押したらログイン画面に遷移する処理
   const handleClick = async () => {
     await router.push("/user/auth/login");
