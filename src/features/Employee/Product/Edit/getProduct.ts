@@ -8,6 +8,7 @@ export const getProduct = async (id: number) => {
       price: true,
       categoryId: true,
       description: true,
+      imageUrl: true,
       productIngredients: {
         select: {
           ingredientId: true,

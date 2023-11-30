@@ -4,6 +4,7 @@ type ProductType = {
   price: number;
   categoryId: number;
   description: string;
+  imageUrl: string;
   productIngredients: {
     ingredientId: number;
     ingredient: {
