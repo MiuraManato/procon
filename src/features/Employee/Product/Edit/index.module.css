@@ -206,3 +206,10 @@
   font-size: 16px;
   cursor: pointer;
 }
+
+.form-change-file {
+  cursor: pointer; /* ホバー時にカーソルをポインターにする */
+  color: #007bff; /* テキストの色を変更（例） */
+  text-decoration: underline; /* 下線をつける */
+  margin-left: 20px;
+}

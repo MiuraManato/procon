@@ -26,7 +26,7 @@ export const ProductEdit = ({
   );
   const [allergy, setAllergy] = useState<number[]>(product.productAllergies.map((item) => item.allergyId));
   const [file, setFile] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>(newProduct.imageUrl);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
@@ -295,11 +295,20 @@ export const ProductEdit = ({
 
           <div className={styles["form-group"]}>
             <label htmlFor="image" className={styles["form-label"]}>
-              画像
-              <input type="file" onChange={handleFileChange} className={styles["form-input"]} />
+              現在の画像
+              <label htmlFor="fileInput" className={styles["form-change-file"]}>
+                画像を変える
+              </label>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className={styles["image-preview"]} />}
+              <img src={imagePreviewUrl} alt="Preview" className={styles["image-preview"]} />
             </label>
+            <input
+              id="fileInput"
+              type="file"
+              onChange={handleFileChange}
+              className={styles["form-input"]}
+              style={{ display: "none" }}
+            />
           </div>
 
           <div className={styles["form-group"]}>
