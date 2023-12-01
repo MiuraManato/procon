@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { doPasswordReset } from "./doPasswordReset";
+import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
+import styles from "./index.module.css";
+import Link from "next/link";
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -8,12 +11,20 @@ export const PasswordReset = () => {
     email: false,
   });
 
+  // ユーザー登録完了モーダルの表示を管理するstate
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+  // ユーザー登録完了モーダルを表示する関数
+  const handleSetOpenModal = () => {
+    setModalIsOpen(true);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const loginSuccess = await doPasswordReset(email);
       if (loginSuccess) {
-        alert("メールを送信しました。");
+        handleSetOpenModal();
       } else {
         setPasswordResetError("指定されたメールアドレスは登録されていません。");
       }
@@ -43,10 +54,19 @@ export const PasswordReset = () => {
           {touched.email && !email && <span>メールアドレスを入力してください</span>}
         </label>
         <br />
-        <button type="submit" disabled={!email}>
+        <button type="submit" disabled={!email || !touched.email || !ValidateEmail(email)}>
           メールを送信
         </button>
       </form>
+      {modalIsOpen && (
+        <div className={`${styles["outside-modal"]}`}>
+          <div className={`${styles["confirm-modal"]}`}>
+            <p>メールを送信しました。</p>
+            <p>新しいパスワードを設定した後、ログインをしてください。</p>
+            <Link href={"/user/auth/login"}>ログインはこちら</Link>
+          </div>
+        </div>
+      )}
     </>
   );
 };
