@@ -23,8 +23,12 @@ export const Login = () => {
         setLoginError("メールアドレスまたはパスワードが間違っています。");
       }
     } catch (err) {
-      console.error(err);
-      setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      if (err instanceof Error) {
+        setLoginError(err.message);
+      } else {
+        console.error(err);
+        setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      }
     }
   };
 
