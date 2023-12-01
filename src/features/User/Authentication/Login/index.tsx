@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { doLogin } from "./doLogin";
 
+import styles from "./index.module.css";
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,10 +31,10 @@ export const Login = () => {
 
   return (
     <>
-      <div>
+      <div className={styles.base}>
         {loginError && <div>{loginError}</div>}
         <form onSubmit={handleSubmit}>
-          <label>
+          <label className={styles.email}>
             <div>メールアドレス</div>
             <input
               type="email"
@@ -42,10 +44,11 @@ export const Login = () => {
               onBlur={() => setTouched({ ...touched, email: true })}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {touched.email && !email && <span>メールアドレスを入力してください</span>}
+            <br />
+            {touched.email && !email && <span className={styles.invalid}>メールアドレスを入力してください</span>}
           </label>
           <br />
-          <label>
+          <label className={styles.password}>
             <div>パスワード</div>
             <input
               type="password"
@@ -55,8 +58,10 @@ export const Login = () => {
               onBlur={() => setTouched({ ...touched, password: true })}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {touched.password && !password && <span>パスワードを入力してください</span>}
+            <br />
+            {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
           </label>
+          <br />
           <button type="submit" disabled={!email || !password}>
             ログイン
           </button>

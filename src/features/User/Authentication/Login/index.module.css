@@ -1,0 +1,24 @@
+.email {
+  color: black;
+}
+
+.email input {
+  border-radius: 8px;
+}
+
+.password {
+  color: black;
+}
+.password input {
+  border-radius: 8px;
+}
+
+.base {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.invalid {
+  color: #b66;
+}
