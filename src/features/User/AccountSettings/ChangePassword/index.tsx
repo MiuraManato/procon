@@ -89,6 +89,7 @@ export const ChangePassword = () => {
   return (
     <>
       {changePasswordError && <div>{changePasswordError}</div>}
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form method={"post"} onSubmit={handleSubmit}>
         <label>
           <br />
