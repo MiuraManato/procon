@@ -2,6 +2,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 
 export const doLogin = async (email: string, password: string): Promise<boolean> => {
+  let errorMessage = "メールアドレスまたはパスワードが間違っています。";
   const auth = getAuth(firebaseApp);
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -11,13 +12,13 @@ export const doLogin = async (email: string, password: string): Promise<boolean>
     if (user.emailVerified) {
       return true;
     } else {
-      // メール認証がされていないため、ログアウト処理を行う
-      await signOut(auth);
-      console.error("メール認証が完了していません。");
-      return false;
+      // メール認証がされていない場合にエラーを返す
+      errorMessage = "メール認証が完了していません。";
+      throw new Error(errorMessage);
     }
   } catch (e) {
-    console.error(e);
-    return false;
+    // ログインに失敗した場合にエラーを返す
+    await signOut(auth);
+    throw new Error(errorMessage);
   }
 };
