@@ -12,6 +12,13 @@ export const doEmployeeLogin = async (email: string, password: string): Promise<
     if (!user) throw new Error("User not found");
 
     const userData: User = await fetch(`/api/user/${user.uid}`).then((res: Response): Promise<User> => res.json());
+
+    // メール認証が完了しているか確認
+    if (!user.emailVerified) {
+      errorMessage = "メール認証が完了していません。";
+      throw new Error(errorMessage);
+    }
+
     // 従業員以上の権限がある場合はtrueを返す
     if (userData.authority >= 1) {
       return true;
