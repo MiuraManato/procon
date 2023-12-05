@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 20px 0;
+}
+
+.selectionArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.personSelection {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.changeButton {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.numberDisplay {
+  min-width: 30px;
+  text-align: center;
+}
+
+.employeeButton {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
