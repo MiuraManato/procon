@@ -1,4 +1,4 @@
-import { OrderTop } from "@/features/Order";
+import { OrderTop } from "@/features/Order/Top";
 
 const OrderTopPage = () => {
   return <OrderTop />;
