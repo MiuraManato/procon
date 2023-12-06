@@ -30,6 +30,11 @@ export const OrderTop = () => {
     }));
   };
 
+  const handleSubmit = () => {
+    // TODO: 人数登録の処理など
+    void router.push("/order/menu").then().catch();
+  };
+
   return (
     <div className={styles.container}>
       <EmployeeButton />
@@ -56,6 +61,9 @@ export const OrderTop = () => {
           </button>
         </div>
       </div>
+      <button className={styles.submitButton} onClick={handleSubmit}>
+        次へ
+      </button>
     </div>
   );
 };
