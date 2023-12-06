@@ -21,9 +21,8 @@ export const OrderEmployeeLogin = () => {
     setTouched({ ...touched, [field]: true });
   };
 
-  // ログインボタンを押したときの処理
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  // ログイン処理を行う非同期関数
+  const handleLogin = async () => {
     try {
       const loginSuccess = await doEmployeeLogin(email, password);
       if (loginSuccess) {
@@ -38,6 +37,18 @@ export const OrderEmployeeLogin = () => {
         setLoginError("ログインに失敗しました。");
       }
     }
+  };
+
+  // ログインボタンを押したときの処理（非同期処理を呼び出すのみ）
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleLogin().catch((error) => {
+      if (error instanceof Error) {
+        setLoginError(error.message);
+      } else {
+        setLoginError("ログインに失敗しました。");
+      }
+    });
   };
 
   return (
