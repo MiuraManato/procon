@@ -1,11 +1,20 @@
 import styles from "./index.module.css";
 import router from "next/router";
+import useAuth from "@/features/hooks/useAuth";
 
 const toSeatSettings = () => {
   router.push("/order/employee/settings/seat").catch((err) => console.error(err));
 };
 
+const toOrderEmployeeLogin = () => {
+  router.push("/order/employee/login").catch((err) => console.error(err));
+};
+
 export const OrderEmployeeSettings = () => {
+  const user = useAuth();
+  if (user === null) {
+    toOrderEmployeeLogin();
+  }
   return (
     <>
       <div className={styles.container}>
