@@ -39,6 +39,11 @@ export const OrderEmployeeLogin = () => {
     }
   };
 
+  // トップページに戻る処理
+  const toOrderTop = () => {
+    router.push("/order").catch((err) => console.error(err));
+  };
+
   // ログインボタンを押したときの処理（非同期処理を呼び出すのみ）
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -88,6 +93,9 @@ export const OrderEmployeeLogin = () => {
             </button>
           </div>
         </form>
+        <button className={styles["button"]} onClick={toOrderTop}>
+          <span>人数登録画面</span>
+        </button>
       </div>
     </>
   );
