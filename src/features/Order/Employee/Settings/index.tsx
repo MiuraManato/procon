@@ -3,7 +3,7 @@ import router from "next/router";
 import useAuth from "@/features/hooks/useAuth";
 
 const toSeatSettings = () => {
-  router.push("/order/employee/settings/seat").catch((err) => console.error(err));
+  router.push("/order/employee/settings/table").catch((err) => console.error(err));
 };
 
 const toOrderEmployeeLogin = () => {
