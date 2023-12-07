@@ -1,17 +1,17 @@
 import { prisma } from "@/utils/Prisma/PrismaClient";
 
 export const getTables = async () => {
-  const tables = await prisma.storeTable.findMany({
+  const tables = await prisma.store.findMany({
     select: {
-      tableId: true,
-      tableName: true,
-      store: {
+      storeId: true,
+      storeName: true,
+      tables: {
         select: {
-          storeId: true,
-          storeName: true,
+          tableId: true,
+          tableName: true,
         },
-      }
-    }
+      },
+    },
   });
   return tables;
 };
