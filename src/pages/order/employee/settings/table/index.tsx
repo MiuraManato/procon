@@ -1,8 +1,8 @@
 import { TableSettings } from "@/features/Order/Employee/Settings/Table";
 import { getTables } from "@/features/Order/Employee/Settings/Table/getTables";
-import { tables } from "@/features/Order/Employee/Settings/Table/type";
+import { storeTables } from "@/features/Order/Employee/Settings/Table/type";
 
-const OrderEmployeeSettingsTablePage = ({ tables }: { tables: tables }) => {
+const OrderEmployeeSettingsTablePage = ({ tables }: { tables: storeTables[] }) => {
   return <TableSettings tables={tables} />;
 };
 
