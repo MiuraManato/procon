@@ -1,24 +1,23 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import styles from "./index.module.css";
-import router from "next/router";
+import Link from "next/link";
 import useAuth from "@/features/hooks/useAuth";
-
-const toSeatSettings = () => {
-  router.push("/order/employee/settings/table").catch((err) => console.error(err));
-};
-
-const toOrderEmployeeLogin = () => {
-  router.push("/order/employee/login").catch((err) => console.error(err));
-};
-
-const toOrderTop = () => {
-  router.push("/order").catch((err) => console.error(err));
-};
 
 export const OrderEmployeeSettings = () => {
   const user = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user === null) {
+      void router.push("/order/employee/login");
+    }
+  }, [user, router]);
+
   if (user === null) {
-    toOrderEmployeeLogin();
+    return null;
   }
+
   return (
     <>
       <div className={styles.container}>
@@ -27,16 +26,16 @@ export const OrderEmployeeSettings = () => {
         </div>
         <div className={styles["items"]}>
           <div className={styles["item"]}>
-            <button className={styles["item-button"]} onClick={toOrderTop}>
+            <Link href="/order">
               <span>人数登録画面</span>
-            </button>
+            </Link>
           </div>
         </div>
         <div className={styles["items"]}>
           <div className={styles["item"]}>
-            <button className={styles["item-button"]} onClick={toSeatSettings}>
+            <Link href="/order/employee/settings/table">
               <span>席設定</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
