@@ -36,14 +36,17 @@
 }
 
 .tableRow:hover {
-  background-color: #e9e9e9; /* ホバー時の背景色 */
+  background-color: #e9e9e9;
 }
 
 .selectedTableRow {
-  background-color: #ffd700; /* 選択された行の背景色 */
+  background-color: #ffd700;
+}
+
+.selectedTableRow:hover {
+  background-color: #ffd700;
 }
 
 .tableCell {
   padding: 16px;
-  /* border-bottom: 1px solid #ddd; */
 }
