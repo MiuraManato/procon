@@ -82,7 +82,7 @@ export const OrderTop = () => {
             <button
               className={styles.errorModalButton}
               onClick={() => {
-                void router.push("/").then().catch();
+                void router.push("/order/employee/login").then().catch();
               }}
             >
               テーブルIDを設定する
