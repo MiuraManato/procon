@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPerson, faChild } from "@fortawesome/free-solid-svg-icons";
 import router from "next/router";
 import styles from "./index.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EmployeeButton = () => {
   return (
@@ -22,6 +22,7 @@ export const OrderTop = () => {
     adult: 0,
     child: 0,
   });
+  const [tableId, setTableId] = useState<number | null>(null);
 
   const handleChangeNumberOfPeople = (key: "adult" | "child", method: "add" | "sub") => {
     setNumberOfPeople((prev) => ({
@@ -34,6 +35,13 @@ export const OrderTop = () => {
     // TODO: 人数登録の処理など
     void router.push("/order/menu").then().catch();
   };
+
+  useEffect(() => {
+    const tableId = Number(localStorage.getItem("tableId"));
+    if (tableId) {
+      setTableId(tableId);
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
