@@ -1,6 +1,7 @@
 import { storeTables } from "./type";
 import styles from "./index.module.css";
 import { useState } from "react";
+import Link from "next/link";
 
 export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
   // 選択された店舗のIDをstateとして持つ
@@ -62,6 +63,7 @@ export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
           <button className={styles.saveButton} onClick={saveTableSelection}>
             保存
           </button>
+          <Link href="/order" className={styles.backToTopLink}>人数選択に戻る</Link>
         </div>
       </div>
     </>
