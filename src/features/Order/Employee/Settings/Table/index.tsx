@@ -20,6 +20,16 @@ export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
     setSelectedTable(tableId);
   };
 
+  // ローカルストレージに選択されたテーブルIDを保存する関数
+  const saveTableSelection = () => {
+    if (selectedTable !== null) {
+      localStorage.setItem("table", selectedTable.toString());
+      alert("テーブルの選択が保存されました。");
+    } else {
+      alert("テーブルが選択されていません。");
+    }
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -49,6 +59,9 @@ export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
               </div>
             </div>
           </div>
+          <button className={styles.saveButton} onClick={saveTableSelection}>
+            保存
+          </button>
         </div>
       </div>
     </>
