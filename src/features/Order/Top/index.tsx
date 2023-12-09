@@ -45,9 +45,11 @@ export const OrderTop = () => {
     if (auth.currentUser !== null) {
       void auth.signOut();
     }
-    const tableId = Number(localStorage.getItem("tableId"));
-    if (tableId) {
-      setTableId(tableId);
+    const table = Number(localStorage.getItem("table"));
+
+    if (table) {
+      setTableId(table);
+      setIsErrorTableId(false);
     } else {
       setIsErrorTableId(true);
     }
