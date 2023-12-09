@@ -27,6 +27,7 @@ export const OrderTop = () => {
   const [tableId, setTableId] = useState<number | null>(null);
   const [isErrorTableId, setIsErrorTableId] = useState(false);
 
+  // 人数を変更する関数
   const handleChangeNumberOfPeople = (key: "adult" | "child", method: "add" | "sub") => {
     setNumberOfPeople((prev) => ({
       ...prev,
@@ -34,19 +35,25 @@ export const OrderTop = () => {
     }));
   };
 
+  // 人数登録ボタンを押した時の処理
   const handleSubmit = () => {
     // TODO: 人数登録の処理など
     void router.push("/order/menu").then().catch();
   };
 
+  // Firebaseの認証情報を取得
   const auth = getAuth(firebaseApp);
 
   useEffect(() => {
+    // ログインしていたらログアウトさせる
     if (auth.currentUser !== null) {
       void auth.signOut();
     }
+
+    // ローカルストレージからテーブルIDを取得
     const table = Number(localStorage.getItem("table"));
 
+    // テーブルIDが設定されていればセットし、設定されていなければエラーを表示
     if (table) {
       setTableId(table);
       setIsErrorTableId(false);
