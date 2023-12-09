@@ -11,7 +11,7 @@ const EmployeeButton = () => {
     <button
       className={styles.employeeButton}
       onClick={() => {
-        void router.push("/employee").then().catch();
+        void router.push("/order/employee/login").then().catch();
       }}
     >
       従業員画面
