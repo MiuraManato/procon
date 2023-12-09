@@ -65,3 +65,18 @@
 .saveButton:hover {
   background-color: #45a049;
 }
+
+.backToTopLink {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #0000EE;
+  padding: 8px 16px;
+  border-radius: 4px;
+  float: right;
+}
+
+.backToTopLink:hover {
+  text-decoration: underline;
+}
