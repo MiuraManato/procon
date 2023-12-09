@@ -3,6 +3,8 @@ import { faPerson, faChild } from "@fortawesome/free-solid-svg-icons";
 import router from "next/router";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
 
 const EmployeeButton = () => {
   return (
@@ -37,14 +39,19 @@ export const OrderTop = () => {
     void router.push("/order/menu").then().catch();
   };
 
+  const auth = getAuth(firebaseApp);
+
   useEffect(() => {
+    if (auth.currentUser !== null) {
+      void auth.signOut();
+    }
     const tableId = Number(localStorage.getItem("tableId"));
     if (tableId) {
       setTableId(tableId);
     } else {
       setIsErrorTableId(true);
     }
-  }, []);
+  }, [auth]);
 
   return (
     <div className={styles.container}>
