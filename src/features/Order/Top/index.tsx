@@ -31,7 +31,7 @@ export const OrderTop = () => {
   const handleChangeNumberOfPeople = (key: "adult" | "child", method: "add" | "sub") => {
     setNumberOfPeople((prev) => ({
       ...prev,
-      [key]: method === "add" ? prev[key] + 1 : prev[key] - 1,
+      [key]: method === "add" ? prev[key] + 1 : prev[key] > 0 ? prev[key] - 1 : 0,
     }));
   };
 
@@ -88,7 +88,11 @@ export const OrderTop = () => {
           </button>
         </div>
       </div>
-      <button className={styles.submitButton} onClick={handleSubmit}>
+      <button
+        disabled={numberOfPeople.adult <= 0 && numberOfPeople.child <= 0}
+        className={styles.submitButton}
+        onClick={handleSubmit}
+      >
         次へ
       </button>
       {isErrorTableId && (
