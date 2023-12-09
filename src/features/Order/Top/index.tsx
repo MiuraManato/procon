@@ -23,6 +23,7 @@ export const OrderTop = () => {
     child: 0,
   });
   const [tableId, setTableId] = useState<number | null>(null);
+  const [isErrorTableId, setIsErrorTableId] = useState(false);
 
   const handleChangeNumberOfPeople = (key: "adult" | "child", method: "add" | "sub") => {
     setNumberOfPeople((prev) => ({
@@ -40,6 +41,8 @@ export const OrderTop = () => {
     const tableId = Number(localStorage.getItem("tableId"));
     if (tableId) {
       setTableId(tableId);
+    } else {
+      setIsErrorTableId(true);
     }
   }, []);
 
@@ -72,6 +75,21 @@ export const OrderTop = () => {
       <button className={styles.submitButton} onClick={handleSubmit}>
         次へ
       </button>
+      {isErrorTableId && (
+        <div className={styles.errorModal}>
+          <div className={styles.errorModalContent}>
+            <p className={styles.errorModalText}>テーブルIDが設定されていません</p>
+            <button
+              className={styles.errorModalButton}
+              onClick={() => {
+                void router.push("/").then().catch();
+              }}
+            >
+              テーブルIDを設定する
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
