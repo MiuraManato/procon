@@ -29,12 +29,10 @@
   background-color: #f0f0f0;
 }
 
-.tableBody {
-}
-
 .tableRow {
   cursor: pointer;
   padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
 .tableRow:hover {
@@ -47,5 +45,5 @@
 
 .tableCell {
   padding: 16px;
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd; */
 }
