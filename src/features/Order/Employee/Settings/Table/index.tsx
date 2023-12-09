@@ -5,10 +5,19 @@ import { useState } from "react";
 export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
   // 選択された店舗のIDをstateとして持つ
   const [selectedStore, setSelectedStore] = useState<number>(1);
+  // 選択されているテーブルのIDをstateとして持つ
+  const [selectedTable, setSelectedTable] = useState<number | null>(null);
 
   // 選択された店舗のIDをselectedStoreにセットする関数
   const handleStoreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedStore(parseInt(event.target.value));
+    // 店舗が変わったらテーブル選択もリセット
+    setSelectedTable(null);
+  };
+
+  // 選択されたテーブルのIDをselectedTableにセットする関数
+  const handleTableSelect = (tableId: number) => {
+    setSelectedTable(tableId);
   };
 
   return (
@@ -29,7 +38,11 @@ export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
                 {tables
                   .find((table) => table.storeId === selectedStore)
                   ?.tables.map((table) => (
-                    <div className={styles.tableRow} key={table.tableId}>
+                    <div
+                      className={`${styles.tableRow} ${selectedTable === table.tableId ? styles.selectedTableRow : ""}`}
+                      key={table.tableId}
+                      onClick={() => handleTableSelect(table.tableId)}
+                    >
                       <div className={styles.tableCell}>{table.tableName}</div>
                     </div>
                   ))}
