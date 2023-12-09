@@ -72,7 +72,7 @@ export const OrderEmployeeLogin = () => {
               onBlur={() => handleBlur("email")}
               onChange={(e) => setEmail(e.target.value)}
             />
-            {touched.email && !email && <p>メールアドレスを入力してください</p>}
+            {touched.email && !email && <div>メールアドレスを入力してください</div>}
           </div>
           <div className={styles.formItem}>
             <label>パスワード</label>
@@ -82,7 +82,7 @@ export const OrderEmployeeLogin = () => {
               onBlur={() => handleBlur("password")}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {touched.password && !password && <p>パスワードを入力してください</p>}
+            {touched.password && !password && <div>パスワードを入力してください</div>}
           </div>
           <div className={styles.formItem}>
             <button
