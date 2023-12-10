@@ -4,7 +4,7 @@ import { MenuData } from "@/features/Order/Menu/type";
 import { getAllergies } from "@/features/Order/Menu/getAllergies";
 import { Allergy } from "@prisma/client";
 
-const MenuPage = ({ menuData, allergies }: { menuData: MenuData, allergies: Allergy[] }) => {
+const MenuPage = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   return <CategoryMenu menuData={menuData} allergies={allergies} />;
 };
 
