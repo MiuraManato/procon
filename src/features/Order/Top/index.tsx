@@ -36,8 +36,25 @@ export const OrderTop = () => {
   };
 
   // 人数登録ボタンを押した時の処理
-  const handleSubmit = () => {
-    // TODO: 人数登録の処理など
+  const handleSubmit = async () => {
+    // テーブルIDが設定されていないか、大人も子供も0人の場合に処理を終了
+    if (tableId === null || (numberOfPeople.adult === 0 && numberOfPeople.child === 0)) return;
+    const res = await fetch("/api/table/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tableId,
+        numberOfPeople,
+      }),
+    });
+
+    if (!res.ok) {
+      alert("エラーが発生しました。");
+      return;
+    }
+
     void router.push("/order/menu").then().catch();
   };
 
@@ -91,7 +108,7 @@ export const OrderTop = () => {
       <button
         disabled={numberOfPeople.adult <= 0 && numberOfPeople.child <= 0}
         className={styles.submitButton}
-        onClick={handleSubmit}
+        onClick={void handleSubmit}
       >
         次へ
       </button>
