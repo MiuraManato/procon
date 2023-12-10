@@ -108,7 +108,8 @@ export const OrderTop = () => {
       <button
         disabled={numberOfPeople.adult <= 0 && numberOfPeople.child <= 0}
         className={styles.submitButton}
-        onClick={void handleSubmit}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onClick={handleSubmit}
       >
         次へ
       </button>
