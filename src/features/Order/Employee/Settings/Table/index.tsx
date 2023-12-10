@@ -63,7 +63,9 @@ export const TableSettings = ({ tables }: { tables: storeTables[] }) => {
           <button className={styles.saveButton} onClick={saveTableSelection}>
             保存
           </button>
-          <Link href="/order" className={styles.backToTopLink}>人数選択に戻る</Link>
+          <Link href="/order" className={styles.backToTopLink}>
+            人数選択に戻る
+          </Link>
         </div>
       </div>
     </>
