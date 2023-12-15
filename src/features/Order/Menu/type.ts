@@ -7,6 +7,7 @@ type Allergy = {
 // ProductAllergy関連の型定義
 type ProductAllergy = {
   allergyId: number;
+  allergyName: string;
   allergy: Allergy;
 };
 

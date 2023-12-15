@@ -1,6 +1,6 @@
 import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Allergy } from "@prisma/client";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
@@ -8,6 +8,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
+  const [productModal, setProductModal] = useState<number | null>(null);
   const [cart, setCart] = useState<
     {
       id: number;
@@ -34,12 +35,17 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setIsOpenedFilterModal(false);
   };
 
+  const handleProductModalOutsideClick = () => {
+    setProductModal(null);
+  };
+
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
 
   // カートに商品を追加する関数
-  const addCart = (menuProductId: number) => {
+  const addCart = (e: React.MouseEvent, menuProductId: number) => {
+    e.stopPropagation();
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === menuProductId);
       if (existingItem) {
@@ -52,7 +58,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     });
   };
 
-  const decrementItem = (menuProductId: number) => {
+  const decrementItem = (e: React.MouseEvent, menuProductId: number) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === menuProductId);
       if (existingItem) {
@@ -125,13 +131,17 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   )
                   .filter((menuProduct) => menuProduct.pages === nowPage)
                   .map((menuProduct) => (
-                    <div key={menuProduct.menuProductId} className={styles["product-item"]}>
+                    <div
+                      key={menuProduct.menuProductId}
+                      className={styles["product-item"]}
+                      onClick={() => setProductModal(menuProduct.product.productId)}
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={menuProduct.product.imageUrl} alt="product" />
                       <div className={styles.productName}>{menuProduct.product.productName}</div>
                       <div className={styles.productPrice}>{menuProduct.product.price}</div>
                       <div className={styles.cartButton}>
-                        <button onClick={() => addCart(menuProduct.menuProductId)}>カートに入れる</button>
+                        <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
                       </div>
                     </div>
                   ))}
@@ -152,8 +162,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     <div className={`${styles["cart-item-price"]}`}>{menuProduct.product.price}</div>
                     <div className={`${styles["cart-item-count"]}`}>数量: {item.count}</div>
                     <div>
-                      <button onClick={() => addCart(menuProduct.menuProductId)}>+</button>
-                      <button onClick={() => decrementItem(menuProduct.menuProductId)}>-</button>
+                      <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
+                      <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
                     </div>
                   </>
                 ))}
@@ -194,6 +204,28 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 {allergy.allergyName}
               </button>
             ))}
+          </div>
+        </div>
+      )}
+      {productModal && (
+        <div className={`${styles["modal"]}`} onClick={handleProductModalOutsideClick}>
+          <div className={`${styles["product-modal"]}`} onClick={handleModalInsideClick}>
+            {menuData
+              .map((menu) => menu.menuProducts)
+              .flat()
+              .filter((menuProduct) => menuProduct.menuProductId === productModal)
+              .map((menuProduct) => (
+                <>
+                  <div className={`${styles["product-modal-name"]}`}>{menuProduct.product.productName}</div>
+                  <div className={`${styles["product-modal-price"]}`}>{menuProduct.product.price}</div>
+                  <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
+                  <div className={`${styles["product-modal-allergies"]}`}>
+                    {menuProduct.product.productAllergies.map((allergy) => (
+                      <div key={allergy.allergyId}>{allergy.allergyName}</div>
+                    ))}
+                  </div>
+                </>
+              ))}
           </div>
         </div>
       )}
