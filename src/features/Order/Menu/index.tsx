@@ -126,6 +126,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </button>
         </div>
         <div className={styles["utilities-container"]}>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
           <button className={styles["category-button"]} onClick={() => handleCallingTable()}>
             <p className={styles["category-list"]}>呼び出し</p>
           </button>
