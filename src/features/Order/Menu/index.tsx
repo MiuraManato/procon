@@ -221,8 +221,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   <div className={`${styles["product-modal-price"]}`}>{menuProduct.product.price}</div>
                   <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
                   <div className={`${styles["product-modal-allergies"]}`}>
+                    <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
                     {menuProduct.product.productAllergies.map((allergy) => (
-                      <div key={allergy.allergyId}>{allergy.allergy.allergyName}</div>
+                      <div key={allergy.allergyId} className={styles["product-modal-allergies-item"]}>
+                        {allergy.allergy.allergyName}
+                      </div>
+                    ))}
+                  </div>
+                  <div className={`${styles["product-modal-allergies"]}`}>
+                    <div className={styles["product-modal-allergies-pre"]}>使用食材：</div>
+                    {menuProduct.product.productIngredients.map((ingredient) => (
+                      <div key={ingredient.ingredientId} className={styles["product-modal-allergies-item"]}>
+                        {ingredient.ingredient.ingredientName}
+                      </div>
                     ))}
                   </div>
                 </>
