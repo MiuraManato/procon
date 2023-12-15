@@ -80,7 +80,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   console.log(menuData);
   return (
     <>
-      <div className={`${styles["menu-container"]}`}>
+      <div className={styles["menu-container"]}>
         {menuData.map((menu) => (
           <>
             <div key={menu.menuCategoryName} className={`${styles["category-container"]}`}>
@@ -89,34 +89,34 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
                 onClick={() => handleSetNowCategory(menu.menuId)}
               >
-                <p className={`${styles["category-list"]}`}>{menu.menuCategoryName}</p>
+                <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
               </button>
             </div>
           </>
         ))}
-        <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`} onClick={() => handleSetIsOpenedFilterModal()}>
-            <p className={`${styles["category-list"]}`}>フィルター</p>
+        <div className={styles["utilities-container"]}>
+          <button className={styles["category-button"]} onClick={() => handleSetIsOpenedFilterModal()}>
+            <p className={styles["category-list"]}>フィルター</p>
           </button>
         </div>
-        <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`}>
-            <p className={`${styles["category-list"]}`}>注文履歴</p>
+        <div className={styles["utilities-container"]}>
+          <button className={styles["category-button"]}>
+            <p className={styles["category-list"]}>注文履歴</p>
           </button>
         </div>
-        <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`}>
-            <p className={`${styles["category-list"]}`}>ログイン</p>
+        <div className={styles["utilities-container"]}>
+          <button className={styles["category-button"]}>
+            <p className={styles["category-list"]}>ログイン</p>
           </button>
         </div>
-        <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`}>
-            <p className={`${styles["category-list"]}`}>呼び出し</p>
+        <div className={styles["utilities-container"]}>
+          <button className={styles["category-button"]}>
+            <p className={styles["category-list"]}>呼び出し</p>
           </button>
         </div>
-        <div className={`${styles["utilities-container"]}`}>
-          <button className={`${styles["category-button"]}`}>
-            <p className={`${styles["category-list"]}`}>会計</p>
+        <div className={styles["utilities-container"]}>
+          <button className={styles["category-button"]}>
+            <p className={styles["category-list"]}>会計</p>
           </button>
         </div>
         {menuData.map(
@@ -149,19 +149,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               </div>
             ),
         )}
-        <div className={`${styles["cart-container"]}`}>
-          <p className={`${styles["cart-title"]}`}>現在のカート</p>
+        <div className={styles["cart-container"]}>
+          <p className={styles["cart-title"]}>現在のカート</p>
           {cart.map((item) => (
-            <div key={item.id} className={`${styles["cart-item"]}`}>
+            <div key={item.id} className={styles["cart-item"]}>
               {menuData
                 .map((menu) => menu.menuProducts)
                 .flat()
                 .filter((menuProduct) => menuProduct.menuProductId === item.id)
                 .map((menuProduct) => (
                   <>
-                    <div className={`${styles["cart-item-name"]}`}>{menuProduct.product.productName}</div>
-                    <div className={`${styles["cart-item-price"]}`}>{menuProduct.product.price}</div>
-                    <div className={`${styles["cart-item-count"]}`}>数量: {item.count}</div>
+                    <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
+                    <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
+                    <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                     <div>
                       <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
                       <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
@@ -190,16 +190,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
       </div>
       {isOpenedFilterModal && (
-        <div className={`${styles["modal"]}`} onClick={handleModalOutsideClick}>
-          <div className={`${styles["filter-modal"]}`} onClick={handleModalInsideClick}>
+        <div className={styles["modal"]} onClick={handleModalOutsideClick}>
+          <div className={styles["filter-modal"]} onClick={handleModalInsideClick}>
             {allergies.map((allergy) => (
               <button
                 key={allergy.allergyId}
                 onClick={() => handleSetAllergyFilter(allergy.allergyId)}
                 className={
-                  allergyFilter.includes(allergy.allergyId)
-                    ? `${styles["filter-button-active"]}`
-                    : `${styles["filter-button"]}`
+                  allergyFilter.includes(allergy.allergyId) ? styles["filter-button-active"] : styles["filter-button"]
                 }
               >
                 {allergy.allergyName}
@@ -209,8 +207,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         </div>
       )}
       {productModal && (
-        <div className={`${styles["modal"]}`} onClick={handleProductModalOutsideClick}>
-          <div className={`${styles["product-modal"]}`} onClick={handleModalInsideClick}>
+        <div className={styles["modal"]} onClick={handleProductModalOutsideClick}>
+          <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
             {menuData
               .map((menu) => menu.menuProducts)
               .flat()
@@ -219,10 +217,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <>
                   <div className={styles["product-modal-content"]} key={menuProduct.menuProductId}>
                     <div className={styles["product-modal-details"]}>
-                      <div className={`${styles["product-modal-name"]}`}>{menuProduct.product.productName}</div>
-                      <div className={`${styles["product-modal-price"]}`}>{menuProduct.product.price}</div>
-                      <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
-                      <div className={`${styles["product-modal-allergies"]}`}>
+                      <div className={styles["product-modal-name"]}>{menuProduct.product.productName}</div>
+                      <div className={styles["product-modal-price"]}>{menuProduct.product.price}</div>
+                      <div className={styles["product-modal-description"]}>{menuProduct.product.description}</div>
+                      <div className={styles["product-modal-allergies"]}>
                         <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
                         {menuProduct.product.productAllergies.map((allergy) => (
                           <div key={allergy.allergyId} className={styles["product-modal-allergies-item"]}>
@@ -230,7 +228,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           </div>
                         ))}
                       </div>
-                      <div className={`${styles["product-modal-allergies"]}`}>
+                      <div className={styles["product-modal-allergies"]}>
                         <div className={styles["product-modal-allergies-pre"]}>使用食材：</div>
                         {menuProduct.product.productIngredients.map((ingredient) => (
                           <div key={ingredient.ingredientId} className={styles["product-modal-allergies-item"]}>
