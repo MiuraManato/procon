@@ -1,6 +1,6 @@
 import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Allergy } from "@prisma/client";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
@@ -10,6 +10,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
   const [productModal, setProductModal] = useState<number | null>(null);
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
+  const [table, setTable] = useState<number | null>(null);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -24,6 +25,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleSetIsOpenedFilterModal = () => {
     setIsOpenedFilterModal(!isOpenedFilterModal);
+  };
+
+  const handleCallingTable = async () => {
+    const res = await fetch(`/api/table/UpdateCalling/${table}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ callingStatus: true }),
+    });
+    if (!res.ok) {
+      throw new Error("UpdateCalling failed");
+    }
   };
 
   const handleModalOutsideClick = () => {
@@ -72,13 +86,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     });
   };
 
+  useEffect(() => {
+    const table = Number(localStorage.getItem("table"));
+    if (table) {
+      setTable(table);
+    }
+  }, []);
+
   console.log(menuData);
   return (
     <>
       <div className={styles["menu-container"]}>
         {menuData.map((menu) => (
           <>
-            <div key={menu.menuCategoryName} className={`${styles["category-container"]}`}>
+            <div key={menu.menuCategoryName} className={styles["category-container"]}>
               <button
                 className={`${styles["category-button"]} 
                 ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
@@ -105,7 +126,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </button>
         </div>
         <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]}>
+          <button className={styles["category-button"]} onClick={() => handleCallingTable()}>
             <p className={styles["category-list"]}>呼び出し</p>
           </button>
         </div>
