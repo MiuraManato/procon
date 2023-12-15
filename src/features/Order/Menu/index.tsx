@@ -9,12 +9,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
   const [productModal, setProductModal] = useState<number | null>(null);
-  const [cart, setCart] = useState<
-    {
-      id: number;
-      count: number;
-    }[]
-  >([]);
+  const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
