@@ -236,6 +236,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           </div>
                         ))}
                       </div>
+                      <div className={styles.cartButton}>
+                        <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
+                      </div>
                     </div>
                     <div className={styles["product-modal-image-container"]}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
