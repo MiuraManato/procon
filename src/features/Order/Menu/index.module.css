@@ -181,3 +181,11 @@
   font-size: 1em;
   color: #555;
 }
+
+.cart-item {
+  border: #333;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #ddd;
+}

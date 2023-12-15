@@ -52,6 +52,25 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     });
   };
 
+  const decrementItem = (menuProductId: number) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      if (existingItem) {
+        // 既存の商品の数量を減らす
+        if (existingItem.count - 1 === 0) {
+          // 商品の数量が0になったら、その商品をカートから削除
+          return prevCart.filter((item) => item.id !== menuProductId);
+        } else {
+          // それ以外の場合は、商品の数量を減らす
+          return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count - 1 } : item));
+        }
+      } else {
+        // 新しい商品を追加
+        return [...prevCart, { id: menuProductId, count: 1 }];
+      }
+    });
+  };
+
   return (
     <>
       <div className={`${styles["menu-container"]}`}>
@@ -132,6 +151,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     <div className={`${styles["cart-item-name"]}`}>{menuProduct.product.productName}</div>
                     <div className={`${styles["cart-item-price"]}`}>{menuProduct.product.price}</div>
                     <div className={`${styles["cart-item-count"]}`}>数量: {item.count}</div>
+                    <div>
+                      <button onClick={() => addCart(menuProduct.menuProductId)}>+</button>
+                      <button onClick={() => decrementItem(menuProduct.menuProductId)}>-</button>
+                    </div>
                   </>
                 ))}
             </div>
