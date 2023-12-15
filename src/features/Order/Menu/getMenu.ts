@@ -35,6 +35,18 @@ export const getMenuData = async () => {
                   },
                 },
               },
+              productIngredients: {
+                select: {
+                  productId: true,
+                  ingredientId: true,
+                  ingredient: {
+                    select: {
+                      ingredientId: true,
+                      ingredientName: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
