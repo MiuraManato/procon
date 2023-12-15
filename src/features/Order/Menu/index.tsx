@@ -8,6 +8,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
+  const [cart, setCart] = useState<
+    {
+      id: number;
+      count: number;
+    }[]
+  >([]);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -30,6 +36,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
+  };
+
+  // カートに商品を追加する関数
+  const addCart = (menuProductId: number) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      if (existingItem) {
+        // 既存の商品の数量を増やす
+        return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count + 1 } : item));
+      } else {
+        // 新しい商品を追加
+        return [...prevCart, { id: menuProductId, count: 1 }];
+      }
+    });
   };
 
   return (
@@ -91,6 +111,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                       <img src={menuProduct.product.imageUrl} alt="product" />
                       <div className={styles.productName}>{menuProduct.product.productName}</div>
                       <div className={styles.productPrice}>{menuProduct.product.price}</div>
+                      <div className={styles.cartButton}>
+                        <button onClick={() => addCart(menuProduct.menuProductId)}>カートに入れる</button>
+                      </div>
                     </div>
                   ))}
               </div>
@@ -98,8 +121,21 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
         <div className={`${styles["cart-container"]}`}>
           <p className={`${styles["cart-title"]}`}>現在のカート</p>
-          <div className={`${styles["cart-product"]}`}>商品１</div>
-          <div className={`${styles["cart-product"]}`}>商品２</div>
+          {cart.map((item) => (
+            <div key={item.id} className={`${styles["cart-item"]}`}>
+              {menuData
+                .map((menu) => menu.menuProducts)
+                .flat()
+                .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                .map((menuProduct) => (
+                  <>
+                    <div className={`${styles["cart-item-name"]}`}>{menuProduct.product.productName}</div>
+                    <div className={`${styles["cart-item-price"]}`}>{menuProduct.product.price}</div>
+                    <div className={`${styles["cart-item-count"]}`}>数量: {item.count}</div>
+                  </>
+                ))}
+            </div>
+          ))}
         </div>
       </div>
       <div>
