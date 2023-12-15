@@ -17,6 +17,7 @@ type Product = {
   price: number;
   categoryId: number;
   description: string;
+  imageUrl: string;
   isSoldOut: boolean;
   isDeleted: boolean;
   productAllergies: ProductAllergy[];

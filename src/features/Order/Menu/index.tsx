@@ -87,6 +87,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   .filter((menuProduct) => menuProduct.pages === nowPage)
                   .map((menuProduct) => (
                     <div key={menuProduct.menuProductId} className={styles["product-item"]}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={menuProduct.product.imageUrl} alt="product" />
                       <p>{menuProduct.product.productName}</p>
                       <p>{menuProduct.product.price}</p>
                     </div>

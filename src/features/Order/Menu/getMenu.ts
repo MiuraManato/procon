@@ -20,6 +20,7 @@ export const getMenuData = async () => {
               price: true,
               categoryId: true,
               description: true,
+              imageUrl: true,
               isSoldOut: true,
               isDeleted: true,
               productAllergies: {
