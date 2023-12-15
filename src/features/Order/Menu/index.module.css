@@ -171,3 +171,13 @@
 .filter-button-active:hover {
   background-color: #0056b3;
 }
+
+.productName {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.productPrice {
+  font-size: 1em;
+  color: #555;
+}

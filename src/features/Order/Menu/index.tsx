@@ -89,8 +89,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     <div key={menuProduct.menuProductId} className={styles["product-item"]}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={menuProduct.product.imageUrl} alt="product" />
-                      <p>{menuProduct.product.productName}</p>
-                      <p>{menuProduct.product.price}</p>
+                      <div className={styles.productName}>{menuProduct.product.productName}</div>
+                      <div className={styles.productPrice}>{menuProduct.product.price}</div>
                     </div>
                   ))}
               </div>
