@@ -77,6 +77,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     });
   };
 
+  console.log(menuData);
   return (
     <>
       <div className={`${styles["menu-container"]}`}>
@@ -221,7 +222,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
                   <div className={`${styles["product-modal-allergies"]}`}>
                     {menuProduct.product.productAllergies.map((allergy) => (
-                      <div key={allergy.allergyId}>{allergy.allergyName}</div>
+                      <div key={allergy.allergyId}>{allergy.allergy.allergyName}</div>
                     ))}
                   </div>
                 </>

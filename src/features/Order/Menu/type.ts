@@ -1,7 +1,7 @@
 // Allergy関連の型定義
 type Allergy = {
   allergyId: number;
-  name: string;
+  allergyName: string;
 };
 
 // ProductAllergy関連の型定義
