@@ -217,24 +217,32 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               .filter((menuProduct) => menuProduct.menuProductId === productModal)
               .map((menuProduct) => (
                 <>
-                  <div className={`${styles["product-modal-name"]}`}>{menuProduct.product.productName}</div>
-                  <div className={`${styles["product-modal-price"]}`}>{menuProduct.product.price}</div>
-                  <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
-                  <div className={`${styles["product-modal-allergies"]}`}>
-                    <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
-                    {menuProduct.product.productAllergies.map((allergy) => (
-                      <div key={allergy.allergyId} className={styles["product-modal-allergies-item"]}>
-                        {allergy.allergy.allergyName}
+                  <div className={styles["product-modal-content"]} key={menuProduct.menuProductId}>
+                    <div className={styles["product-modal-details"]}>
+                      <div className={`${styles["product-modal-name"]}`}>{menuProduct.product.productName}</div>
+                      <div className={`${styles["product-modal-price"]}`}>{menuProduct.product.price}</div>
+                      <div className={`${styles["product-modal-description"]}`}>{menuProduct.product.description}</div>
+                      <div className={`${styles["product-modal-allergies"]}`}>
+                        <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
+                        {menuProduct.product.productAllergies.map((allergy) => (
+                          <div key={allergy.allergyId} className={styles["product-modal-allergies-item"]}>
+                            {allergy.allergy.allergyName}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <div className={`${styles["product-modal-allergies"]}`}>
-                    <div className={styles["product-modal-allergies-pre"]}>使用食材：</div>
-                    {menuProduct.product.productIngredients.map((ingredient) => (
-                      <div key={ingredient.ingredientId} className={styles["product-modal-allergies-item"]}>
-                        {ingredient.ingredient.ingredientName}
+                      <div className={`${styles["product-modal-allergies"]}`}>
+                        <div className={styles["product-modal-allergies-pre"]}>使用食材：</div>
+                        {menuProduct.product.productIngredients.map((ingredient) => (
+                          <div key={ingredient.ingredientId} className={styles["product-modal-allergies-item"]}>
+                            {ingredient.ingredient.ingredientName}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                    <div className={styles["product-modal-image-container"]}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img className={styles["product-modal-image"]} src={menuProduct.product.imageUrl} alt="product" />
+                    </div>
                   </div>
                 </>
               ))}

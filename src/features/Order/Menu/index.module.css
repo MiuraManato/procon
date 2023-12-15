@@ -238,3 +238,26 @@
 .product-modal-allergies-pre {
   margin-right: 10px;
 }
+
+.product-modal-content {
+  display: flex;
+  padding: 20px;
+}
+
+.product-modal-details {
+  flex: 3;
+  margin-right: 20px;
+}
+
+.product-modal-image-container {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
