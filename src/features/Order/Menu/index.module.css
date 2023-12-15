@@ -224,15 +224,17 @@
 }
 
 .product-modal-allergies {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
   margin-bottom: 20px;
 }
 
-.product-modal-allergies div {
-  font-size: 0.9em;
-  color: #777;
-  margin-bottom: 5px;
+.product-modal-allergies-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.product-modal-allergies-pre {
+  margin-right: 10px;
 }
