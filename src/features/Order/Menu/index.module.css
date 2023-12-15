@@ -189,3 +189,50 @@
   border-radius: 5px;
   background-color: #ddd;
 }
+
+.product-modal {
+  background-color: #fff;
+  border: 1px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: 60%;
+  max-height: 80%;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.product-modal-name {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.product-modal-price {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.product-modal-description {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.product-modal-allergies {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.product-modal-allergies div {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 5px;
+}
