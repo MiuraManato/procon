@@ -93,7 +93,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     }
   }, []);
 
-  console.log(menuData);
   return (
     <>
       <div className={styles["menu-container"]}>
