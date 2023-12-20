@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export const QRCode = () => {
   const [uid, setUid] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const user = useAuth();
 
@@ -14,8 +15,10 @@ export const QRCode = () => {
       return;
     }
     setUid(user.uid);
+    setLoading(false);
   }, [user]);
 
+  if (loading) return <div>Loading...</div>;
   return (
     <>
       <div>QRCodePage</div>
