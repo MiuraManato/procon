@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { doLogin } from "./doLogin";
+import Link from "next/link";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,8 +23,12 @@ export const Login = () => {
         setLoginError("メールアドレスまたはパスワードが間違っています。");
       }
     } catch (err) {
-      console.error(err);
-      setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      if (err instanceof Error) {
+        setLoginError(err.message);
+      } else {
+        console.error(err);
+        setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      }
     }
   };
 
@@ -31,6 +36,7 @@ export const Login = () => {
     <>
       <div>
         {loginError && <div>{loginError}</div>}
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit}>
           <label>
             <div>メールアドレス</div>
@@ -56,7 +62,9 @@ export const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             {touched.password && !password && <span>パスワードを入力してください</span>}
+            <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
           </label>
+
           <button type="submit" disabled={!email || !password}>
             ログイン
           </button>

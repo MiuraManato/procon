@@ -20,12 +20,31 @@ export const getMenuData = async () => {
               price: true,
               categoryId: true,
               description: true,
+              imageUrl: true,
               isSoldOut: true,
               isDeleted: true,
               productAllergies: {
                 select: {
                   productId: true,
                   allergyId: true,
+                  allergy: {
+                    select: {
+                      allergyId: true,
+                      allergyName: true,
+                    },
+                  },
+                },
+              },
+              productIngredients: {
+                select: {
+                  productId: true,
+                  ingredientId: true,
+                  ingredient: {
+                    select: {
+                      ingredientId: true,
+                      ingredientName: true,
+                    },
+                  },
                 },
               },
             },

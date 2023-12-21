@@ -1,13 +1,14 @@
-// Allergy関連の型定義
-type Allergy = {
-  allergyId: number;
-  name: string;
-};
+import { Allergy, Ingredient } from "@prisma/client";
 
 // ProductAllergy関連の型定義
 type ProductAllergy = {
   allergyId: number;
   allergy: Allergy;
+};
+
+type ProductIngredient = {
+  ingredientId: number;
+  ingredient: Ingredient;
 };
 
 // Product関連の型定義
@@ -17,9 +18,11 @@ type Product = {
   price: number;
   categoryId: number;
   description: string;
+  imageUrl: string;
   isSoldOut: boolean;
   isDeleted: boolean;
   productAllergies: ProductAllergy[];
+  productIngredients: ProductIngredient[];
 };
 
 // MenuProduct関連の型定義
