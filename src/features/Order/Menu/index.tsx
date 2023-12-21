@@ -2,6 +2,7 @@ import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
 import { Allergy } from "@prisma/client";
+import { QrReader } from "react-qr-reader";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
@@ -9,6 +10,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
   const [productModal, setProductModal] = useState<number | null>(null);
+  const [loginModal, setLoginModal] = useState<boolean>(false);
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
 
@@ -46,6 +48,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleProductModalOutsideClick = () => {
     setProductModal(null);
+  };
+
+  const handleLoginModalOutsideClick = () => {
+    setLoginModal(false);
+  };
+
+  const handleSetOpenLoginModal = () => {
+    setLoginModal(true);
   };
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
@@ -100,7 +110,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           <>
             <div key={menu.menuCategoryName} className={styles["category-container"]}>
               <button
-                className={`${styles["category-button"]} 
+                className={`${styles["category-button"]}
                 ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
                 onClick={() => handleSetNowCategory(menu.menuId)}
               >
@@ -120,7 +130,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </button>
         </div>
         <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]}>
+          <button className={styles["category-button"]} onClick={() => handleSetOpenLoginModal()}>
             <p className={styles["category-list"]}>ログイン</p>
           </button>
         </div>
@@ -263,6 +273,26 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   </div>
                 </>
               ))}
+          </div>
+        </div>
+      )}
+      {loginModal && (
+        <div className={styles["modal"]} onClick={handleLoginModalOutsideClick}>
+          <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
+            <div className={styles["login-modal-content"]}>
+              <div className={styles["login-modal-title"]}>QRコードをかざしてください</div>
+              <div className={styles["login-modal-qr-reader"]}>
+                <QrReader
+                  constraints={{ facingMode: "environment" }}
+                  scanDelay={300}
+                  onResult={(result) => {
+                    if (result) {
+                      console.log(result);
+                    }
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
