@@ -1,16 +1,18 @@
 import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
-import { Allergy } from "@prisma/client";
+import { Allergy, User } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
+  const [LoginUsers, setLoginUsers] = useState<User[]>([]);
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
   const [allergyFilter, setAllergyFilter] = useState<number[]>([]);
   const [productModal, setProductModal] = useState<number | null>(null);
   const [loginModal, setLoginModal] = useState<boolean>(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
 
@@ -52,6 +54,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleLoginModalOutsideClick = () => {
     setLoginModal(false);
+    setLoginErrorMessage("");
   };
 
   const handleSetOpenLoginModal = () => {
@@ -60,6 +63,30 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
+  };
+
+  const tryLogin = async (uid: string) => {
+    try {
+      const res = await fetch(`/api/user/${uid}`);
+      if (!res.ok) {
+        setLoginErrorMessage("ログインに失敗しました");
+        return;
+      }
+      const data: User = (await res.json()) as User;
+      setLoginUsers((prevUsers) => {
+        // 同じIDのユーザーが既に存在するかどうかを確認
+        const isUserExists = prevUsers.some((user) => user.userId === data.userId);
+        if (!isUserExists) {
+          // 存在しない場合、ユーザーをリストに追加
+          return [...prevUsers, data];
+        } else {
+          // 既に存在する場合はリストをそのまま返す
+          return prevUsers;
+        }
+      });
+    } catch (error) {
+      setLoginErrorMessage("ログインに失敗しました");
+    }
   };
 
   // カートに商品を追加する関数
@@ -280,6 +307,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         <div className={styles["modal"]} onClick={handleLoginModalOutsideClick}>
           <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
             <div className={styles["login-modal-content"]}>
+              {loginErrorMessage && <div className={styles["login-modal-error"]}>{loginErrorMessage}</div>}
               <div className={styles["login-modal-title"]}>QRコードをかざしてください</div>
               <div className={styles["login-modal-qr-reader"]}>
                 <QrReader
@@ -289,7 +317,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     if (error) {
                       return;
                     } else if (result) {
-                      console.log(result);
+                      // 既にログインしているユーザーの場合は、ログインを行わない
+                      if (LoginUsers.some((user) => user.userId === result["text"])) {
+                        return;
+                      }
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                      tryLogin(result["text"] as string);
                     }
                   }}
                   containerStyle={{ width: "50%", height: "50%" }}
