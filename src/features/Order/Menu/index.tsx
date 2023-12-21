@@ -285,11 +285,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <QrReader
                   constraints={{ facingMode: "environment" }}
                   scanDelay={300}
-                  onResult={(result) => {
-                    if (result) {
+                  onResult={(result, error) => {
+                    if (error) {
+                      return;
+                    } else if (result) {
                       console.log(result);
                     }
                   }}
+                  containerStyle={{ width: "50%", height: "50%" }}
                 />
               </div>
             </div>
