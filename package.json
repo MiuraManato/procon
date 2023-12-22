@@ -10,7 +10,8 @@
     "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "format": "prettier --write --ignore-path .gitignore \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\"",
     "test-all": "yarn lint && yarn format && yarn lint:fix",
-    "prettier-watch": "onchange \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\" -- prettier --write --ignore-unknown --ignore-path .gitignore {{changed}}"
+    "prettier-watch": "onchange \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\" -- prettier --write --ignore-unknown --ignore-path .gitignore {{changed}}",
+    "i": "npm i --legacy-peer-deps"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
