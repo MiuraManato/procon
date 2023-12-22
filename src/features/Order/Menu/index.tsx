@@ -279,7 +279,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               .flat()
               .filter((menuProduct) => menuProduct.menuProductId === productModal)
               .map((menuProduct) => (
-                <>
+                <React.Fragment key={menuProduct.productId}>
                   <div className={styles["product-modal-content"]} key={menuProduct.menuProductId}>
                     <div className={styles["product-modal-details"]}>
                       <div className={styles["product-modal-name"]}>{menuProduct.product.productName}</div>
@@ -310,7 +310,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                       <img className={styles["product-modal-image"]} src={menuProduct.product.imageUrl} alt="product" />
                     </div>
                   </div>
-                </>
+                </React.Fragment>
               ))}
           </div>
         </div>
