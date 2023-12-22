@@ -146,7 +146,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     <>
       <div className={styles["menu-container"]}>
         {menuData.map((menu) => (
-          <>
+          <React.Fragment key={menu.menuId}>
             <div key={menu.menuCategoryName} className={styles["category-container"]}>
               <button
                 className={`${styles["category-button"]}
@@ -156,7 +156,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
               </button>
             </div>
-          </>
+          </React.Fragment>
         ))}
         <div className={styles["utilities-container"]}>
           <button className={styles["category-button"]} onClick={() => handleSetIsOpenedFilterModal()}>
@@ -243,7 +243,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             nowCategoryId === menu.menuId &&
             [...Array<number>(menu.menuProducts[menu.menuProducts.length - 1].pages)].map((_, index) => (
               <button
-                key={index + 1}
+                key={`${menu.menuId}-${index}`}
                 className={`${styles["page-button"]} ${
                   nowPage === index + 1 ? styles["page-button-active"] : styles["page-button"]
                 }`}
