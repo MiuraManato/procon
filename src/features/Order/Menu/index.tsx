@@ -15,6 +15,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
+  const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
+  const [pendingLoginUser, setPendingLoginUser] = useState<User | null>(null);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -73,6 +75,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         return;
       }
       const data: User = (await res.json()) as User;
+      setPendingLoginUser(data);
+      setIsConfirmLoginModalOpen(true);
       setLoginUsers((prevUsers) => {
         // 同じIDのユーザーが既に存在するかどうかを確認
         const isUserExists = prevUsers.some((user) => user.userId === data.userId);
@@ -87,6 +91,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     } catch (error) {
       setLoginErrorMessage("ログインに失敗しました");
     }
+  };
+
+  const confirmLogin = () => {
+    if (pendingLoginUser) {
+      setLoginUsers((prevUsers) => [...prevUsers, pendingLoginUser]);
+      setPendingLoginUser(null);
+    }
+    setIsConfirmLoginModalOpen(false);
   };
 
   // カートに商品を追加する関数
@@ -329,6 +341,16 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 />
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      {isConfirmLoginModalOpen && (
+        <div className={styles["modal"]} onClick={() => handleLoginModalOutsideClick()}>
+          <div className={styles["confirm-login-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+            <p>以下のユーザーでログインしますか？</p>
+            <p>{pendingLoginUser?.username}</p>
+            <button onClick={confirmLogin}>ログイン</button>
+            <button onClick={() => setIsConfirmLoginModalOpen(false)}>キャンセル</button>
           </div>
         </div>
       )}
