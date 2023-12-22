@@ -77,17 +77,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       const data: User = (await res.json()) as User;
       setPendingLoginUser(data);
       setIsConfirmLoginModalOpen(true);
-      setLoginUsers((prevUsers) => {
-        // 同じIDのユーザーが既に存在するかどうかを確認
-        const isUserExists = prevUsers.some((user) => user.userId === data.userId);
-        if (!isUserExists) {
-          // 存在しない場合、ユーザーをリストに追加
-          return [...prevUsers, data];
-        } else {
-          // 既に存在する場合はリストをそのまま返す
-          return prevUsers;
-        }
-      });
     } catch (error) {
       setLoginErrorMessage("ログインに失敗しました");
     }
