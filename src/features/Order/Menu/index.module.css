@@ -51,12 +51,16 @@
   width: 100%;
 }
 
+.menu-list-width {
+  width: 78%;
+}
+
 .menu-list {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   margin-top: 20px;
-  width: 78%;
+  width: 100%;
 }
 
 .product-item {
@@ -113,7 +117,7 @@
 
 .menu-contents {
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .page-button {
