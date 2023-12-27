@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
 import { Allergy, User } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
+import Image from "next/image";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<User[]>([]);
@@ -17,6 +18,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [table, setTable] = useState<number | null>(null);
   const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
   const [pendingLoginUser, setPendingLoginUser] = useState<User | null>(null);
+  const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -88,6 +91,16 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       setPendingLoginUser(null);
     }
     setIsConfirmLoginModalOpen(false);
+  };
+
+  const handleUserIconClick = (userId: string) => {
+    setShowLogoutConfirmation(true);
+    setSelectedUserId(userId);
+  };
+
+  const logoutUser = () => {
+    setLoginUsers((prevUsers) => prevUsers.filter((user) => user.userId !== selectedUserId));
+    setShowLogoutConfirmation(false);
   };
 
   // カートに商品を追加する関数
@@ -194,7 +207,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={menuProduct.product.imageUrl} alt="product" />
                       <div className={styles.productName}>{menuProduct.product.productName}</div>
-                      <div className={styles.productPrice}>{menuProduct.product.price}</div>
+                      <div className={styles.productPrice}>{menuProduct.product.price}円</div>
                       <div className={styles.cartButton}>
                         <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
                       </div>
@@ -272,7 +285,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   <div className={styles["product-modal-content"]} key={menuProduct.menuProductId}>
                     <div className={styles["product-modal-details"]}>
                       <div className={styles["product-modal-name"]}>{menuProduct.product.productName}</div>
-                      <div className={styles["product-modal-price"]}>{menuProduct.product.price}</div>
+                      <div className={styles["product-modal-price"]}>{menuProduct.product.price}円</div>
                       <div className={styles["product-modal-description"]}>{menuProduct.product.description}</div>
                       <div className={styles["product-modal-allergies"]}>
                         <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
@@ -343,6 +356,21 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         </div>
       )}
+      {LoginUsers.map((user) => (
+        <div key={user.userId} className={styles["user-container"]}>
+          <div onClick={() => handleUserIconClick(user.userId)}>
+            <Image src="/images/circle_user.svg" alt="" width={100} height={100} />
+          </div>
+          {showLogoutConfirmation && selectedUserId === user.userId && (
+            <div className={styles["logout-confirmation"]}>
+              ログアウトしますか？
+              <button onClick={logoutUser} className={styles["confirm-logout-button"]}>
+                はい
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
     </>
   );
 };
