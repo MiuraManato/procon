@@ -117,7 +117,7 @@
 
 .menu-contents {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .page-button {
@@ -205,6 +205,7 @@
 
 .cart-items {
   overflow-y: scroll;
+  max-height: 700px;
 }
 
 .product-modal {
