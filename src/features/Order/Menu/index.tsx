@@ -147,96 +147,102 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   return (
     <>
       <div className={styles["menu-container"]}>
-        {menuData.map((menu) => (
-          <React.Fragment key={menu.menuId}>
-            <div key={menu.menuCategoryName} className={styles["category-container"]}>
-              <button
-                className={`${styles["category-button"]}
+        <div className={styles["menu-header"]}>
+          {menuData.map((menu) => (
+            <React.Fragment key={menu.menuId}>
+              <div key={menu.menuCategoryName} className={styles["category-container"]}>
+                <button
+                  className={`${styles["category-button"]}
                 ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
-                onClick={() => handleSetNowCategory(menu.menuId)}
-              >
-                <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
-              </button>
-            </div>
-          </React.Fragment>
-        ))}
-        <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]} onClick={() => handleSetIsOpenedFilterModal()}>
-            <p className={styles["category-list"]}>フィルター</p>
-          </button>
-        </div>
-        <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]}>
-            <p className={styles["category-list"]}>注文履歴</p>
-          </button>
-        </div>
-        <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]} onClick={() => handleSetOpenLoginModal()}>
-            <p className={styles["category-list"]}>ログイン</p>
-          </button>
-        </div>
-        <div className={styles["utilities-container"]}>
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <button className={styles["category-button"]} onClick={() => handleCallingTable()}>
-            <p className={styles["category-list"]}>呼び出し</p>
-          </button>
-        </div>
-        <div className={styles["utilities-container"]}>
-          <button className={styles["category-button"]}>
-            <p className={styles["category-list"]}>会計</p>
-          </button>
-        </div>
-        {menuData.map(
-          (menu) =>
-            nowCategoryId === menu.menuId && (
-              <div key={menu.menuId} className={styles["menu-list"]}>
-                {menu.menuProducts
-                  .filter(
-                    (menuProduct) =>
-                      !menuProduct.product.productAllergies.some((allergy) =>
-                        allergyFilter.includes(allergy.allergyId),
-                      ),
-                  )
-                  .filter((menuProduct) => menuProduct.pages === nowPage)
-                  .map((menuProduct) => (
-                    <div
-                      key={menuProduct.menuProductId}
-                      className={styles["product-item"]}
-                      onClick={() => setProductModal(menuProduct.product.productId)}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={menuProduct.product.imageUrl} alt="product" />
-                      <div className={styles.productName}>{menuProduct.product.productName}</div>
-                      <div className={styles.productPrice}>{menuProduct.product.price}円</div>
-                      <div className={styles.cartButton}>
-                        <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
-                      </div>
-                    </div>
-                  ))}
+                  onClick={() => handleSetNowCategory(menu.menuId)}
+                >
+                  <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
+                </button>
               </div>
-            ),
-        )}
-        <div className={styles["cart-container"]}>
-          <p className={styles["cart-title"]}>現在のカート</p>
-          {cart.map((item) => (
-            <div key={item.id} className={styles["cart-item"]}>
-              {menuData
-                .map((menu) => menu.menuProducts)
-                .flat()
-                .filter((menuProduct) => menuProduct.menuProductId === item.id)
-                .map((menuProduct) => (
-                  <>
-                    <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
-                    <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
-                    <div className={styles["cart-item-count"]}>数量: {item.count}</div>
-                    <div>
-                      <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
-                      <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
-                    </div>
-                  </>
-                ))}
-            </div>
+            </React.Fragment>
           ))}
+          <div className={styles["utilities-container"]}>
+            <button className={styles["category-button"]} onClick={() => handleSetIsOpenedFilterModal()}>
+              <p className={styles["category-list"]}>フィルター</p>
+            </button>
+          </div>
+          <div className={styles["utilities-container"]}>
+            <button className={styles["category-button"]}>
+              <p className={styles["category-list"]}>注文履歴</p>
+            </button>
+          </div>
+          <div className={styles["utilities-container"]}>
+            <button className={styles["category-button"]} onClick={() => handleSetOpenLoginModal()}>
+              <p className={styles["category-list"]}>ログイン</p>
+            </button>
+          </div>
+          <div className={styles["utilities-container"]}>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <button className={styles["category-button"]} onClick={() => handleCallingTable()}>
+              <p className={styles["category-list"]}>呼び出し</p>
+            </button>
+          </div>
+          <div className={styles["utilities-container"]}>
+            <button className={styles["category-button"]}>
+              <p className={styles["category-list"]}>会計</p>
+            </button>
+          </div>
+        </div>
+        <div className={styles["menu-contents"]}>
+          {menuData.map(
+            (menu) =>
+              nowCategoryId === menu.menuId && (
+                <div key={menu.menuId} className={styles["menu-list"]}>
+                  {menu.menuProducts
+                    .filter(
+                      (menuProduct) =>
+                        !menuProduct.product.productAllergies.some((allergy) =>
+                          allergyFilter.includes(allergy.allergyId),
+                        ),
+                    )
+                    .filter((menuProduct) => menuProduct.pages === nowPage)
+                    .map((menuProduct) => (
+                      <div
+                        key={menuProduct.menuProductId}
+                        className={styles["product-item"]}
+                        onClick={() => setProductModal(menuProduct.product.productId)}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={menuProduct.product.imageUrl} alt="product" />
+                        <div className={styles.productName}>{menuProduct.product.productName}</div>
+                        <div className={styles.productPrice}>{menuProduct.product.price}円</div>
+                        <div className={styles.cartButton}>
+                          <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              ),
+          )}
+          <div className={styles["cart-container"]}>
+            <p className={styles["cart-title"]}>現在のカート</p>
+            <div className={styles["cart-items"]}>
+              {cart.map((item) => (
+                <div key={item.id} className={styles["cart-item"]}>
+                  {menuData
+                    .map((menu) => menu.menuProducts)
+                    .flat()
+                    .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                    .map((menuProduct) => (
+                      <>
+                        <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
+                        <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
+                        <div className={styles["cart-item-count"]}>数量: {item.count}</div>
+                        <div>
+                          <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
+                          <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
+                        </div>
+                      </>
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <div>
