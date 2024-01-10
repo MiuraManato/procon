@@ -68,7 +68,7 @@ export const ChangePassword = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     if (!user) {
-      setChangePasswordError("ログインしていません。");
+      setChangePasswordError("ログインしてください。");
       return;
     }
     try {
@@ -90,8 +90,6 @@ export const ChangePassword = () => {
   return (
     <>
     <div className={`${styles["outside-modal"]}`}>
-      こんにちは
-    </div>
       {changePasswordError && <div>{changePasswordError}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form method={"post"} onSubmit={handleSubmit}>
@@ -147,6 +145,7 @@ export const ChangePassword = () => {
           </button>
         </label>
       </form>
+      </div>
     </>
   );
 };
