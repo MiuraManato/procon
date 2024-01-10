@@ -4,6 +4,7 @@ import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
 import { doChangePassword } from "./doChangePassword";
 import useAuth from "@/features/hooks/useAuth";
 import router from "next/router";
+import styles from './index.module.css';
 
 /**
  *パスワードを変更するページの実体部分
@@ -88,6 +89,9 @@ export const ChangePassword = () => {
 
   return (
     <>
+    <div className={`${styles["outside-modal"]}`}>
+      こんにちは
+    </div>
       {changePasswordError && <div>{changePasswordError}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <form method={"post"} onSubmit={handleSubmit}>
