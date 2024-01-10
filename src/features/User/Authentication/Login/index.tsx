@@ -3,16 +3,23 @@ import { useState } from "react";
 import { doLogin } from "./doLogin";
 
 import styles from "./index.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [touched, setTouched] = useState({
     email: false,
     password: false,
   });
   const router = useRouter();
+
+  const togglePasswordVisibility = (): void => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,6 +40,7 @@ export const Login = () => {
     <>
       <div className={styles.base}>
         {loginError && <div>{loginError}</div>}
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit}>
           <label className={styles.email}>
             <div>メールアドレス</div>
@@ -51,13 +59,17 @@ export const Login = () => {
           <label className={styles.password}>
             <div>パスワード</div>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               autoComplete="current-password"
               value={password}
               onBlur={() => setTouched({ ...touched, password: true })}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <button type="button" onClick={togglePasswordVisibility}>
+              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            </button>
+
             <br />
             {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
           </label>
