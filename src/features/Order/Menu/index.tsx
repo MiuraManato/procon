@@ -333,7 +333,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <div className={styles["login-modal-title"]}>QRコードをかざしてください</div>
               <div className={styles["login-modal-qr-reader"]}>
                 <QrReader
-                  constraints={{ facingMode: "environment" }}
+                  constraints={{ facingMode: "user" }}
                   scanDelay={300}
                   onResult={(result, error) => {
                     if (error) {
