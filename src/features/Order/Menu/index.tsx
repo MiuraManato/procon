@@ -209,7 +209,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           onClick={() => setProductModal(menuProduct.product.productId)}
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={menuProduct.product.imageUrl} alt="product" />
+                          <img className={styles.productImage} src={menuProduct.product.imageUrl} alt="product" />
                           <div className={styles.productName}>{menuProduct.product.productName}</div>
                           <div className={styles.productPrice}>{menuProduct.product.price}円</div>
                           <div className={styles.cartButton}>
