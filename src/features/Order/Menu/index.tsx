@@ -248,7 +248,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     .flat()
                     .filter((menuProduct) => menuProduct.menuProductId === item.id)
                     .map((menuProduct) => (
-                      <>
+                      <React.Fragment key={menuProduct.menuProductId}>
                         <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
                         <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
                         <div className={styles["cart-item-count"]}>数量: {item.count}</div>
@@ -256,7 +256,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
                           <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
                         </div>
-                      </>
+                      </React.Fragment>
                     ))}
                 </div>
               ))}
