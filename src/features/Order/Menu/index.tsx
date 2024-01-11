@@ -47,6 +47,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       },
       body: JSON.stringify({ callingStatus: true }),
     });
+    alert("従業員を呼び出しました。しばらくお待ちください。");
     if (!res.ok) {
       throw new Error("UpdateCalling failed");
     }
