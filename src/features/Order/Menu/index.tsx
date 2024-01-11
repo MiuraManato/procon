@@ -145,12 +145,13 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   const handleOrder = async () => {
+    const users = LoginUsers.map((user) => user.userId);
     const res = await fetch("/api/order", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ table, cart }),
+      body: JSON.stringify({ table, cart, users }),
     });
     if (!res.ok) {
       throw new Error("Order failed");
