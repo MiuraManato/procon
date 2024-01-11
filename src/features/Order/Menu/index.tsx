@@ -20,6 +20,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [pendingLoginUser, setPendingLoginUser] = useState<User | null>(null);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [orderCheckModal, setOrderCheckModal] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -136,6 +137,25 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       }
     });
   };
+
+  const orderCheck = () => {
+    setOrderCheckModal(true);
+  };
+
+  const handleOrder = async () => {
+    const res = await fetch("/api/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ table, cart }),
+    });
+    if (!res.ok) {
+      throw new Error("Order failed");
+    }
+    setCart([]);
+    setOrderCheckModal(false);
+  }
 
   useEffect(() => {
     const table = Number(localStorage.getItem("table"));
@@ -261,7 +281,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 </div>
               ))}
             </div>
-            {cart.length > 0 && <button className={styles["cart-button"]}>注文する</button>}
+            {cart.length > 0 && <button className={styles["cart-button"]} onClick={orderCheck}>注文する</button>}
           </div>
         </div>
       </div>
@@ -380,6 +400,33 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           )}
         </div>
       ))}
+      {orderCheckModal && (
+        <div className={styles["modal"]} onClick={() => setOrderCheckModal(false)}>
+          <div className={styles["order-check-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+            <p>以下の商品を注文します。よろしいですか？</p>
+            <div>
+              {cart.map((item) => (
+                <div key={item.id} className={styles["cart-item"]}>
+                  {menuData
+                    .map((menu) => menu.menuProducts)
+                    .flat()
+                    .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                    .map((menuProduct) => (
+                      <React.Fragment key={menuProduct.menuProductId}>
+                        <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
+                        <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
+                        <div className={styles["cart-item-count"]}>数量: {item.count}</div>
+                      </React.Fragment>
+                    ))}
+                </div>
+              ))}
+            </div>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <button onClick={handleOrder}>はい</button>
+            <button onClick={() => setOrderCheckModal(false)}>いいえ</button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
