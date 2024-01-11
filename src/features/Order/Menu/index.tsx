@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
 import { Allergy, User } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
+import router from "next/router";
 import Image from "next/image";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
@@ -21,6 +22,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [orderCheckModal, setOrderCheckModal] = useState<boolean>(false);
+  const [isErrorTableId, setIsErrorTableId] = useState(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -161,6 +163,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     const table = Number(localStorage.getItem("table"));
     if (table) {
       setTable(table);
+      setIsErrorTableId(false);
+    } else {
+      setIsErrorTableId(true);
     }
   }, []);
 
@@ -424,6 +429,22 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <button onClick={handleOrder}>はい</button>
             <button onClick={() => setOrderCheckModal(false)}>いいえ</button>
+          </div>
+        </div>
+      )}
+
+      {isErrorTableId && (
+        <div className={styles.errorModal}>
+          <div className={styles.errorModalContent}>
+            <p className={styles.errorModalText}>テーブルIDが設定されていません</p>
+            <button
+              className={styles.errorModalButton}
+              onClick={() => {
+                void router.push("/order/employee/login").then().catch();
+              }}
+            >
+              テーブルIDを設定する
+            </button>
           </div>
         </div>
       )}
