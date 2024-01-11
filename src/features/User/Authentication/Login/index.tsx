@@ -5,6 +5,7 @@ import { doLogin } from "./doLogin";
 import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -31,8 +32,12 @@ export const Login = () => {
         setLoginError("メールアドレスまたはパスワードが間違っています。");
       }
     } catch (err) {
-      console.error(err);
-      setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      if (err instanceof Error) {
+        setLoginError(err.message);
+      } else {
+        console.error(err);
+        setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
+      }
     }
   };
 
@@ -72,8 +77,10 @@ export const Login = () => {
 
             <br />
             {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
+            <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
           </label>
           <br />
+
           <button type="submit" disabled={!email || !password}>
             ログイン
           </button>
