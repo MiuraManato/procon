@@ -1,4 +1,4 @@
-import { Allergy, Ingredient } from "@prisma/client";
+import { Allergy, Ingredient, User } from "@prisma/client";
 
 // ProductAllergy関連の型定義
 type ProductAllergy = {
@@ -49,4 +49,9 @@ type MenuData = MenuCategory[];
 // getMenuData関数自体の型定義（非同期関数なのでPromiseを使用）
 type GetMenuDataFunction = () => Promise<MenuData>;
 
-export type { MenuData, GetMenuDataFunction };
+type exUser = User & {
+  allergies: Allergy[];
+  ingredients: Ingredient[];
+};
+
+export type { MenuData, GetMenuDataFunction, exUser };

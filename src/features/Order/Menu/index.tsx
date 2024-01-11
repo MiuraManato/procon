@@ -1,13 +1,14 @@
 import { MenuData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
-import { Allergy, User } from "@prisma/client";
+import { Allergy } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
 import router from "next/router";
 import Image from "next/image";
+import { exUser } from "./type";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
-  const [LoginUsers, setLoginUsers] = useState<User[]>([]);
+  const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
   const [nowCategoryId, setNowCategoryId] = useState<number | null>(menuData[0].menuId);
   const [nowPage, setNowPage] = useState<number>(1);
   const [isOpenedFilterModal, setIsOpenedFilterModal] = useState<boolean>(false);
@@ -18,7 +19,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
   const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
-  const [pendingLoginUser, setPendingLoginUser] = useState<User | null>(null);
+  const [pendingLoginUser, setPendingLoginUser] = useState<exUser | null>(null);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [orderCheckModal, setOrderCheckModal] = useState<boolean>(false);
@@ -37,6 +38,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleSetIsOpenedFilterModal = () => {
     setIsOpenedFilterModal(!isOpenedFilterModal);
+  };
+
+  // ユーザーのアレルギーに基づいてフィルターを更新する関数
+  const handleSetUserAllergyFilter = (selectedUser: exUser) => {
+    setAllergyFilter(selectedUser.allergies.map((allergy) => allergy.allergyId));
   };
 
   const handleCallingTable = async () => {
@@ -81,7 +87,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         setLoginErrorMessage("ログインに失敗しました");
         return;
       }
-      const data: User = (await res.json()) as User;
+      const data: exUser = (await res.json()) as exUser;
       setPendingLoginUser(data);
       setIsConfirmLoginModalOpen(true);
     } catch (error) {
@@ -159,7 +165,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     }
     setCart([]);
     setOrderCheckModal(false);
-  }
+  };
 
   useEffect(() => {
     const table = Number(localStorage.getItem("table"));
@@ -288,7 +294,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 </div>
               ))}
             </div>
-            {cart.length > 0 && <button className={styles["cart-button"]} onClick={orderCheck}>注文する</button>}
+            {cart.length > 0 && (
+              <button className={styles["cart-button"]} onClick={orderCheck}>
+                注文する
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -304,6 +314,16 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 }
               >
                 {allergy.allergyName}
+              </button>
+            ))}
+            {/* ユーザー選択用のUIをフィルターモーダルに追加 */}
+            {LoginUsers.map((user) => (
+              <button
+                key={user.userId}
+                onClick={() => handleSetUserAllergyFilter(user)}
+                className={styles["user-button"]}
+              >
+                {user.username}
               </button>
             ))}
           </div>
