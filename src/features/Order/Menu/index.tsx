@@ -24,6 +24,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [orderCheckModal, setOrderCheckModal] = useState<boolean>(false);
   const [isErrorTableId, setIsErrorTableId] = useState(false);
+  const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -167,6 +168,22 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setOrderCheckModal(false);
   };
 
+  const handlePay = async () => {
+    setIsRunningProcess(true);
+    const res = await fetch(`/api/table/pay/${table}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tableId: table }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Pay failed");
+    }
+    void router.push("/order/payment").then().catch();
+  };
+
   useEffect(() => {
     const table = Number(localStorage.getItem("table"));
     if (table) {
@@ -217,7 +234,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
           <div className={styles["utilities-container"]}>
             <button className={styles["category-button"]}>
-              <p className={styles["category-list"]}>会計</p>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+              <p className={styles["category-list"]} onClick={() => handlePay()}>
+                会計
+              </p>
             </button>
           </div>
         </div>
@@ -467,6 +487,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             >
               テーブルIDを設定する
             </button>
+          </div>
+        </div>
+      )}
+      {isRunningProcess && (
+        <div className={styles.errorModal}>
+          <div className={styles.errorModalContent}>
+            <p className={styles.errorModalText}>会計処理中です</p>
+            <p className={styles.errorModalText}>しばらくお待ちください</p>
           </div>
         </div>
       )}
