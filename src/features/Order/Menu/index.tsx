@@ -261,6 +261,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 </div>
               ))}
             </div>
+            {cart.length > 0 && <button className={styles["cart-button"]}>注文する</button>}
           </div>
         </div>
       </div>
