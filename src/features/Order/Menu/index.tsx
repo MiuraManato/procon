@@ -24,6 +24,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [orderCheckModal, setOrderCheckModal] = useState<boolean>(false);
   const [isErrorTableId, setIsErrorTableId] = useState(false);
+  const [checkAccounting, setCheckAccounting] = useState(false);
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
@@ -71,6 +72,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const handleLoginModalOutsideClick = () => {
     setLoginModal(false);
     setLoginErrorMessage("");
+  };
+
+  const handleSetAccountingModaloutsideClick = () => {
+    setCheckAccounting(false);
   };
 
   const handleSetOpenLoginModal = () => {
@@ -234,8 +239,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
           <div className={styles["utilities-container"]}>
             <button className={styles["category-button"]}>
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <p className={styles["category-list"]} onClick={() => handlePay()}>
+              <p className={styles["category-list"]} onClick={() => setCheckAccounting(true)}>
                 会計
               </p>
             </button>
@@ -487,6 +491,17 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             >
               テーブルIDを設定する
             </button>
+          </div>
+        </div>
+      )}
+
+      {checkAccounting && (
+        <div className={`${styles.errorModal} ${styles.modal}`} onClick={handleSetAccountingModaloutsideClick}>
+          <div className={styles.errorModalContent} onClick={handleModalInsideClick}>
+            <p className={styles.errorModalText}>お会計に進みます。よろしいですか？</p>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <button onClick={handlePay}>会計に進む</button>
+            <button onClick={() => setCheckAccounting(false)}>戻る</button>
           </div>
         </div>
       )}
