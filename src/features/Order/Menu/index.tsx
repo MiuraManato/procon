@@ -203,6 +203,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   return (
     <>
+      <div className={styles["container"]}>
       <div className={styles["menu-container"]}>
         <div className={styles["menu-header"]}>
           {menuData.map((menu) => (
@@ -277,7 +278,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <div className={styles.productName}>{menuProduct.product.productName}</div>
                           <div className={styles.productPrice}>{menuProduct.product.price}円</div>
                           <div className={styles.cartButton}>
-                            <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
+                            <button className={styles["cart-button"]} onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
                           </div>
                         </div>
                       ))}
@@ -317,8 +318,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
                         <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                         <div>
-                          <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
-                          <button onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
+                          <button className={`${styles["cart-quantity"]} ${styles["margin-right"]}`} onClick={(e) => addCart(e, menuProduct.menuProductId)}>+</button>
+                          <button className={`${styles["cart-quantity"]} ${styles["margin-left"]}`} onClick={(e) => decrementItem(e, menuProduct.menuProductId)}>-</button>
                         </div>
                       </React.Fragment>
                     ))}
@@ -326,7 +327,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               ))}
             </div>
             {cart.length > 0 && (
-              <button className={styles["cart-button"]} onClick={orderCheck}>
+              <button className={styles["purchase-button"]} onClick={orderCheck}>
                 注文する
               </button>
             )}
@@ -391,7 +392,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         ))}
                       </div>
                       <div className={styles.cartButton}>
-                        <button onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
+                        <button className={styles["cart-button"]} onClick={(e) => addCart(e, menuProduct.menuProductId)}>カートに入れる</button>
                       </div>
                     </div>
                     <div className={styles["product-modal-image-container"]}>
@@ -527,6 +528,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         </div>
       )}
+      </div>
     </>
   );
 };
