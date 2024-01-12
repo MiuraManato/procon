@@ -4,15 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint --dir src",
     "lint:fix": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
     "format": "prettier --write --ignore-path .gitignore \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\"",
     "test-all": "yarn lint && yarn format && yarn lint:fix",
-    "prettier-watch": "onchange \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\" -- prettier --write --ignore-unknown --ignore-path .gitignore {{changed}}"
+    "prettier-watch": "onchange \"src/**/*.{ts,tsx,js,jsx,json,css,scss}\" -- prettier --write --ignore-unknown --ignore-path .gitignore {{changed}}",
+    "i": "npm i --legacy-peer-deps"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@prisma/client": "^5.5.2",
@@ -26,7 +28,8 @@
     "prisma": "^5.5.2",
     "qrcode.react": "^3.1.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-qr-reader": "^3.0.0-beta-1"
   },
   "devDependencies": {
     "@types/node": "^20",
