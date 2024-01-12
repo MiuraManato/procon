@@ -500,7 +500,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           <div className={styles.errorModalContent} onClick={handleModalInsideClick}>
             <p className={styles.errorModalText}>お会計に進みます。よろしいですか？</p>
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <button onClick={handlePay}>会計に進む</button>
+            <button
+              onClick={() => {
+                setCheckAccounting(false);
+                void handlePay();
+              }}
+            >
+              会計に進む
+            </button>
             <button onClick={() => setCheckAccounting(false)}>戻る</button>
           </div>
         </div>
