@@ -77,7 +77,9 @@ export const Login = () => {
 
             <br />
             {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
-            <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
+            <br>
+              <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
+            </br>
           </label>
           <br />
 
