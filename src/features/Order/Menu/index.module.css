@@ -374,6 +374,7 @@
   height: 65%;
 }
 
+/* 表示用端末(タブレットに反映させる用のメディアクエリ) */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .product-item {
     border: 1px solid #ddd;
