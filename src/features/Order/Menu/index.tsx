@@ -26,6 +26,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isErrorTableId, setIsErrorTableId] = useState(false);
   const [checkAccounting, setCheckAccounting] = useState(false);
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
+  const [isOrdered, setIsOrdered] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -158,6 +159,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   const handleOrder = async () => {
+    if (!isOrdered) setIsOrdered(true);
     const users = LoginUsers.map((user) => user.userId);
     const res = await fetch("/api/order", {
       method: "POST",
@@ -239,7 +241,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
           <div className={styles["utilities-container"]}>
             <button className={styles["category-button"]}>
-              <p className={styles["category-list"]} onClick={() => setCheckAccounting(true)}>
+              <p
+                className={styles["category-list"]}
+                onClick={() =>
+                  isOrdered ? setCheckAccounting(true) : alert("注文をしていないためお会計には進めません。")
+                }
+              >
                 会計
               </p>
             </button>
