@@ -175,7 +175,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ tableId: table }),
+      body: JSON.stringify({}),
     });
 
     if (!res.ok) {
