@@ -31,10 +31,12 @@
 
 .category-list {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 2em;
   color: #333;
   text-align: center;
-  padding: 10px 0px;
+  padding: 15px 0px;
+  height: 80px;
+  font-weight: bold;
 }
 
 .category-button {
