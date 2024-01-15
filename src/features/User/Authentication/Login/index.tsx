@@ -47,8 +47,8 @@ export const Login = () => {
         {loginError && <div>{loginError}</div>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label className={styles.email}>
-            <div>メールアドレス</div>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>メールアドレス</div>
             <input
               type="email"
               name="email"
@@ -58,11 +58,11 @@ export const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
             <br />
-            {touched.email && !email && <span className={styles.invalid}>メールアドレスを入力してください</span>}
+            {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
           </label>
           <br />
-          <label className={styles.password}>
-            <div>パスワード</div>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>パスワード</div>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -76,14 +76,17 @@ export const Login = () => {
             </button>
 
             <br />
-            {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
+            {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
+            <div className={styles["blank"]}></div>
             <div>
-              <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
+              <Link href={"/user/auth/password/reset"} className={styles.link}>
+                パスワードを忘れた場合
+              </Link>
             </div>
           </label>
           <br />
 
-          <button type="submit" disabled={!email || !password}>
+          <button type="submit" disabled={!email || !password} className={styles.button}>
             ログイン
           </button>
         </form>
