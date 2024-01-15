@@ -296,21 +296,21 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     nowCategoryId === menu.menuId && (
                       <div key={menu.menuCategoryName} className={styles["pagination-container"]}>
                         <button
-                          className={styles["page-move-button"]}
+                          className={`${styles["page-move-button"]} ${styles["page-move-active"]}`}
                           disabled={nowPage === 1}
                           onClick={() => setNowPage(nowPage - 1)}
                         >
-                          ＜
+                          <span className={styles["button-text"]}>＜</span>
                         </button>
                         <span className={styles["current-page-info"]}>
                           {nowPage}/{menu.menuProducts[menu.menuProducts.length - 1].pages}
                         </span>
                         <button
-                          className={styles["page-move-button"]}
+                          className={`${styles["page-move-button"]} ${styles["page-move-active"]}`}
                           disabled={nowPage === menu.menuProducts[menu.menuProducts.length - 1].pages}
                           onClick={() => setNowPage(nowPage + 1)}
                         >
-                          ＞
+                          <span className={styles["button-text"]}>＞</span>
                         </button>
                       </div>
                     ),

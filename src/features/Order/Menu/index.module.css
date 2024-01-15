@@ -427,9 +427,23 @@
   font-size: 1em;
   color: #333;
   cursor: pointer;
-  padding: 5px 0px 5px 0px;
   width: 5%;
   padding: 3px 10px;
+}
+
+.page-move-active {
+  border: 1px solid #333;
+}
+
+.page-move-active:disabled {
+  border: 1px solid #dadad9;
+  .button-text {
+    color: #dadad9;
+  }
+}
+
+.button-text {
+  font-weight: bold;
 }
 
 .current-page-info {
