@@ -9,6 +9,10 @@ const getUserHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       where: {
         userId: uid as string,
       },
+      include: {
+        allergies: true,
+        preferences: true,
+      },
     });
 
     if (!user) {

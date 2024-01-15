@@ -155,7 +155,7 @@ model OrderUser {
 
 model StoreTableStatus {
   storeTableStatusId Int         @id @default(autoincrement())
-  tableId            Int
+  tableId            Int         @unique
   status             TABLESTATUS @default(EMPTY)
   numberOfPeople     Int
   calling            Boolean     @default(false)
