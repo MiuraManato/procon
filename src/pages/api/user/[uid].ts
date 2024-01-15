@@ -9,6 +9,10 @@ const getUserHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       where: {
         userId: uid as string,
       },
+      include: {
+        allergies: true,
+        preferences: true,
+      },
     });
 
     if (!user) {
@@ -19,6 +23,6 @@ const getUserHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   return res.status(405).json({ error: "Method not allowed" });
-}
+};
 
 export default getUserHandler;

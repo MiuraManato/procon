@@ -31,6 +31,10 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
   const handleUpdateCalling = async (storeTableId: number) => {
     const res = await fetch(`/api/table/UpdateCalling/${storeTableId}`, {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ callingStatus: false }),
     });
     if (!res.ok) {
       throw new Error("UpdateCalling failed");
