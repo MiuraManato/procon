@@ -408,12 +408,43 @@
   border-radius: 10px;
 }
 
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pagination-container button {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.page-move-button {
+  background-color: transparent;
+  font-size: 1em;
+  color: #333;
+  cursor: pointer;
+  padding: 5px 0px 5px 0px;
+  width: 5%;
+  padding: 3px 10px;
+}
+
+.current-page-info {
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 3px;
+  padding-bottom: 2px;
+}
+
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .product-item {
     border: 1px solid #333;
     width: 30%;
-    height: 250px;
+    height: 280px;
     padding: 10px;
     padding-top: 20px;
     padding-bottom: 80px;
