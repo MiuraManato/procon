@@ -46,7 +46,7 @@ export const Login = () => {
       <div className={styles.base}>
         {loginError && <div>{loginError}</div>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.email}>
             <div>メールアドレス</div>
             <input
@@ -77,9 +77,9 @@ export const Login = () => {
 
             <br />
             {touched.password && !password && <span className={styles.invalid}>パスワードを入力してください</span>}
-            <br>
+            <div>
               <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
-            </br>
+            </div>
           </label>
           <br />
 

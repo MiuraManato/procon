@@ -1,3 +1,19 @@
+.base {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form {
+  background-color: #ffffff; /* フォームの背景色 */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
 .email {
   color: black;
 }
@@ -12,12 +28,6 @@
 
 .password input {
   border-radius: 8px;
-}
-
-.base {
-  width: 50%;
-  margin: 0 auto;
-  text-align: center;
 }
 
 .invalid {
