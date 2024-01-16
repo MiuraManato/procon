@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { Allergy } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
 import router from "next/router";
-import Image from "next/image";
 import { exUser } from "./type";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
@@ -111,6 +110,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   const handleUserIconClick = (userId: string) => {
+    return;
     setShowLogoutConfirmation(true);
     setSelectedUserId(userId);
   };
@@ -440,28 +440,49 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
         {loginModal && (
           <div className={styles["modal"]} onClick={handleLoginModalOutsideClick}>
-            <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
+            <div className={styles["login-modal"]} onClick={handleModalInsideClick}>
               <div className={styles["login-modal-content"]}>
                 {loginErrorMessage && <div className={styles["login-modal-error"]}>{loginErrorMessage}</div>}
-                <div className={styles["login-modal-title"]}>QRコードをかざしてください</div>
-                <div className={styles["login-modal-qr-reader"]}>
-                  <QrReader
-                    constraints={{ facingMode: "user" }}
-                    scanDelay={300}
-                    onResult={(result, error) => {
-                      if (error) {
-                        return;
-                      } else if (result) {
-                        // 既にログインしているユーザーの場合は、ログインを行わない
-                        if (LoginUsers.some((user) => user.userId === result["text"])) {
+
+                <div className={styles["div"]}>
+                  <div className={styles["login-modal-qr-reader"]}>
+                    <div className={styles["login-modal-title"]}>QRコードをかざしてください</div>
+                    <QrReader
+                      constraints={{ facingMode: "user" }}
+                      scanDelay={300}
+                      onResult={(result, error) => {
+                        if (error) {
                           return;
+                        } else if (result) {
+                          // 既にログインしているユーザーの場合は、ログインを行わない
+                          if (LoginUsers.some((user) => user.userId === result["text"])) {
+                            return;
+                          }
+                          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                          tryLogin(result["text"] as string);
                         }
-                        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        tryLogin(result["text"] as string);
-                      }
-                    }}
-                    containerStyle={{ width: "50%", height: "50%" }}
-                  />
+                      }}
+                      containerStyle={{ width: "100%", height: "100%" }}
+                    />
+                  </div>
+                  <div className={styles["login-user"]}>
+                    <div className={styles["login-user-title"]}>[ログイン中のユーザー]</div>
+                    {LoginUsers.map((user) => (
+                      <div key={user.userId} className={styles["user-container"]}>
+                        <div className={styles["username"]} onClick={() => handleUserIconClick(user.userId)}>
+                          {user.username}
+                        </div>
+                        {showLogoutConfirmation && selectedUserId === user.userId && (
+                          <div className={styles["logout-confirmation"]}>
+                            ログアウトしますか？
+                            <button onClick={logoutUser} className={styles["confirm-logout-button"]}>
+                              はい
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -477,21 +498,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         )}
-        {LoginUsers.map((user) => (
-          <div key={user.userId} className={styles["user-container"]}>
-            <div onClick={() => handleUserIconClick(user.userId)}>
-              <Image src="/images/circle_user.svg" alt="" width={100} height={100} />
-            </div>
-            {showLogoutConfirmation && selectedUserId === user.userId && (
-              <div className={styles["logout-confirmation"]}>
-                ログアウトしますか？
-                <button onClick={logoutUser} className={styles["confirm-logout-button"]}>
-                  はい
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
         {orderCheckModal && (
           <div className={styles["modal"]} onClick={() => setOrderCheckModal(false)}>
             <div className={styles["order-check-modal"]} onClick={(e) => handleModalInsideClick(e)}>
