@@ -369,10 +369,15 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                     allergyFilter.includes(allergy.allergyId) ? styles["filter-button-active"] : styles["filter-button"]
                   }
                 >
-                  {allergy.allergyName}
+                  <div className={styles["filter-modal-product-name"]}>{allergy.allergyName}</div>
                 </button>
               ))}
               {/* ユーザー選択用のUIをフィルターモーダルに追加 */}
+              {LoginUsers.length > 0 && (
+                <div className={styles["filter-modal-user-title"]}>
+                  ユーザーのアレルギーを適用するには、ユーザー名をタップしてください。
+                </div>
+              )}
               {LoginUsers.map((user) => (
                 <button
                   key={user.userId}

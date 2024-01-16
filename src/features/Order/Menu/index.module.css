@@ -196,13 +196,13 @@
 
 .filter-modal {
   position: fixed;
-  border: 1px solid #333;
+  /* border: 1px solid #333; */
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  height: 50%;
+  width: 800px;
+  height: auto;
   background-color: #fcfafa;
   z-index: 10;
 }
@@ -210,6 +210,8 @@
 .filter-button {
   padding: 10px 20px;
   background-color: #f2f2f2;
+  width: 200px;
+  height: 15%;
   color: #333;
   border: 1px solid #ddd;
   cursor: pointer;
@@ -224,6 +226,8 @@
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
+  width: 200px;
+  height: 15%;
   border: 1px solid #0056b3;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -231,6 +235,29 @@
 
 .filter-button-active:hover {
   background-color: #0056b3;
+}
+
+.filter-modal-product-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.filter-modal-user-title {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.user-button {
+  padding: 10px 20px;
+  background-color: #f2f2f2;
+  width: 200px;
+  height: 15%;
+  color: #333;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .productName {
