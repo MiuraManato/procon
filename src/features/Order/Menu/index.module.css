@@ -131,10 +131,12 @@
   background-color: #ffb700;
   color: #333;
   border: 1px solid #ddd;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
   padding: 10px 20px;
+  font-weight: bold;
 }
 
 .purchase-button {
@@ -258,10 +260,11 @@
 .product-modal {
   background-color: #fff;
   border: 1px solid #333;
+  border-radius: 50px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   padding: 20px;
-  width: 60%;
-  max-height: 80%;
+  width: 70%;
+  height: auto;
   overflow-y: auto;
   position: fixed;
   top: 50%;
@@ -272,6 +275,7 @@
 
 .product-modal-name {
   font-size: 1.5em;
+  font-weight: bold;
   color: #333;
   margin-bottom: 10px;
 }
@@ -325,6 +329,7 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  border-radius: 10px;
 }
 
 .login-modal {

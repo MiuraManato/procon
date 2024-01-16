@@ -329,7 +329,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
-                          <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
+                          <div className={styles["cart-item-price"]}>{menuProduct.product.price}円</div>
                           <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                           <div>
                             <button
