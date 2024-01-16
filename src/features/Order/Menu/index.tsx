@@ -506,8 +506,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         {orderCheckModal && (
           <div className={styles["modal"]} onClick={() => setOrderCheckModal(false)}>
             <div className={styles["order-check-modal"]} onClick={(e) => handleModalInsideClick(e)}>
-              <p>以下の商品を注文します。よろしいですか？</p>
-              <div>
+              <p className={styles["order-title"]}>以下の商品を注文します。よろしいですか？</p>
+              <div className={styles["order-check-modal-content"]}>
                 {cart.map((item) => (
                   <div key={item.id} className={styles["cart-item"]}>
                     {menuData
@@ -517,16 +517,22 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
-                          <div className={styles["cart-item-price"]}>{menuProduct.product.price}</div>
+                          <div className={styles["cart-item-price"]}>{menuProduct.product.price}円</div>
                           <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                         </React.Fragment>
                       ))}
                   </div>
                 ))}
               </div>
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <button onClick={handleOrder}>はい</button>
-              <button onClick={() => setOrderCheckModal(false)}>いいえ</button>
+              <div className={styles["order-button"]}>
+                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                <button className={styles["order-modal-button"]} onClick={handleOrder}>
+                  注文する
+                </button>
+                <button className={styles["order-modal-button"]} onClick={() => setOrderCheckModal(false)}>
+                  やめる
+                </button>
+              </div>
             </div>
           </div>
         )}
