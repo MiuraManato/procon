@@ -27,7 +27,7 @@ const updateOrder = async (req: OrderNextApiRequest, res: NextApiResponse) => {
             },
           }),
         ),
-        ...users.map((user) =>
+        users.map((user) =>
           prisma.orderUser.create({
             data: {
               orderId: order.orderId,
