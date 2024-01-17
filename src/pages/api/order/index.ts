@@ -17,25 +17,26 @@ const updateOrder = async (req: OrderNextApiRequest, res: NextApiResponse) => {
         },
       });
 
-      const transactions = [
-        ...cart.map((item) =>
-          prisma.orderDetail.create({
-            data: {
-              orderId: order.orderId,
-              productId: item.id,
-              quantity: item.count,
-            },
-          }),
-        ),
-        users.map((user) =>
-          prisma.orderUser.create({
-            data: {
-              orderId: order.orderId,
-              userId: user.userId,
-            },
-          }),
-        ),
-      ];
+      const cartTransactions = cart.map((item) =>
+        prisma.orderDetail.create({
+          data: {
+            orderId: order.orderId,
+            productId: item.id,
+            quantity: item.count,
+          },
+        }),
+      );
+
+      const userTransactions = users.map((userId) =>
+        prisma.orderUser.create({
+          data: {
+            orderId: order.orderId,
+            userId: userId,
+          },
+        }),
+      );
+
+      const transactions = [...cartTransactions, ...userTransactions];
 
       await Promise.all(transactions);
     });
