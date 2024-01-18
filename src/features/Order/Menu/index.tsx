@@ -26,6 +26,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [checkAccounting, setCheckAccounting] = useState(false);
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
+  const [callingModal, setCallingModal] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -48,6 +49,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   const handleCallingTable = async () => {
+    setCallingModal(true);
     const res = await fetch(`/api/table/UpdateCalling/${table}`, {
       method: "PUT",
       headers: {
@@ -55,7 +57,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       },
       body: JSON.stringify({ callingStatus: true }),
     });
-    alert("従業員を呼び出しました。しばらくお待ちください。");
     if (!res.ok) {
       throw new Error("UpdateCalling failed");
     }
@@ -88,6 +89,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
+  };
+
+  const handleCloseCallingModal = () => {
+    setCallingModal(false);
   };
 
   const tryLogin = async (uid: string) => {
@@ -514,6 +519,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         )}
+
+        {callingModal && (
+          <div className={styles["outside-modal"]} onClick={handleCloseCallingModal}>
+            <div className={`${styles["calling-modal"]}`}>
+              <div className={styles["calling-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["calling-text"]}>従業員を呼び出しています。しばらくお待ちください。</p>
+                <button className={styles["calling-button"]} onClick={handleCloseCallingModal}>
+                  閉じる
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {orderCheckModal && (
           <div className={styles["modal"]} onClick={() => setOrderCheckModal(false)}>
             <div className={styles["order-check-modal"]} onClick={(e) => handleModalInsideClick(e)}>
