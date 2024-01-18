@@ -49,6 +49,7 @@ export const Login = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.label}>
             <div className={styles["label-text"]}>メールアドレス</div>
+            <div className={styles["email-form"]}>
             <input
               type="email"
               name="email"
@@ -57,12 +58,14 @@ export const Login = () => {
               onBlur={() => setTouched({ ...touched, email: true })}
               onChange={(e) => setEmail(e.target.value)}
             />
+            </div>
             <br />
             {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
           </label>
           <br />
           <label className={styles.label}>
             <div className={styles["label-text"]}>パスワード</div>
+            <div className={styles["password-form"]}>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -74,6 +77,7 @@ export const Login = () => {
             <button type="button" onClick={togglePasswordVisibility}>
               <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
             </button>
+            </div>
 
             <br />
             {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
