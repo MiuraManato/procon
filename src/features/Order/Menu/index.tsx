@@ -26,6 +26,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [checkAccounting, setCheckAccounting] = useState(false);
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
+  const [callingModal, setCallingModal] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -48,6 +49,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   const handleCallingTable = async () => {
+    setCallingModal(true);
     const res = await fetch(`/api/table/UpdateCalling/${table}`, {
       method: "PUT",
       headers: {
@@ -55,7 +57,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       },
       body: JSON.stringify({ callingStatus: true }),
     });
-    alert("従業員を呼び出しました。しばらくお待ちください。");
     if (!res.ok) {
       throw new Error("UpdateCalling failed");
     }
@@ -74,6 +75,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setLoginErrorMessage("");
   };
 
+  const handleSetIsConfirmLoginModalClose = () => {
+    setIsConfirmLoginModalOpen(false);
+  };
+
   const handleSetAccountingModaloutsideClick = () => {
     setCheckAccounting(false);
   };
@@ -84,6 +89,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleModalInsideClick = (event: React.MouseEvent) => {
     event.stopPropagation();
+  };
+
+  const handleCloseCallingModal = () => {
+    setCallingModal(false);
   };
 
   const tryLogin = async (uid: string) => {
@@ -494,15 +503,36 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         )}
         {isConfirmLoginModalOpen && (
-          <div className={styles["modal"]} onClick={() => handleLoginModalOutsideClick()}>
+          <div className={styles["modal"]} onClick={() => handleSetIsConfirmLoginModalClose()}>
             <div className={styles["confirm-login-modal"]} onClick={(e) => handleModalInsideClick(e)}>
               <p>以下のユーザーでログインしますか？</p>
-              <p>{pendingLoginUser?.username}</p>
-              <button onClick={confirmLogin}>ログイン</button>
-              <button onClick={() => setIsConfirmLoginModalOpen(false)}>キャンセル</button>
+              <p className={styles["confirm-login-user"]}>{pendingLoginUser?.username}</p>
+              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
+                ログイン
+              </button>
+              <button
+                className={styles["confirm-login-button-cancel"]}
+                onClick={() => setIsConfirmLoginModalOpen(false)}
+              >
+                キャンセル
+              </button>
             </div>
           </div>
         )}
+
+        {callingModal && (
+          <div className={styles["outside-modal"]} onClick={handleCloseCallingModal}>
+            <div className={`${styles["calling-modal"]}`}>
+              <div className={styles["calling-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["calling-text"]}>従業員を呼び出しています。しばらくお待ちください。</p>
+                <button className={styles["calling-button"]} onClick={handleCloseCallingModal}>
+                  閉じる
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {orderCheckModal && (
           <div className={styles["modal"]} onClick={() => setOrderCheckModal(false)}>
             <div className={styles["order-check-modal"]} onClick={(e) => handleModalInsideClick(e)}>
@@ -554,22 +584,31 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
 
         {checkAccounting && (
-          <div className={`${styles.errorModal} ${styles.modal}`} onClick={handleSetAccountingModaloutsideClick}>
-            <div className={styles.errorModalContent} onClick={handleModalInsideClick}>
-              <p className={styles.errorModalText}>お会計に進みます。よろしいですか？</p>
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <button
-                onClick={() => {
-                  setCheckAccounting(false);
-                  void handlePay();
-                }}
-              >
-                会計に進む
-              </button>
-              <button onClick={() => setCheckAccounting(false)}>戻る</button>
+          <div className={styles["outside-modal"]} onClick={handleSetAccountingModaloutsideClick}>
+            <div className={`${styles["check-accounting-modal"]}`}>
+              <div className={styles["check-accounting-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["check-accounting"]}>お会計に進みます。よろしいですか？</p>
+                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                <button
+                  className={styles["check-accounting-button"]}
+                  onClick={() => {
+                    setCheckAccounting(false);
+                    void handlePay();
+                  }}
+                >
+                  会計に進む
+                </button>
+                <button
+                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
+                  onClick={() => setCheckAccounting(false)}
+                >
+                  戻る
+                </button>
+              </div>
             </div>
           </div>
         )}
+
         {isRunningProcess && (
           <div className={styles.errorModal}>
             <div className={styles.errorModalContent}>

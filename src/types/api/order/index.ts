@@ -7,8 +7,6 @@ export interface OrderNextApiRequest extends NextApiRequest {
       id: number;
       count: number;
     }[];
-    users: {
-      userId: string;
-    }[];
+    users: string[];
   };
 }
