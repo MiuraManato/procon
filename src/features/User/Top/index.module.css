@@ -1,17 +1,16 @@
+
+
 .header {
   background-color: #ffffff; /* ヘッダーの背景色 */
   display: flex;
   flex-direction: column;
   align-items: center; /* 横方向にセンター寄せ */
   text-align: center; /* テキストもセンター寄せ */
-
-  /* 以下は余白や装飾に関するスタイルです。必要に応じて調整してください。 */
-  padding: 20px;
 }
 
 .store-name {
-  margin-bottom: 10px;
   color: #13b8ff;
+  margin-top :41px;
 }
 
 .link {
@@ -23,6 +22,8 @@
   border: #000000 solid 2px;
   background-color: #7fe8fb;
   position: relative;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .link-font {
@@ -89,7 +90,8 @@
   flex-direction: column;
   align-items: center; /* 横方向にセンター寄せ */
   text-align: center; /* テキストもセンター寄せ */
-  margin-top: 80px;
+  margin-top: 100px;
+
 }
 
 .title {
@@ -122,19 +124,22 @@
   margin-top: 20px;
 }
 
+
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
   .header {
-    padding: 16px;
+    padding: 0px;
   }
 
   .store-name {
-    margin-bottom: 5px;
+    margin-top: 0px;
+    margin-bottom: 3px;
     font-size: 25px;
   }
 
   .link {
     gap: 8px;
     padding: 8px;
+    margin-top: 3px;
   }
 
   .link-font {
@@ -142,12 +147,7 @@
   }
 
   .base {
-    background-color: #ffffff; /* 全体の背景色 */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 横方向にセンター寄せ */
-    text-align: center; /* テキストもセンター寄せ */
-    margin-top: 30px;
+    margin-top: 0px;
   }
 
   .title {
