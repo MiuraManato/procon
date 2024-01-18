@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   height: 49vh;
-  margin: 34px
+  margin: 34px;
 }
 
 .form {
@@ -29,7 +29,6 @@
 .password-form {
   position: relative;
 }
-
 
 .password-form button {
   position: absolute;
