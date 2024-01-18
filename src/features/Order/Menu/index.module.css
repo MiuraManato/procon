@@ -163,6 +163,10 @@
   margin-left: 5px;
 }
 
+.margin-left-40px {
+  margin-left: 40px;
+}
+
 .menu-contents {
   display: flex;
   /* justify-content: space-between; */
@@ -584,6 +588,56 @@
   padding-right: 30px;
   padding-top: 3px;
   padding-bottom: 2px;
+}
+
+.check-accounting {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.check-accounting-modal {
+  background-color: #fff;
+  /* border: 1px solid #333; */
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: 50%;
+  height: 23%;
+  overflow-y: auto;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.check-accounting-contents {
+  margin-top: 5%;
+}
+
+.check-accounting-button {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.outside-modal {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */

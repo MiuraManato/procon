@@ -565,22 +565,31 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
 
         {checkAccounting && (
-          <div className={`${styles.errorModal} ${styles.modal}`} onClick={handleSetAccountingModaloutsideClick}>
-            <div className={styles.errorModalContent} onClick={handleModalInsideClick}>
-              <p className={styles.errorModalText}>お会計に進みます。よろしいですか？</p>
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <button
-                onClick={() => {
-                  setCheckAccounting(false);
-                  void handlePay();
-                }}
-              >
-                会計に進む
-              </button>
-              <button onClick={() => setCheckAccounting(false)}>戻る</button>
+          <div className={styles["outside-modal"]} onClick={handleSetAccountingModaloutsideClick}>
+            <div className={`${styles["check-accounting-modal"]}`}>
+              <div className={styles["check-accounting-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["check-accounting"]}>お会計に進みます。よろしいですか？</p>
+                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                <button
+                  className={styles["check-accounting-button"]}
+                  onClick={() => {
+                    setCheckAccounting(false);
+                    void handlePay();
+                  }}
+                >
+                  会計に進む
+                </button>
+                <button
+                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
+                  onClick={() => setCheckAccounting(false)}
+                >
+                  戻る
+                </button>
+              </div>
             </div>
           </div>
         )}
+
         {isRunningProcess && (
           <div className={styles.errorModal}>
             <div className={styles.errorModalContent}>
