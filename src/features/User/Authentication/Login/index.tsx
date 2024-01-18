@@ -50,14 +50,14 @@ export const Login = () => {
           <label className={styles.label}>
             <div className={styles["label-text"]}>メールアドレス</div>
             <div className={styles["email-form"]}>
-            <input
-              type="email"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onBlur={() => setTouched({ ...touched, email: true })}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onBlur={() => setTouched({ ...touched, email: true })}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
             <br />
             {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
@@ -66,17 +66,17 @@ export const Login = () => {
           <label className={styles.label}>
             <div className={styles["label-text"]}>パスワード</div>
             <div className={styles["password-form"]}>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              autoComplete="current-password"
-              value={password}
-              onBlur={() => setTouched({ ...touched, password: true })}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="button" onClick={togglePasswordVisibility}>
-              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-            </button>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                autoComplete="current-password"
+                value={password}
+                onBlur={() => setTouched({ ...touched, password: true })}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button type="button" onClick={togglePasswordVisibility}>
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </button>
             </div>
 
             <br />
