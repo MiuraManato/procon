@@ -1,5 +1,5 @@
 .base {
-  background-color: #76b852; /* 全体の背景色 */
+  background-color: #ffffff; /* 全体の背景色 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,6 @@
   background-color: #ffffff; /* フォームの背景色 */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   text-align: center;
@@ -36,7 +35,7 @@
 
 /* ボタンのスタイル */
 .button {
-  background-color: #4caf50; /* ボタンの背景色 */
+  background-color: #13b8ff; /* ボタンの背景色 */
   color: #ffffff; /* ボタンのテキスト色 */
   padding: 10px 20px;
   font-size: 16px;
@@ -46,7 +45,7 @@
 }
 
 .button:disabled {
-  background-color: #4caf50; /* 無効なボタンの背景色 */
+  background-color: #a3a3a3; /* 無効なボタンの背景色 */
   color: #000000; /* 無効なボタンのテキスト色 */
   cursor: not-allowed;
 }
