@@ -125,14 +125,14 @@
 }
 
 
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation: portrait) {
+@media only screen and (min-device-width: 375px) and (max-device-width: 375px) and (orientation: portrait) {
   .header {
     padding: 0px;
   }
 
   .store-name {
-    margin-top: 0px;
-    margin-bottom: 3px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 25px;
   }
 
@@ -147,7 +147,7 @@
   }
 
   .base {
-    margin-top: 0px;
+    margin-top: 40px;
   }
 
   .title {
@@ -159,9 +159,5 @@
     padding: 40px;
     border-radius: 8px;
     text-align: center;
-  }
-
-  .QR-code {
-    size: 100px;
   }
 }
