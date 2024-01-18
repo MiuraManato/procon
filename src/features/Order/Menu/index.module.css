@@ -360,7 +360,7 @@
 }
 
 .login-modal {
-  background-color: #ecfffa;
+  background-color: #fff;
   border: 1px solid #333;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   padding: 20px;
@@ -418,6 +418,46 @@
 
 .div > * {
   flex-basis: 50%; /* 子要素の基本幅を50%に設定 */
+}
+
+.confirm-login-user {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.confirm-login-modal {
+  border-radius: 20px;
+}
+
+.confirm-login-button-accept {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
+
+.confirm-login-button-cancel {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  margin-left: 30px;
 }
 
 .order-check-modal {

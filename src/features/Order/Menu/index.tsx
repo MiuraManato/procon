@@ -74,6 +74,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setLoginErrorMessage("");
   };
 
+  const handleSetIsConfirmLoginModalClose = () => {
+    setIsConfirmLoginModalOpen(false);
+  };
+
   const handleSetAccountingModaloutsideClick = () => {
     setCheckAccounting(false);
   };
@@ -494,12 +498,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         )}
         {isConfirmLoginModalOpen && (
-          <div className={styles["modal"]} onClick={() => handleLoginModalOutsideClick()}>
+          <div className={styles["modal"]} onClick={() => handleSetIsConfirmLoginModalClose()}>
             <div className={styles["confirm-login-modal"]} onClick={(e) => handleModalInsideClick(e)}>
               <p>以下のユーザーでログインしますか？</p>
-              <p>{pendingLoginUser?.username}</p>
-              <button onClick={confirmLogin}>ログイン</button>
-              <button onClick={() => setIsConfirmLoginModalOpen(false)}>キャンセル</button>
+              <p className={styles["confirm-login-user"]}>{pendingLoginUser?.username}</p>
+              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
+                ログイン
+              </button>
+              <button
+                className={styles["confirm-login-button-cancel"]}
+                onClick={() => setIsConfirmLoginModalOpen(false)}
+              >
+                キャンセル
+              </button>
             </div>
           </div>
         )}
