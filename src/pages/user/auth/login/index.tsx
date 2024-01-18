@@ -1,7 +1,13 @@
+import { UserHeader } from "@/components/User/Header";
 import { Login } from "@/features/User/Authentication/Login";
 
 const LoginPage = () => {
-  return <Login />;
+  return(
+    <div>
+      <UserHeader />
+      <Login />
+    </div>
+  )
 };
 
 export default LoginPage;
