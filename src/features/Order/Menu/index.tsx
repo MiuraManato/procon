@@ -27,6 +27,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [callingModal, setCallingModal] = useState<boolean>(false);
+  const [checkAccountingError, setCheckAccountingError] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -122,6 +123,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     return;
     setShowLogoutConfirmation(true);
     setSelectedUserId(userId);
+  };
+
+  const handleCloseModal = () => {
+    setCheckAccountingError(false);
   };
 
   const logoutUser = () => {
@@ -253,9 +258,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <button className={styles["category-button"]}>
                 <p
                   className={styles["category-list"]}
-                  onClick={() =>
-                    isOrdered ? setCheckAccounting(true) : alert("注文をしていないためお会計には進めません。")
-                  }
+                  onClick={() => (isOrdered ? setCheckAccounting(true) : setCheckAccountingError(true))}
                 >
                   会計
                 </p>
@@ -579,6 +582,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               >
                 テーブルIDを設定する
               </button>
+            </div>
+          </div>
+        )}
+
+        {checkAccountingError && (
+          <div className={styles["outside-modal"]} onClick={handleCloseModal}>
+            <div className={`${styles["calling-modal"]}`}>
+              <div className={styles["calling-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["calling-text"]}>注文をしていないため、お会計には進めません。</p>
+                <button className={styles["calling-button"]} onClick={handleCloseModal}>
+                  閉じる
+                </button>
+              </div>
             </div>
           </div>
         )}
