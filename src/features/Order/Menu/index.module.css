@@ -678,6 +678,70 @@
   font-size: 1rem;
 }
 
+.order-history-modal {
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: 80%;
+  height: 80%;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.order-history-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-history-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.order-history-item-div {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1em;
+  color: #555;
+}
+
+.order-history-item-sum {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.modal-close-button {
+  position: relative;
+  bottom: 10px;
+  left: 75%;
+  font-size: 1.5em;
+  size: 1.5em;
+  cursor: pointer;
+  width: 20%;
+  padding: 10px 0px;
+}
+
+.flex {
+  display: flex;
+}
+
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .product-item {
