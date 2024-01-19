@@ -5,6 +5,7 @@ import { Allergy } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
 import router from "next/router";
 import { exUser } from "./type";
+import { Order } from "@/features/Employee/OrderList/type";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
@@ -27,6 +28,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [callingModal, setCallingModal] = useState<boolean>(false);
+  const [checkAccountingError, setCheckAccountingError] = useState<boolean>(false);
+  const [openOrderHistory, setOpenOrderHistory] = useState<boolean>(false);
+  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
+  const [nowLoading, setNowLoading] = useState<boolean>(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -124,6 +129,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setSelectedUserId(userId);
   };
 
+  const handleCloseModal = () => {
+    setCheckAccountingError(false);
+  };
+
   const logoutUser = () => {
     setLoginUsers((prevUsers) => prevUsers.filter((user) => user.userId !== selectedUserId));
     setShowLogoutConfirmation(false);
@@ -165,6 +174,43 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const orderCheck = () => {
     setOrderCheckModal(true);
+  };
+
+  const convertStatus = (ORDERSTATUS: string) => {
+    switch (ORDERSTATUS) {
+      case "ORDERED":
+        return "注文済み";
+      case "COOKING":
+        return "調理中";
+      case "SERVED":
+        return "提供済み";
+      default:
+        return "不明";
+    }
+  };
+
+  const handleSetOpenOrderHistory = async () => {
+    setOpenOrderHistory(true);
+    await getOrderHistory()
+      .then(() => console.log("get order history success"))
+      .catch();
+  };
+
+  const getOrderHistory = async () => {
+    setNowLoading(true);
+    const res = await fetch(`/api/order/get/${table}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Get order history failed");
+    }
+    console.log(res);
+    const data: Order[] = (await res.json()) as Order[];
+    setOrderHistory(data);
+    setNowLoading(false);
   };
 
   const handleOrder = async () => {
@@ -234,7 +280,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               </button>
             </div>
             <div className={styles["utilities-container"]}>
-              <button className={styles["category-button"]}>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+              <button className={styles["category-button"]} onClick={handleSetOpenOrderHistory}>
                 <p className={styles["category-list"]}>注文履歴</p>
               </button>
             </div>
@@ -253,9 +300,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <button className={styles["category-button"]}>
                 <p
                   className={styles["category-list"]}
-                  onClick={() =>
-                    isOrdered ? setCheckAccounting(true) : alert("注文をしていないためお会計には進めません。")
-                  }
+                  onClick={() => (isOrdered ? setCheckAccounting(true) : setCheckAccountingError(true))}
                 >
                   会計
                 </p>
@@ -399,6 +444,57 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         )}
+
+        {openOrderHistory && (
+          <div>
+            <div className={styles["modal"]} onClick={() => setOpenOrderHistory(false)}>
+              <div className={styles["order-history-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+                <p className={styles["order-history-title"]}>注文履歴</p>
+                <div className={styles["order-history-content"]}>
+                  {nowLoading ? (
+                    <p className={styles["order-history-loading"]}>読み込み中...</p>
+                  ) : (
+                    <>
+                      {orderHistory.map((order) => (
+                        <div key={order.orderId} className={styles["order-history-item"]}>
+                          {order.orderDetail.map((orderDetail) => (
+                            <React.Fragment key={orderDetail.orderDetailId}>
+                              <div className={styles["order-history-item-div"]}>
+                                <div className={styles["order-history-item-name"]}>
+                                  {orderDetail.product.productName}
+                                </div>
+                                <div className={styles["order-history-item-price"]}>{orderDetail.product.price}円</div>
+                                <div className={styles["order-history-item-count"]}>数量：{orderDetail.quantity}</div>
+                                <div>調理ステータス：{convertStatus(orderDetail.orderStatus)}</div>
+                              </div>
+                            </React.Fragment>
+                          ))}
+                          <div className={styles["order-history-item-sum"]}>
+                            1注文の合計金額：{order.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0)}円
+                          </div>
+                        </div>
+                      ))}
+                      <div className={styles["flex"]}>
+                        <div className={styles["order-history-item-sum-all"]}>
+                          合計金額：
+                          {orderHistory.reduce(
+                            (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+                            0,
+                          )}
+                          円
+                        </div>
+                        <button className={styles["modal-close-button"]} onClick={() => setOpenOrderHistory(false)}>
+                          閉じる
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {productModal && (
           <div className={styles["modal"]} onClick={handleProductModalOutsideClick}>
             <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
@@ -579,6 +675,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               >
                 テーブルIDを設定する
               </button>
+            </div>
+          </div>
+        )}
+
+        {checkAccountingError && (
+          <div className={styles["outside-modal"]} onClick={handleCloseModal}>
+            <div className={`${styles["calling-modal"]}`}>
+              <div className={styles["calling-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["calling-text"]}>注文をしていないため、お会計には進めません。</p>
+                <button className={styles["calling-button"]} onClick={handleCloseModal}>
+                  閉じる
+                </button>
+              </div>
             </div>
           </div>
         )}
