@@ -446,7 +446,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         )}
 
         {openOrderHistory && (
-          <div className={styles["flex"]}>
+          <div>
             <div className={styles["modal"]} onClick={() => setOpenOrderHistory(false)}>
               <div className={styles["order-history-modal"]} onClick={(e) => handleModalInsideClick(e)}>
                 <p className={styles["order-history-title"]}>注文履歴</p>
@@ -474,20 +474,22 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           </div>
                         </div>
                       ))}
-                      <div className={styles["order-history-item-sum"]}>
-                        合計金額：
-                        {orderHistory.reduce(
-                          (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
-                          0,
-                        )}
-                        円
+                      <div className={styles["flex"]}>
+                        <div className={styles["order-history-item-sum-all"]}>
+                          合計金額：
+                          {orderHistory.reduce(
+                            (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+                            0,
+                          )}
+                          円
+                        </div>
+                        <button className={styles["modal-close-button"]} onClick={() => setOpenOrderHistory(false)}>
+                          閉じる
+                        </button>
                       </div>
                     </>
                   )}
                 </div>
-                <button className={styles["modal-close-button"]} onClick={() => setOpenOrderHistory(false)}>
-                  閉じる
-                </button>
               </div>
             </div>
           </div>
