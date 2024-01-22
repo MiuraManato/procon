@@ -198,9 +198,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleSetOpenOrderHistory = async () => {
     setOpenOrderHistory(true);
-    await getOrderHistory()
-      .then(() => console.log("get order history success"))
-      .catch();
+    await getOrderHistory().then().catch();
   };
 
   const getOrderHistory = async () => {
@@ -214,7 +212,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     if (!res.ok) {
       throw new Error("Get order history failed");
     }
-    console.log(res);
     const data: Order[] = (await res.json()) as Order[];
     setOrderHistory(data);
     setNowLoading(false);
@@ -253,9 +250,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handlePay = async () => {
     setIsRunningProcess(true);
-    await getOrderHistory()
-      .then(() => console.log("get order history success"))
-      .catch();
+    await getOrderHistory().then().catch();
     setSum(
       orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0),
     );
