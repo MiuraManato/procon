@@ -1,4 +1,4 @@
-import { MenuData } from "@/features/Order/Menu/type";
+import { MenuData, tableData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
 import { Allergy } from "@prisma/client";
@@ -18,6 +18,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
   const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
+  const [tableName, setTableName] = useState<string | null>(null);
   const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
   const [pendingLoginUser, setPendingLoginUser] = useState<exUser | null>(null);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
@@ -32,6 +33,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [openOrderHistory, setOpenOrderHistory] = useState<boolean>(false);
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [nowLoading, setNowLoading] = useState<boolean>(false);
+  const [paymentModal, setPaymentModal] = useState<boolean>(false);
+  const [sum, setSum] = useState<number>(0);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -230,8 +233,32 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setOrderCheckModal(false);
   };
 
+  const getTableName = async () => {
+    const res = await fetch(`/api/table/getTableName/${table}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Get table name failed");
+    }
+    const data: tableData = (await res.json()) as tableData;
+    setTableName(data.table.tableName);
+    console.log(res);
+    console.log(data);
+    console.log(tableName);
+  };
+
   const handlePay = async () => {
     setIsRunningProcess(true);
+    await getOrderHistory()
+      .then(() => console.log("get order history success"))
+      .catch();
+    setSum(
+      orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0),
+    );
+    await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
       headers: {
@@ -243,7 +270,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     if (!res.ok) {
       throw new Error("Pay failed");
     }
-    void router.push("/order/payment").then().catch();
+    setIsRunningProcess(false);
+    setPaymentModal(true);
   };
 
   useEffect(() => {
@@ -723,6 +751,23 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={styles.errorModalContent}>
               <p className={styles.errorModalText}>会計処理中です</p>
               <p className={styles.errorModalText}>しばらくお待ちください</p>
+            </div>
+          </div>
+        )}
+
+        {paymentModal && (
+          <div className={`${styles["payment-modal"]}`}>
+            <div className={styles["payment-contents"]} onClick={handleModalInsideClick}>
+              <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
+              <p className={styles["payment-text"]}>
+                お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
+              </p>
+              <p className={styles["payment-text"]}>
+                レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
+              </p>
+              <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
+                閉じる
+              </button>
             </div>
           </div>
         )}
