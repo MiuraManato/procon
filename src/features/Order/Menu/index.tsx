@@ -16,7 +16,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [productModal, setProductModal] = useState<number | null>(null);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
-  const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
+  const [cart, setCart] = useState<{ menuProductId: number; productId: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
   const [tableName, setTableName] = useState<string | null>(null);
   const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
@@ -142,35 +142,39 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   };
 
   // カートに商品を追加する関数
-  const addCart = (e: React.MouseEvent, menuProductId: number) => {
+  const addCart = (e: React.MouseEvent, menuProductId: number, productId: number) => {
     e.stopPropagation();
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      const existingItem = prevCart.find((item) => item.menuProductId === menuProductId);
       if (existingItem) {
         // 既存の商品の数量を増やす
-        return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count + 1 } : item));
+        return prevCart.map((item) =>
+          item.menuProductId === menuProductId ? { ...item, count: item.count + 1 } : item,
+        );
       } else {
         // 新しい商品を追加
-        return [...prevCart, { id: menuProductId, count: 1 }];
+        return [...prevCart, { menuProductId: menuProductId, count: 1, productId: productId }];
       }
     });
   };
 
-  const decrementItem = (e: React.MouseEvent, menuProductId: number) => {
+  const decrementItem = (e: React.MouseEvent, menuProductId: number, productId: number) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      const existingItem = prevCart.find((item) => item.menuProductId === menuProductId);
       if (existingItem) {
         // 既存の商品の数量を減らす
         if (existingItem.count - 1 === 0) {
           // 商品の数量が0になったら、その商品をカートから削除
-          return prevCart.filter((item) => item.id !== menuProductId);
+          return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
-          return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count - 1 } : item));
+          return prevCart.map((item) =>
+            item.menuProductId === menuProductId ? { ...item, count: item.count - 1 } : item,
+          );
         }
       } else {
         // 新しい商品を追加
-        return [...prevCart, { id: menuProductId, count: 1 }];
+        return [...prevCart, { menuProductId: menuProductId, productId: productId, count: 1 }];
       }
     });
   };
@@ -359,7 +363,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                             <div className={styles.cartButton}>
                               <button
                                 className={styles["cart-button"]}
-                                onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                                onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                               >
                                 カートに入れる
                               </button>
@@ -400,11 +404,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <p className={styles["cart-title"]}>現在のカート</p>
               <div className={styles["cart-items"]}>
                 {cart.map((item) => (
-                  <div key={item.id} className={styles["cart-item"]}>
+                  <div key={item.menuProductId} className={styles["cart-item"]}>
                     {menuData
                       .map((menu) => menu.menuProducts)
                       .flat()
-                      .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                      .filter((menuProduct) => menuProduct.menuProductId === item.menuProductId)
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
@@ -413,13 +417,13 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <div>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-right"]}`}
-                              onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                              onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               +
                             </button>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-left"]}`}
-                              onClick={(e) => decrementItem(e, menuProduct.menuProductId)}
+                              onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               -
                             </button>
@@ -553,7 +557,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <div className={styles.cartButton}>
                           <button
                             className={styles["cart-button"]}
-                            onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                            onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                           >
                             カートに入れる
                           </button>
@@ -660,11 +664,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <p className={styles["order-title"]}>以下の商品を注文します。よろしいですか？</p>
               <div className={styles["order-check-modal-content"]}>
                 {cart.map((item) => (
-                  <div key={item.id} className={styles["cart-item"]}>
+                  <div key={item.menuProductId} className={styles["cart-item"]}>
                     {menuData
                       .map((menu) => menu.menuProducts)
                       .flat()
-                      .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                      .filter((menuProduct) => menuProduct.menuProductId === item.menuProductId)
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
