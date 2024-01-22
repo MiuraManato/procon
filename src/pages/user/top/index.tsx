@@ -7,7 +7,7 @@ const TopPage = () => {
       <UserHeader />
       <Top />
     </div>
-  )
+  );
 };
 
 export default TopPage;
