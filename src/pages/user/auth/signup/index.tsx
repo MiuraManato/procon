@@ -1,7 +1,13 @@
 import { Signup } from "@/features/User/Authentication/Signup/";
+import { UserHeader } from "@/components/User/Header";
 
 const SignupPage = () => {
-  return <Signup />;
+  return (
+    <div>
+      <UserHeader />
+      <Signup />
+    </div>
+  );
 };
 
 export default SignupPage;
