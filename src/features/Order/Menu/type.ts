@@ -54,4 +54,12 @@ type exUser = User & {
   ingredients: Ingredient[];
 };
 
-export type { MenuData, GetMenuDataFunction, exUser };
+type tableData = {
+  table: {
+    tableId: number;
+    tableName: string;
+    storeId: number;
+  };
+};
+
+export type { MenuData, GetMenuDataFunction, exUser, tableData };
