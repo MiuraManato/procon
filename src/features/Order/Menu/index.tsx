@@ -290,7 +290,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <div key={menu.menuCategoryName} className={styles["category-container"]}>
                   <button
                     className={`${styles["category-button"]}
-                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
+                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button-notactive"]}`}
                     onClick={() => handleSetNowCategory(menu.menuId)}
                   >
                     <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
