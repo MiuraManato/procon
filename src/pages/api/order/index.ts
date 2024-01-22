@@ -21,7 +21,7 @@ const updateOrder = async (req: OrderNextApiRequest, res: NextApiResponse) => {
         prisma.orderDetail.create({
           data: {
             orderId: order.orderId,
-            productId: item.id,
+            productId: item.productId,
             quantity: item.count,
           },
         }),

@@ -4,7 +4,8 @@ export interface OrderNextApiRequest extends NextApiRequest {
   body: {
     table: number;
     cart: {
-      id: number;
+      menuProductId: number;
+      productId: number;
       count: number;
     }[];
     users: string[];
