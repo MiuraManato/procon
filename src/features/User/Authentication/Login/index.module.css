@@ -7,6 +7,12 @@
   margin: 34px;
 }
 
+.error {
+  color: red;
+  margin-bottom: 57px;
+  font-size: 20px;
+}
+
 .form {
   background-color: #ffffff; /* フォームの背景色 */
   padding: 20px;
@@ -115,4 +121,11 @@
 
 .link {
   color: #1e90ff; /* リンクのテキスト色 */
+}
+
+@media only screen and (max-device-width: 375px) and (max-device-height: 667px) and (orientation: portrait) {
+  .error {
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
 }
