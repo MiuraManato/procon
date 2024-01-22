@@ -245,9 +245,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     }
     const data: tableData = (await res.json()) as tableData;
     setTableName(data.table.tableName);
-    console.log(res);
-    console.log(data);
-    console.log(tableName);
   };
 
   const handlePay = async () => {
@@ -353,7 +350,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <div
                             key={menuProduct.menuProductId}
                             className={styles["product-item"]}
-                            onClick={() => setProductModal(menuProduct.product.productId)}
+                            onClick={() => setProductModal(menuProduct.menuProductId)}
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className={styles.productImage} src={menuProduct.product.imageUrl} alt="product" />
