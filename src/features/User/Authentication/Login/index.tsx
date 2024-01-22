@@ -1,17 +1,26 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { doLogin } from "./doLogin";
+
+import styles from "./index.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [touched, setTouched] = useState({
     email: false,
     password: false,
   });
   const router = useRouter();
+
+  const togglePasswordVisibility = (): void => {
+    setShowPassword(!showPassword);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,38 +43,54 @@ export const Login = () => {
 
   return (
     <>
-      <div>
+      <div className={styles.base}>
         {loginError && <div>{loginError}</div>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form onSubmit={handleSubmit}>
-          <label>
-            <div>メールアドレス</div>
-            <input
-              type="email"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onBlur={() => setTouched({ ...touched, email: true })}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {touched.email && !email && <span>メールアドレスを入力してください</span>}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>メールアドレス</div>
+            <div className={styles["email-form"]}>
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onBlur={() => setTouched({ ...touched, email: true })}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <br />
+            {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
           </label>
           <br />
-          <label>
-            <div>パスワード</div>
-            <input
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              value={password}
-              onBlur={() => setTouched({ ...touched, password: true })}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {touched.password && !password && <span>パスワードを入力してください</span>}
-            <Link href={"/user/auth/password/reset"}>パスワードを忘れた場合</Link>
-          </label>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>パスワード</div>
+            <div className={styles["password-form"]}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                autoComplete="current-password"
+                value={password}
+                onBlur={() => setTouched({ ...touched, password: true })}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button type="button" onClick={togglePasswordVisibility}>
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </button>
+            </div>
 
-          <button type="submit" disabled={!email || !password}>
+            <br />
+            {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
+            <div className={styles["blank"]}></div>
+            <div>
+              <Link href={"/user/auth/password/reset"} className={styles.link}>
+                パスワードを忘れた場合
+              </Link>
+            </div>
+          </label>
+          <br />
+
+          <button type="submit" disabled={!email || !password} className={styles.button}>
             ログイン
           </button>
         </form>

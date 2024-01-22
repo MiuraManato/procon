@@ -1,0 +1,118 @@
+.base {
+  background-color: #ffffff; /* 全体の背景色 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 49vh;
+  margin: 34px;
+}
+
+.form {
+  background-color: #ffffff; /* フォームの背景色 */
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.input-box::after {
+  white-space: pre;
+}
+
+.email-form input {
+  width: 100%;
+  height: 48px;
+  font-size: 18px;
+}
+
+.password-form {
+  position: relative;
+}
+
+.password-form button {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+}
+
+.password-form input {
+  width: 100%;
+  height: 48px;
+  font-size: 18px;
+}
+
+.label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.label-text {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+.label-text ::after {
+  white-space: pre;
+}
+
+/* ボタンのスタイル */
+.button {
+  background-color: #13b8ff; /* ボタンの背景色 */
+  color: #ffffff; /* ボタンのテキスト色 */
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #a3a3a3; /* 無効なボタンの背景色 */
+  color: #000000; /* 無効なボタンのテキスト色 */
+  cursor: not-allowed;
+}
+
+/* モーダルのスタイル */
+.outside-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* モーダルの背景色と透明度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-modal {
+  background-color: #ffffff; /* モーダルの背景色 */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* その他のスタイル */
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.span {
+  color: #ff0000; /* エラーメッセージのテキスト色 */
+  white-space: pre-line;
+}
+
+.blank {
+  margin-top: 20px;
+}
+
+.link {
+  color: #1e90ff; /* リンクのテキスト色 */
+}
