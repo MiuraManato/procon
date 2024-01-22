@@ -46,9 +46,7 @@ export const Login = () => {
       <div className={styles.base}>
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.error}>
-          {loginError && <div>{loginError}</div>}
-          </div>
+          <div className={styles.error}>{loginError && <div>{loginError}</div>}</div>
           <label className={styles.label}>
             <div className={styles["label-text"]}>メールアドレス</div>
             <div className={styles["email-form"]}>
