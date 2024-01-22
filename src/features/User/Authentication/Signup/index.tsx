@@ -14,11 +14,13 @@ export const Signup = () => {
   const [username, setUsername] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [age, setAge] = useState<number>(0);
+  const [age, setAge] = useState<string>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [allowPassword, setAllowPassword] = useState<boolean>(false);
+  const [allowEmail, setAllowEmail] = useState<boolean>(true);
   // 入力欄に一回でもフォーカスが当たったかどうかを管理するstate
   const [touched, setTouched] = useState({
     username: false,
@@ -48,8 +50,24 @@ export const Signup = () => {
   };
 
   // 入力欄の変更を管理する関数
-  const handleAgeChange = (age: number): void => {
-    setAge(age);
+  const handleAgeChange = (value: string) => {
+    if (value === "") {
+      setAge("");
+      return;
+    }
+    // 条件：0以上、整数
+    if (Number(value) < 0 || Number(value) % 1 !== 0) {
+      return;
+    }
+    // 条件：数字のみ
+    if (value.match(/^[0-9]+$/) === null) {
+      return;
+    }
+    // 先頭の0を削除
+    if (value.startsWith("0")) {
+      value = value.replace(/^0+/, "");
+    }
+    setAge(value);
   };
 
   // 入力欄の変更を管理する関数
@@ -77,6 +95,24 @@ export const Signup = () => {
     setTouched({ ...touched, [field]: true });
   };
 
+  // パスワードのバリデーション結果を管理する関数
+  const handleAllowPassword = (password: string): void => {
+    if (password.length === 0) {
+      setAllowPassword(false);
+      return;
+    }
+    setAllowPassword(!ValidatePassword(password));
+  };
+
+  // メールアドレスのバリデーション結果を管理する関数
+  const handleAllowEmail = (email: string): void => {
+    if (email.length === 0) {
+      setAllowEmail(false);
+      return;
+    }
+    setAllowEmail(!ValidateEmail(email));
+  };
+
   // ユーザー登録完了モーダルを表示する関数
   const handleSetOpenModal = () => {
     setModalIsOpen(true);
@@ -92,7 +128,7 @@ export const Signup = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ uid, username, firstName, lastName, age, email }),
+          body: JSON.stringify({ uid, username, firstName, lastName, age: Number(age), email }),
         });
         if (res.status === 200) {
           handleSetOpenModal();
@@ -156,10 +192,14 @@ export const Signup = () => {
               <div className={styles["label-text"]}>年齢</div>
               <div className={styles["input-box"]}>
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   value={age}
+                  placeholder="年齢を入力してください"
                   onBlur={() => handleBlur("age")}
-                  onChange={(e) => handleAgeChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    handleAgeChange(e.target.value);
+                  }}
                 />
               </div>
               {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
@@ -172,11 +212,15 @@ export const Signup = () => {
                 <input
                   type="email"
                   value={email}
-                  onBlur={() => handleBlur("email")}
+                  onBlur={() => {
+                    handleBlur("email");
+                    handleAllowEmail(email);
+                  }}
                   onChange={(e) => handleEmailChange(e.target.value)}
                 />
               </div>
-              {touched.email && email && !ValidateEmail(email) && (
+              {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
+              {touched.email && email && allowEmail && (
                 <span className={styles.span}>メールアドレスの形式が正しくありません</span>
               )}
             </label>
@@ -189,14 +233,18 @@ export const Signup = () => {
                   className={styles["form-input"]}
                   type={showPassword ? "text" : "password"}
                   value={password}
-                  onBlur={() => handleBlur("password")}
+                  onBlur={() => {
+                    handleBlur("password");
+                    handleAllowPassword(password);
+                  }}
                   onChange={(e) => handlePasswordChange(e.target.value)}
                 />
                 <button type="button" onClick={togglePasswordVisibility}>
                   <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                 </button>
               </div>
-              {touched.password && password && !ValidatePassword(password) && (
+              {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
+              {touched.password && password && allowPassword && (
                 <span className={styles.span} style={{ whiteSpace: "pre-line" }}>
                   パスワードは小文字、大文字、数字を含む8文字以上にする必要があります。
                 </span>
@@ -214,6 +262,9 @@ export const Signup = () => {
                   onChange={(e) => handlePasswordConfirmation(e.target.value)}
                 />
               </div>
+              {touched.passwordConfirmation && !passwordConfirmation && (
+                <span className={styles.span}>パスワードを再入力してください</span>
+              )}
               {touched.passwordConfirmation &&
                 passwordConfirmation &&
                 !CheckPasswordMatch(password, passwordConfirmation) && (
