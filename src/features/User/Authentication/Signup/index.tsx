@@ -195,7 +195,6 @@ export const Signup = () => {
                   type="text"
                   inputMode="numeric"
                   value={age}
-                  placeholder="年齢を入力してください"
                   onBlur={() => handleBlur("age")}
                   onChange={(e) => {
                     handleAgeChange(e.target.value);
@@ -229,19 +228,20 @@ export const Signup = () => {
             <label className={styles.label}>
               <div className={styles["label-text"]}>パスワード</div>
               <div className={styles["input-box"]}>
-                <input
-                  className={styles["form-input"]}
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onBlur={() => {
-                    handleBlur("password");
-                    handleAllowPassword(password);
-                  }}
-                  onChange={(e) => handlePasswordChange(e.target.value)}
-                />
-                <button type="button" onClick={togglePasswordVisibility}>
-                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-                </button>
+                <div className={styles["password-form"]}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onBlur={() => {
+                      handleBlur("password");
+                      handleAllowPassword(password);
+                    }}
+                    onChange={(e) => handlePasswordChange(e.target.value)}
+                  />
+                  <button type="button" onClick={togglePasswordVisibility}>
+                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                  </button>
+                </div>
               </div>
               {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
               {touched.password && password && allowPassword && (
