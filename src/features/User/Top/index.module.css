@@ -1,25 +1,75 @@
 .base {
+  background-color: #ffffff; /* 全体の背景色 */
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center; /* 横方向にセンター寄せ */
+  text-align: center; /* テキストもセンター寄せ */
+  margin-top: 100px;
 }
 
-.link {
-  width: calc((78% - 4px) / 3);
-  text-align: center;
-  /* vertical-align: middle; */
-  color: #121111;
+.title {
+  margin-top: 50px;
+  font-size: 20px;
   font-weight: bold;
-  border: solid 1px;
-  margin: 2%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  /* display: inline-block; */
-  border-radius: 16px;
-  height: 100px;
-  font-size: x-large;
 }
 
-.label {
+/* モーダルのスタイル */
+.outside-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* モーダルの背景色と透明度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-modal {
+  background-color: #ffffff; /* モーダルの背景色 */
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-button {
+  margin-top: 20px;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 375px) and (orientation: portrait) {
+  .header {
+    padding: 0px;
+  }
+
+  .store-name {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 25px;
+  }
+
+  .link {
+    gap: 8px;
+    padding: 8px;
+    margin-top: 3px;
+  }
+
+  .link-font {
+    font-size: 18px;
+  }
+
+  .base {
+    margin-top: 40px;
+  }
+
+  .title {
+    margin-top: 30px;
+  }
+
+  .confirm-modal {
+    background-color: #ffffff; /* モーダルの背景色 */
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+  }
 }
