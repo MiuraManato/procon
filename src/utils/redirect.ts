@@ -3,6 +3,6 @@ import { useEffect } from "react";
 
 export const RedirectToHome = () => {
   useEffect(() => {
-    router.push("/user/auth/login").catch((err) => console.error(err));
+    router.push("/user/top").catch((err) => console.error(err));
   }, []);
 };
