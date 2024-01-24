@@ -15,8 +15,8 @@
   width: 200px;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #333;
-  background-color: #f5f5dc;
+  /* border: 1px solid #333; */
+  /* background-color: #f5f5f5; */
   white-space: nowrap;
 }
 
@@ -49,9 +49,19 @@
   width: 100%;
 }
 
+.category-button-notactive {
+  border: 1px solid #333;
+  background-color: rgb(255, 204, 108);
+  font-size: 1em;
+  color: #333;
+  cursor: pointer;
+  width: 100%;
+}
+
 .category-button-active {
-  border: none;
-  background-color: cadetblue;
+  border: 1px solid #333;
+  border-bottom: #fff4ca;
+  background-color: #fff4ca;
   font-size: 1em;
   color: #333;
   cursor: pointer;
@@ -676,6 +686,125 @@
     background-color 0.3s ease,
     transform 0.2s ease;
   font-size: 1rem;
+}
+
+.order-history-modal {
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: 80%;
+  height: 80%;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.order-history-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-history-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.order-history-item-div {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1em;
+  color: #555;
+}
+
+.order-history-item-sum {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.order-history-item-sum-all {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.5em;
+  color: #555;
+}
+
+.modal-close-button {
+  position: relative;
+  /* bottom: 10px; */
+  left: 40%;
+  font-size: 1.5em;
+  size: 1.5em;
+  cursor: pointer;
+  width: 25%;
+  padding: 10px 0px;
+}
+
+.flex {
+  display: flex;
+}
+
+.payment-modal {
+  background-color: #fff4ca;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.payment-contents {
+  /* margin-top: 10%; */
+  background-color: #f2f2f2;
+  border-radius: 15px;
+  text-align: center;
+  padding: 5%;
+  align-items: center;
+  height: 30%;
+  width: 100%;
+  margin-top: 200px;
+}
+
+.payment-text {
+  color: #333;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.payment-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.tableName {
+  font-weight: bold;
 }
 
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */

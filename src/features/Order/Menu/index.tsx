@@ -1,10 +1,11 @@
-import { MenuData } from "@/features/Order/Menu/type";
+import { MenuData, tableData } from "@/features/Order/Menu/type";
 import styles from "./index.module.css";
 import React, { useEffect, useState } from "react";
 import { Allergy } from "@prisma/client";
 import { QrReader } from "react-qr-reader";
 import router from "next/router";
 import { exUser } from "./type";
+import { Order } from "@/features/Employee/OrderList/type";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
@@ -15,8 +16,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [productModal, setProductModal] = useState<number | null>(null);
   const [loginModal, setLoginModal] = useState<boolean>(false);
   const [loginErrorMessage, setLoginErrorMessage] = useState<string>("");
-  const [cart, setCart] = useState<{ id: number; count: number }[]>([]);
+  const [cart, setCart] = useState<{ menuProductId: number; productId: number; count: number }[]>([]);
   const [table, setTable] = useState<number | null>(null);
+  const [tableName, setTableName] = useState<string | null>(null);
   const [isConfirmLoginModalOpen, setIsConfirmLoginModalOpen] = useState<boolean>(false);
   const [pendingLoginUser, setPendingLoginUser] = useState<exUser | null>(null);
   const [showLogoutConfirmation, setShowLogoutConfirmation] = useState<boolean>(false);
@@ -27,6 +29,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [isRunningProcess, setIsRunningProcess] = useState<boolean>(false);
   const [isOrdered, setIsOrdered] = useState<boolean>(false);
   const [callingModal, setCallingModal] = useState<boolean>(false);
+  const [checkAccountingError, setCheckAccountingError] = useState<boolean>(false);
+  const [openOrderHistory, setOpenOrderHistory] = useState<boolean>(false);
+  const [orderHistory, setOrderHistory] = useState<Order[]>([]);
+  const [nowLoading, setNowLoading] = useState<boolean>(false);
+  const [paymentModal, setPaymentModal] = useState<boolean>(false);
+  const [sum, setSum] = useState<number>(0);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -124,47 +132,89 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setSelectedUserId(userId);
   };
 
+  const handleCloseModal = () => {
+    setCheckAccountingError(false);
+  };
+
   const logoutUser = () => {
     setLoginUsers((prevUsers) => prevUsers.filter((user) => user.userId !== selectedUserId));
     setShowLogoutConfirmation(false);
   };
 
   // カートに商品を追加する関数
-  const addCart = (e: React.MouseEvent, menuProductId: number) => {
+  const addCart = (e: React.MouseEvent, menuProductId: number, productId: number) => {
     e.stopPropagation();
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      const existingItem = prevCart.find((item) => item.menuProductId === menuProductId);
       if (existingItem) {
         // 既存の商品の数量を増やす
-        return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count + 1 } : item));
+        return prevCart.map((item) =>
+          item.menuProductId === menuProductId ? { ...item, count: item.count + 1 } : item,
+        );
       } else {
         // 新しい商品を追加
-        return [...prevCart, { id: menuProductId, count: 1 }];
+        return [...prevCart, { menuProductId: menuProductId, count: 1, productId: productId }];
       }
     });
   };
 
-  const decrementItem = (e: React.MouseEvent, menuProductId: number) => {
+  const decrementItem = (e: React.MouseEvent, menuProductId: number, productId: number) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === menuProductId);
+      const existingItem = prevCart.find((item) => item.menuProductId === menuProductId);
       if (existingItem) {
         // 既存の商品の数量を減らす
         if (existingItem.count - 1 === 0) {
           // 商品の数量が0になったら、その商品をカートから削除
-          return prevCart.filter((item) => item.id !== menuProductId);
+          return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
-          return prevCart.map((item) => (item.id === menuProductId ? { ...item, count: item.count - 1 } : item));
+          return prevCart.map((item) =>
+            item.menuProductId === menuProductId ? { ...item, count: item.count - 1 } : item,
+          );
         }
       } else {
         // 新しい商品を追加
-        return [...prevCart, { id: menuProductId, count: 1 }];
+        return [...prevCart, { menuProductId: menuProductId, productId: productId, count: 1 }];
       }
     });
   };
 
   const orderCheck = () => {
     setOrderCheckModal(true);
+  };
+
+  const convertStatus = (ORDERSTATUS: string) => {
+    switch (ORDERSTATUS) {
+      case "ORDERED":
+        return "注文済み";
+      case "COOKING":
+        return "調理中";
+      case "SERVED":
+        return "提供済み";
+      default:
+        return "不明";
+    }
+  };
+
+  const handleSetOpenOrderHistory = async () => {
+    setOpenOrderHistory(true);
+    await getOrderHistory().then().catch();
+  };
+
+  const getOrderHistory = async () => {
+    setNowLoading(true);
+    const res = await fetch(`/api/order/get/${table}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Get order history failed");
+    }
+    const data: Order[] = (await res.json()) as Order[];
+    setOrderHistory(data);
+    setNowLoading(false);
   };
 
   const handleOrder = async () => {
@@ -184,8 +234,27 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setOrderCheckModal(false);
   };
 
+  const getTableName = async () => {
+    const res = await fetch(`/api/table/getTableName/${table}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Get table name failed");
+    }
+    const data: tableData = (await res.json()) as tableData;
+    setTableName(data.table.tableName);
+  };
+
   const handlePay = async () => {
     setIsRunningProcess(true);
+    await getOrderHistory().then().catch();
+    setSum(
+      orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0),
+    );
+    await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
       headers: {
@@ -197,7 +266,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     if (!res.ok) {
       throw new Error("Pay failed");
     }
-    void router.push("/order/payment").then().catch();
+    setIsRunningProcess(false);
+    setPaymentModal(true);
   };
 
   useEffect(() => {
@@ -220,7 +290,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <div key={menu.menuCategoryName} className={styles["category-container"]}>
                   <button
                     className={`${styles["category-button"]}
-                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button"]}`}
+                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button-notactive"]}`}
                     onClick={() => handleSetNowCategory(menu.menuId)}
                   >
                     <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
@@ -234,7 +304,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               </button>
             </div>
             <div className={styles["utilities-container"]}>
-              <button className={styles["category-button"]}>
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+              <button className={styles["category-button"]} onClick={handleSetOpenOrderHistory}>
                 <p className={styles["category-list"]}>注文履歴</p>
               </button>
             </div>
@@ -253,9 +324,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <button className={styles["category-button"]}>
                 <p
                   className={styles["category-list"]}
-                  onClick={() =>
-                    isOrdered ? setCheckAccounting(true) : alert("注文をしていないためお会計には進めません。")
-                  }
+                  onClick={() => (isOrdered ? setCheckAccounting(true) : setCheckAccountingError(true))}
                 >
                   会計
                 </p>
@@ -280,7 +349,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <div
                             key={menuProduct.menuProductId}
                             className={styles["product-item"]}
-                            onClick={() => setProductModal(menuProduct.product.productId)}
+                            onClick={() => setProductModal(menuProduct.menuProductId)}
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img className={styles.productImage} src={menuProduct.product.imageUrl} alt="product" />
@@ -289,7 +358,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                             <div className={styles.cartButton}>
                               <button
                                 className={styles["cart-button"]}
-                                onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                                onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                               >
                                 カートに入れる
                               </button>
@@ -330,11 +399,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <p className={styles["cart-title"]}>現在のカート</p>
               <div className={styles["cart-items"]}>
                 {cart.map((item) => (
-                  <div key={item.id} className={styles["cart-item"]}>
+                  <div key={item.menuProductId} className={styles["cart-item"]}>
                     {menuData
                       .map((menu) => menu.menuProducts)
                       .flat()
-                      .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                      .filter((menuProduct) => menuProduct.menuProductId === item.menuProductId)
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
@@ -343,13 +412,13 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                           <div>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-right"]}`}
-                              onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                              onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               +
                             </button>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-left"]}`}
-                              onClick={(e) => decrementItem(e, menuProduct.menuProductId)}
+                              onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               -
                             </button>
@@ -399,6 +468,57 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         )}
+
+        {openOrderHistory && (
+          <div>
+            <div className={styles["modal"]} onClick={() => setOpenOrderHistory(false)}>
+              <div className={styles["order-history-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+                <p className={styles["order-history-title"]}>注文履歴</p>
+                <div className={styles["order-history-content"]}>
+                  {nowLoading ? (
+                    <p className={styles["order-history-loading"]}>読み込み中...</p>
+                  ) : (
+                    <>
+                      {orderHistory.map((order) => (
+                        <div key={order.orderId} className={styles["order-history-item"]}>
+                          {order.orderDetail.map((orderDetail) => (
+                            <React.Fragment key={orderDetail.orderDetailId}>
+                              <div className={styles["order-history-item-div"]}>
+                                <div className={styles["order-history-item-name"]}>
+                                  {orderDetail.product.productName}
+                                </div>
+                                <div className={styles["order-history-item-price"]}>{orderDetail.product.price}円</div>
+                                <div className={styles["order-history-item-count"]}>数量：{orderDetail.quantity}</div>
+                                <div>調理ステータス：{convertStatus(orderDetail.orderStatus)}</div>
+                              </div>
+                            </React.Fragment>
+                          ))}
+                          <div className={styles["order-history-item-sum"]}>
+                            1注文の合計金額：{order.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0)}円
+                          </div>
+                        </div>
+                      ))}
+                      <div className={styles["flex"]}>
+                        <div className={styles["order-history-item-sum-all"]}>
+                          合計金額：
+                          {orderHistory.reduce(
+                            (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+                            0,
+                          )}
+                          円
+                        </div>
+                        <button className={styles["modal-close-button"]} onClick={() => setOpenOrderHistory(false)}>
+                          閉じる
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {productModal && (
           <div className={styles["modal"]} onClick={handleProductModalOutsideClick}>
             <div className={styles["product-modal"]} onClick={handleModalInsideClick}>
@@ -415,6 +535,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <div className={styles["product-modal-description"]}>{menuProduct.product.description}</div>
                         <div className={styles["product-modal-allergies"]}>
                           <div className={styles["product-modal-allergies-pre"]}>アレルギー：</div>
+                          {menuProduct.product.productAllergies.length === 0 && <>なし</>}
                           {menuProduct.product.productAllergies.map((allergy) => (
                             <div key={allergy.allergyId} className={styles["product-modal-allergies-item"]}>
                               {allergy.allergy.allergyName}
@@ -423,6 +544,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         </div>
                         <div className={styles["product-modal-allergies"]}>
                           <div className={styles["product-modal-allergies-pre"]}>使用食材：</div>
+                          {menuProduct.product.productIngredients.length === 0 && <>なし</>}
                           {menuProduct.product.productIngredients.map((ingredient) => (
                             <div key={ingredient.ingredientId} className={styles["product-modal-allergies-item"]}>
                               {ingredient.ingredient.ingredientName}
@@ -432,7 +554,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <div className={styles.cartButton}>
                           <button
                             className={styles["cart-button"]}
-                            onClick={(e) => addCart(e, menuProduct.menuProductId)}
+                            onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
                           >
                             カートに入れる
                           </button>
@@ -539,11 +661,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <p className={styles["order-title"]}>以下の商品を注文します。よろしいですか？</p>
               <div className={styles["order-check-modal-content"]}>
                 {cart.map((item) => (
-                  <div key={item.id} className={styles["cart-item"]}>
+                  <div key={item.menuProductId} className={styles["cart-item"]}>
                     {menuData
                       .map((menu) => menu.menuProducts)
                       .flat()
-                      .filter((menuProduct) => menuProduct.menuProductId === item.id)
+                      .filter((menuProduct) => menuProduct.menuProductId === item.menuProductId)
                       .map((menuProduct) => (
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
@@ -583,6 +705,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         )}
 
+        {checkAccountingError && (
+          <div className={styles["outside-modal"]} onClick={handleCloseModal}>
+            <div className={`${styles["calling-modal"]}`}>
+              <div className={styles["calling-contents"]} onClick={handleModalInsideClick}>
+                <p className={styles["calling-text"]}>注文をしていないため、お会計には進めません。</p>
+                <button className={styles["calling-button"]} onClick={handleCloseModal}>
+                  閉じる
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {checkAccounting && (
           <div className={styles["outside-modal"]} onClick={handleSetAccountingModaloutsideClick}>
             <div className={`${styles["check-accounting-modal"]}`}>
@@ -614,6 +749,23 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={styles.errorModalContent}>
               <p className={styles.errorModalText}>会計処理中です</p>
               <p className={styles.errorModalText}>しばらくお待ちください</p>
+            </div>
+          </div>
+        )}
+
+        {paymentModal && (
+          <div className={`${styles["payment-modal"]}`}>
+            <div className={styles["payment-contents"]} onClick={handleModalInsideClick}>
+              <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
+              <p className={styles["payment-text"]}>
+                お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
+              </p>
+              <p className={styles["payment-text"]}>
+                レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
+              </p>
+              <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
+                閉じる
+              </button>
             </div>
           </div>
         )}

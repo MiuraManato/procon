@@ -44,9 +44,9 @@ export const Login = () => {
   return (
     <>
       <div className={styles.base}>
-        {loginError && <div>{loginError}</div>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.error}>{loginError && <div>{loginError}</div>}</div>
           <label className={styles.label}>
             <div className={styles["label-text"]}>メールアドレス</div>
             <div className={styles["email-form"]}>
@@ -78,7 +78,6 @@ export const Login = () => {
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </button>
             </div>
-
             <br />
             {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
             <div className={styles["blank"]}></div>
@@ -89,7 +88,6 @@ export const Login = () => {
             </div>
           </label>
           <br />
-
           <button type="submit" disabled={!email || !password} className={styles.button}>
             ログイン
           </button>
