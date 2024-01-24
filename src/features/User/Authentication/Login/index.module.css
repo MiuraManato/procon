@@ -123,6 +123,14 @@
   color: #1e90ff; /* リンクのテキスト色 */
 }
 
+.signuplink {
+  margin-top: 35px;
+}
+
+.newline {
+  white-space: pre;
+}
+
 @media only screen and (max-device-width: 375px) and (max-device-height: 667px) and (orientation: portrait) {
   .error {
     font-size: 17px;
