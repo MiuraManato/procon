@@ -22,6 +22,10 @@
   text-align: center;
 }
 
+.form input{
+  padding-left: 5px;
+}
+
 .input-box::after {
   white-space: pre;
 }
