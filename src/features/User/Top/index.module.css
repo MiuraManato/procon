@@ -39,7 +39,11 @@
 }
 
 .modal-button {
-  margin-top: 20px;
+  margin-top: 25px;
+  font-size: 18px;
+  width: -webkit-fill-available;
+  height: 50px;
+  border: none;
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 375px) and (orientation: portrait) {
