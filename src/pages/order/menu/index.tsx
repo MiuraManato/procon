@@ -3,12 +3,10 @@ import { getMenuData } from "@/features/Order/Menu/getMenu";
 import { MenuData } from "@/features/Order/Menu/type";
 import { getAllergies } from "@/features/Order/Menu/getAllergies";
 import { Allergy } from "@prisma/client";
-import MetaData from "@/features/Order/Menu/metadata";
 
 const MenuPage = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   return (
     <>
-      <MetaData />
       <CategoryMenu menuData={menuData} allergies={allergies} />;
     </>
   );
