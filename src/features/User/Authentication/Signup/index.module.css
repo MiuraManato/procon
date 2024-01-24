@@ -48,6 +48,9 @@
   font-size: 18px;
 }
 
+.show-password {
+  color: #333;
+}
 .label {
   display: block;
   text-align: left;

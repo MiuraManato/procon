@@ -74,7 +74,7 @@ export const Login = () => {
                 onBlur={() => setTouched({ ...touched, password: true })}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="button" onClick={togglePasswordVisibility}>
+              <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </button>
             </div>
