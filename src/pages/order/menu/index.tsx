@@ -7,7 +7,7 @@ import { Allergy } from "@prisma/client";
 const MenuPage = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   return (
     <>
-      <CategoryMenu menuData={menuData} allergies={allergies} />;
+      <CategoryMenu menuData={menuData} allergies={allergies} />
     </>
   );
 };

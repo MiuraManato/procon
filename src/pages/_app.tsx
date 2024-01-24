@@ -6,7 +6,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <MetaData />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 };
