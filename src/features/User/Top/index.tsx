@@ -44,10 +44,11 @@ export const Top = () => {
         <title>TOP画面</title>
       </Head>
       <div className={styles.base}>
+        <div className={styles.title}>ログイン用QRコード</div>
         <div onClick={handleQRClick}>
           <QRCodeComponent text={uid} size={300} />
         </div>
-        <div className={styles.title}>ログイン用QRコード</div>
+        <div className={styles.label}>QRコードをタップで拡大</div>
         {modalIsOpen && (
           <div className={styles["outside-modal"]} onClick={handleCloseModal}>
             <div className={styles["confirm-modal"]} onClick={handleModalInsideClick}>

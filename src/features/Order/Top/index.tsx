@@ -81,38 +81,47 @@ export const OrderTop = () => {
 
   return (
     <div className={styles.container}>
-      <EmployeeButton />
-      <h1 className={styles.title}>人数選択</h1>
-      <div className={styles.selectionArea}>
-        <div className={styles.personSelection}>
-          <FontAwesomeIcon icon={faPerson} className={styles.icon} />
-          <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("adult", "sub")}>
-            -
-          </button>
-          <span className={styles.numberDisplay}>{numberOfPeople.adult}</span>
-          <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("adult", "add")}>
-            +
-          </button>
-        </div>
-        <div className={styles.personSelection}>
-          <FontAwesomeIcon icon={faChild} className={styles.icon} />
-          <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("child", "sub")}>
-            -
-          </button>
-          <span className={styles.numberDisplay}>{numberOfPeople.child}</span>
-          <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("child", "add")}>
-            +
-          </button>
-        </div>
+      <div className={styles.EmployeeButton}>
+        <EmployeeButton />
       </div>
-      <button
-        disabled={numberOfPeople.adult <= 0 && numberOfPeople.child <= 0}
-        className={styles.submitButton}
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onClick={handleSubmit}
-      >
-        次へ
-      </button>
+      <div className={styles.persons}>
+        <h1 className={styles.title}>人数選択</h1>
+        <div className={styles.selectionArea}>
+          <div className={styles.personSelection}>
+            <FontAwesomeIcon icon={faPerson} className={styles.icon} />
+            <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("adult", "sub")}>
+              －
+            </button>
+            <span className={styles.numberDisplay}>{numberOfPeople.adult}</span>
+            <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("adult", "add")}>
+              ＋
+            </button>
+          </div>
+          <div className={styles.personSelection}>
+            <FontAwesomeIcon icon={faChild} className={styles.icon} />
+            <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("child", "sub")}>
+              －
+            </button>
+            <span className={styles.numberDisplay}>{numberOfPeople.child}</span>
+            <button className={styles.changeButton} onClick={() => handleChangeNumberOfPeople("child", "add")}>
+              ＋
+            </button>
+          </div>
+        </div>
+        <div className={styles.humanlabel}>
+          <div className={styles.bighuman}>大人</div>
+          <div className={styles.smallhuman}>子供</div>
+        </div>
+
+        <button
+          disabled={numberOfPeople.adult <= 0 && numberOfPeople.child <= 0}
+          className={styles.submitButton}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleSubmit}
+        >
+          次へ
+        </button>
+      </div>
       {isErrorTableId && (
         <div className={styles.errorModal}>
           <div className={styles.errorModalContent}>

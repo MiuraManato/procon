@@ -74,7 +74,7 @@ export const Login = () => {
                 onBlur={() => setTouched({ ...touched, password: true })}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button type="button" onClick={togglePasswordVisibility}>
+              <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </button>
             </div>
@@ -88,9 +88,16 @@ export const Login = () => {
             </div>
           </label>
           <br />
-          <button type="submit" disabled={!email || !password} className={styles.button}>
-            ログイン
-          </button>
+          <div className={styles.newline}>
+            <button type="submit" disabled={!email || !password} className={styles.button}>
+              ログイン
+            </button>
+          </div>
+          <div className={styles.signuplink}>
+            <Link href={"/user/auth/signup"} className={styles.link}>
+              サインアップはこちら
+            </Link>
+          </div>
         </form>
       </div>
     </>

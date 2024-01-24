@@ -1,7 +1,7 @@
-import { RootPage } from "@/features/DevPages/Root";
+import { RedirectToHome } from "@/utils/redirect";
 
 const root = () => {
-  return <RootPage />;
+  RedirectToHome();
 };
 
 export default root;

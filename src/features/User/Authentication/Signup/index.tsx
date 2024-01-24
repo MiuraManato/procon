@@ -238,7 +238,7 @@ export const Signup = () => {
                     }}
                     onChange={(e) => handlePasswordChange(e.target.value)}
                   />
-                  <button type="button" onClick={togglePasswordVisibility}>
+                  <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
                     <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
                   </button>
                 </div>
