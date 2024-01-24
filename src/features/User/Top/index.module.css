@@ -4,13 +4,18 @@
   flex-direction: column;
   align-items: center; /* 横方向にセンター寄せ */
   text-align: center; /* テキストもセンター寄せ */
-  margin-top: 100px;
+  margin-top: 60px;
 }
 
 .title {
-  margin-top: 50px;
+  margin-bottom: 50px;
   font-size: 20px;
   font-weight: bold;
+}
+
+.label {
+  margin-top: 50px;
+  font-size: 20px;
 }
 
 /* モーダルのスタイル */
@@ -38,10 +43,6 @@
 }
 
 @media only screen and (min-device-width: 375px) and (max-device-width: 375px) and (orientation: portrait) {
-  .header {
-    padding: 0px;
-  }
-
   .store-name {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -59,10 +60,14 @@
   }
 
   .base {
-    margin-top: 40px;
+    margin-top: 6px;
   }
 
   .title {
+    margin-bottom: 30px;
+  }
+
+  .label {
     margin-top: 30px;
   }
 
