@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Allergies } from "./type";
 import { exUser } from "@/features/Order/Menu/type";
 import useAuth from "@/features/hooks/useAuth";
+import styles from "./index.module.css";
 
 export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   const [user, setUser] = useState<exUser>();
   const [loading, setLoading] = useState<boolean>(true);
   const [checkedAllergies, setCheckedAllergies] = useState<{ [key: number]: boolean }>({});
+  const [updated, setUpdated] = useState<boolean>(false);
 
   const u = useAuth();
 
@@ -81,16 +83,18 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
       console.error(err);
     } finally {
       setLoading(false);
+      setUpdated(true);
     }
   };
 
   if (loading) {
-    return <div>loading...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
     <>
       <div>
+        {updated && <div className={styles["update-success"]}>更新が完了しました</div>}
         {allergy.allergies.map((a) => (
           <div key={a.allergyId}>
             <input
@@ -106,7 +110,6 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
       </div>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <button onClick={() => updateAllergies()}>更新する</button>
-      <button onClick={() => console.log(getDifferences())}>差分を表示</button>
     </>
   );
 };
