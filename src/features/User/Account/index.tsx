@@ -16,7 +16,7 @@ export const AccountInfo = () => {
     setLoading(false);
   }, [user]);
 
-  if (loading) return <>Now loadging...</>;
+  if (loading) return <>Now loading...</>;
 
   return (
     <>
