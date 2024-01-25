@@ -1,13 +1,9 @@
-import Head from "next/head";
 import Link from "next/link";
 import styles from "./index.module.css";
 
 export const UserHeader = () => {
   return (
     <>
-      <Head>
-        <title>TOP画面</title>
-      </Head>
       <header className={styles.header}>
         <h1 className={styles["store-name"]}>飲食店業務システム（仮）</h1>
         <div className={styles.link}>
