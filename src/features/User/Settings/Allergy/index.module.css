@@ -1,3 +1,67 @@
+/* 全体のコンテナスタイル */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ローディング画面のスタイル */
+.loading {
+  text-align: center;
+  padding: 20px;
+  text-align: center;
+}
+
+/* アレルギー項目リストのスタイル */
+.allergy-list {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+/* 各アレルギー項目のスタイル */
+.allergy-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  margin: 5px;
+}
+
+/* チェックボックスのスタイル */
+.checkbox {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* ラベルのスタイル */
+.label {
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* 更新成功メッセージのスタイル */
 .update-success {
   color: green;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ボタンのスタイル */
+.button {
+  background-color: blue;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

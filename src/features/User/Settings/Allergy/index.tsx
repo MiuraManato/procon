@@ -88,28 +88,38 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (
     <>
-      <div>
+      <div className={styles["container"]}>
         {updated && <div className={styles["update-success"]}>更新が完了しました</div>}
-        {allergy.allergies.map((a) => (
-          <div key={a.allergyId}>
-            <input
-              type="checkbox"
-              name={a.allergyName}
-              id={a.allergyId as unknown as string}
-              checked={checkedAllergies[a.allergyId]}
-              onChange={(e) => handleCheckboxChange(a.allergyId, e.target.checked)}
-            />
-            <label htmlFor={a.allergyName}>{a.allergyName}</label>
-          </div>
-        ))}
+        <div className={styles["allergy-list"]}>
+          {allergy.allergies.map((a) => (
+            <div key={a.allergyId} className={styles["allergy-item"]}>
+              <input
+                type="checkbox"
+                name={a.allergyName}
+                id={a.allergyId.toString()}
+                checked={checkedAllergies[a.allergyId]}
+                onChange={(e) => handleCheckboxChange(a.allergyId, e.target.checked)}
+                className={styles.checkbox}
+              />
+              <label htmlFor={a.allergyId.toString()} className={styles.label}>
+                {a.allergyName}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <button onClick={() => updateAllergies()}>更新する</button>
+
+      <div className={styles["button-container"]}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <button onClick={() => updateAllergies()} className={styles.button}>
+          更新する
+        </button>
+      </div>
     </>
   );
 };
