@@ -11,30 +11,35 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   const u = useAuth();
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        if (u === undefined || u === null) {
+          return;
+        }
+        const userData: exUser = await fetch(`/api/user/${u.uid}`).then((res: Response): Promise<exUser> => res.json());
+        setUser(userData);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (u === undefined) return;
     if (u === null) {
       window.location.href = "/user/auth/login";
-      return;
     }
-    const fetchUser = async () => {
-      try {
-        const userData: exUser = await fetch(`/api/user/${u.uid}`).then((res: Response): Promise<exUser> => res.json());
-        setUser(userData);
-        // ユーザーのアレルギー情報に基づいてチェック状態を初期化
-        const initialCheckedAllergies: { [key: number]: boolean } = {};
-        allergy.allergies.forEach((a) => {
-          initialCheckedAllergies[a.allergyId] = user
-            ? user.allergies.some((ua) => ua.allergyId === a.allergyId)
-            : false;
-        });
-        setCheckedAllergies(initialCheckedAllergies);
-      } catch (err) {
-        console.error(err);
-      }
-    };
     fetchUser().catch((err) => console.error(err));
-    setLoading(false);
-  }, [allergy.allergies, u, user]);
+  }, [u]);
+
+  useEffect(() => {
+    if (!user) return;
+    const initialCheckedAllergies: { [key: number]: boolean } = {};
+    allergy.allergies.forEach((a) => {
+      initialCheckedAllergies[a.allergyId] = user.allergies.some((ua) => ua.allergyId === a.allergyId);
+    });
+    setCheckedAllergies(initialCheckedAllergies);
+  }, [user, allergy.allergies]);
 
   const handleCheckboxChange = (allergyId: number, checked: boolean) => {
     setCheckedAllergies((prevState) => ({
@@ -57,6 +62,24 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
     return differences;
   };
 
+  const updateAllergies = async () => {
+    const differences = getDifferences();
+    if (differences.length === 0 || u === undefined || u === null) {
+      return;
+    }
+    try {
+      await fetch(`/api/user/updateAllergies`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uid: u.uid, differences: differences }),
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) {
     return <div>loading...</div>;
   }
@@ -77,6 +100,8 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
           </div>
         ))}
       </div>
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <button onClick={() => updateAllergies()}>更新する</button>
       <button onClick={() => console.log(getDifferences())}>差分を表示</button>
     </>
   );
