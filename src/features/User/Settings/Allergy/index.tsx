@@ -63,8 +63,10 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   };
 
   const updateAllergies = async () => {
+    setLoading(true);
     const differences = getDifferences();
     if (differences.length === 0 || u === undefined || u === null) {
+      setLoading(false);
       return;
     }
     try {
@@ -77,6 +79,8 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
       });
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
