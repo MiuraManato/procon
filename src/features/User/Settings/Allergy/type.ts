@@ -1,8 +1,7 @@
-import { User, Allergy } from "@prisma/client"
+import { Allergy } from "@prisma/client";
 
-type UserAllergies = {
-  user: User
-  allergies: Allergy[]
-}
+type Allergies = {
+  allergies: Allergy[];
+};
 
-export type { UserAllergies }
+export type { Allergies };
