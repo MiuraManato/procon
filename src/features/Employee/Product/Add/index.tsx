@@ -170,7 +170,7 @@ export const AddProduct = ({
       if (res.ok) {
         console.log("DBへの登録に成功");
         alert("商品の登録に成功しました。");
-        await router.push("/employee/menu/add");
+        await router.push("/employee/product/add");
       } else {
         const errorText = await res.text();
         throw new Error(`DBへの登録中にエラーが発生しました: ${errorText}`);
