@@ -9,6 +9,16 @@
 .store-name {
   color: #13b8ff;
   margin-top: 41px;
+  font-family: "Century Gothic";
+}
+
+.name-menu {
+  color: rgb(245, 93, 123);
+}
+
+.store-link {
+  text-decoration: none;
+  color: #13b8ff;
 }
 
 .link {

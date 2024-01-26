@@ -5,7 +5,11 @@ export const UserHeader = () => {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles["store-name"]}>飲食店業務システム（仮）</h1>
+        <h1 className={styles["store-name"]}>
+          <Link href={`/user/top`} className={styles["store-link"]}>
+            Personalized<span className={styles["name-menu"]}>Menu</span>
+          </Link>
+        </h1>
         <div className={styles.link}>
           <Link href={`/user/account`} className={styles["link-font"]}>
             アカウント
