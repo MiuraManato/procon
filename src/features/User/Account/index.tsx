@@ -1,7 +1,23 @@
 import Head from "next/head";
 import Link from "next/link";
+import useAuth from "@/features/hooks/useAuth";
+import { useEffect, useState } from "react";
 
 export const AccountInfo = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const user = useAuth();
+  useEffect(() => {
+    if (user === undefined) return;
+    if (user === null) {
+      window.location.href = "/user/auth/login";
+      return;
+    }
+    setLoading(false);
+  }, [user]);
+
+  if (loading) return <>Now loading...</>;
+
   return (
     <>
       <Head>

@@ -271,3 +271,163 @@ SELECT setval(pg_get_serial_sequence('"Category"', 'categoryId'), (SELECT MAX("c
 SELECT setval(pg_get_serial_sequence('"Allergy"', 'allergyId'), (SELECT MAX("allergyId") FROM "Allergy") + 1);
 SELECT setval(pg_get_serial_sequence('"OrderHistoryLog"', 'orderHistoryLogId'), (SELECT MAX("orderHistoryLogId") FROM "OrderHistoryLog") + 1);
 SELECT setval(pg_get_serial_sequence('"OrderDetailLog"', 'orderDetailLogId'), (SELECT MAX("orderDetailLogId") FROM "OrderDetailLog") + 1);
+
+-- 本番用テストデータ
+INSERT INTO "Allergy" ("allergyId", "allergyName") VALUES 
+(1, '小麦'),
+(2, 'そば'),
+(3, '大豆'),
+(4, 'ごま'),
+(5, '卵'),
+(6, '乳'),
+(7, '牛肉'),
+(8, '鶏肉'),
+(9, '豚肉'),
+(10, 'さば'),
+(11, 'かに'),
+(12, 'えび'),
+(13, 'あわび'),
+(14, 'いか'),
+(15, 'いくら'),
+(16, 'ゼラチン'),
+(17, 'さけ'),
+(18, 'カシューナッツ'),
+(19, 'アーモンド'),
+(20, 'くるみ'),
+(21, 'まつたけ'),
+(22, 'ピーナッツ'),
+(23, 'もも'),
+(24, 'りんご'),
+(25, 'バナナ'),
+(26, 'キウイ'),
+(27, 'オレンジ'),
+(28, 'やまいも');
+
+INSERT INTO "Category" ("categoryId", "categoryName") VALUES 
+(1, 'おつまみ'),
+(2, 'やきとり'),
+(3, '一品料理'),
+(4, 'アルコール類'),
+(5, 'ソフトドリンク');
+
+INSERT INTO "Product" ("productId", "productName", "price", "categoryId", "description", "imageUrl", "isSoldOut") VALUES 
+
+INSERT INTO "Ingredient" ("ingredientId", "ingredientName") VALUES 
+(1, '小麦'),
+(2, 'そば'),
+(3, '大豆'),
+(4, 'ごま'),
+(5, '卵'),
+(6, '乳'),
+(7, '牛肉'),
+(8, '鶏肉'),
+(9, '豚肉'),
+(10, 'さば'),
+(11, 'かに'),
+(12, 'えび'),
+(13, 'あわび'),
+(14, 'いか'),
+(15, 'いくら'),
+(16, 'ゼラチン'),
+(17, 'さけ'),
+(18, 'カシューナッツ'),
+(19, 'アーモンド'),
+(20, 'くるみ'),
+(21, 'まつたけ'),
+(22, 'ピーナッツ'),
+(23, 'もも'),
+(24, 'りんご'),
+(25, 'バナナ'),
+(26, 'キウイ'),
+(27, 'オレンジ'),
+(28, 'やまいも'),
+and more...
+
+INSERT INTO "Menu" ("menuId", "menuCategoryName", "displayOrder") VALUES 
+(1, 'おつまみ', 1),
+(2, 'やきとり', 2),
+(3, '一品料理', 3),
+(4, 'アルコール類', 4),
+(5, 'ソフトドリンク', 5);
+
+INSERT INTO "MenuProduct" ("menuProductId", "menuId", "productId", "pages", "displayOrder") VALUES 
+
+INSERT INTO "ProductAllergy" ("productAllergyId", "productId", "allergyId") VALUES 
+
+INSERT INTO "ProductIngredient" ("productIngredientId", "productId", "ingredientId") VALUES 
+
+INSERT INTO "Store" ("storeId", "storeName") VALUES 
+(1, '神保町本店'),
+(2, '札幌支店'),
+(3, '川口支店');
+
+INSERT INTO "StoreTable" ("tableId", "storeId", "tableName") VALUES 
+(1, 1, '101'),
+(2, 1, '102'),
+(3, 1, '103'),
+(4, 1, '104'),
+(5, 1, '105'),
+(6, 1, '106'),
+(7, 1, '107'),
+(8, 1, '108'),
+(9, 1, '109'),
+(10, 2, '101'),
+(11, 2, '102'),
+(12, 2, '103'),
+(13, 2, '104'),
+(14, 2, '105'),
+(15, 2, '106'),
+(16, 2, '201'),
+(17, 2, '202'),
+(18, 2, '203'),
+(19, 2, '204'),
+(20, 2, '205'),
+(21, 3, '101'),
+(22, 3, '102'),
+(23, 3, '103'),
+(24, 3, '104');
+
+INSERT INTO "StoreTableStatus" ("storeTableStatusId", "tableId", "status", "numberOfPeople", "calling") VALUES 
+(1, 1, 'EMPTY', 0, false),
+(2, 2, 'EMPTY', 0, false),
+(3, 3, 'EMPTY', 0, false),
+(4, 4, 'EMPTY', 4, false),
+(5, 5, 'EMPTY', 0, false),
+(6, 6, 'EMPTY', 0, false),
+(7, 7, 'EMPTY', 0, false),
+(8, 8, 'EMPTY', 0, false),
+(9, 9, 'EMPTY', 0, false),
+(10, 10, 'EMPTY', 0, false),
+(11, 11, 'EMPTY', 0, false),
+(12, 12, 'EMPTY', 0, false),
+(13, 13, 'EMPTY', 0, false),
+(14, 14, 'EMPTY', 0, false),
+(15, 15, 'EMPTY', 0, false),
+(16, 16, 'EMPTY', 0, false),
+(17, 17, 'EMPTY', 0, false),
+(18, 18, 'EMPTY', 0, false),
+(19, 19, 'EMPTY', 0, false),
+(20, 20, 'EMPTY', 0, false),
+(21, 21, 'EMPTY', 0, false),
+(22, 22, 'EMPTY', 0, false),
+(23, 23, 'EMPTY', 0, false),
+(24, 24, 'EMPTY', 0, false);
+
+SELECT setval(pg_get_serial_sequence('"Product"', 'productId'), (SELECT MAX("productId") FROM "Product") + 1);
+SELECT setval(pg_get_serial_sequence('"ProductAllergy"', 'productAllergyId'), (SELECT MAX("productAllergyId") FROM "ProductAllergy") + 1);
+SELECT setval(pg_get_serial_sequence('"ProductIngredient"', 'productIngredientId'), (SELECT MAX("productIngredientId") FROM "ProductIngredient") + 1);
+SELECT setval(pg_get_serial_sequence('"UserPreference"', 'userPreferenceId'), (SELECT MAX("userPreferenceId") FROM "UserPreference") + 1);
+SELECT setval(pg_get_serial_sequence('"UserAllergy"', 'userAllergyId'), (SELECT MAX("userAllergyId") FROM "UserAllergy") + 1);
+SELECT setval(pg_get_serial_sequence('"Ingredient"', 'ingredientId'), (SELECT MAX("ingredientId") FROM "Ingredient") + 1);
+SELECT setval(pg_get_serial_sequence('"Menu"', 'menuId'), (SELECT MAX("menuId") FROM "Menu") + 1);
+SELECT setval(pg_get_serial_sequence('"MenuProduct"', 'menuProductId'), (SELECT MAX("menuProductId") FROM "MenuProduct") + 1);
+SELECT setval(pg_get_serial_sequence('"Order"', 'orderId'), (SELECT MAX("orderId") FROM "Order") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderDetail"', 'orderDetailId'), (SELECT MAX("orderDetailId") FROM "OrderDetail") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderUser"', 'orderUserId'), (SELECT MAX("orderUserId") FROM "OrderUser") + 1);
+SELECT setval(pg_get_serial_sequence('"StoreTableStatus"', 'storeTableStatusId'), (SELECT MAX("storeTableStatusId") FROM "StoreTableStatus") + 1);
+SELECT setval(pg_get_serial_sequence('"StoreTable"', 'tableId'), (SELECT MAX("tableId") FROM "StoreTable") + 1);
+SELECT setval(pg_get_serial_sequence('"Store"', 'storeId'), (SELECT MAX("storeId") FROM "Store") + 1);
+SELECT setval(pg_get_serial_sequence('"Category"', 'categoryId'), (SELECT MAX("categoryId") FROM "Category") + 1);
+SELECT setval(pg_get_serial_sequence('"Allergy"', 'allergyId'), (SELECT MAX("allergyId") FROM "Allergy") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderHistoryLog"', 'orderHistoryLogId'), (SELECT MAX("orderHistoryLogId") FROM "OrderHistoryLog") + 1);
+SELECT setval(pg_get_serial_sequence('"OrderDetailLog"', 'orderDetailLogId'), (SELECT MAX("orderDetailLogId") FROM "OrderDetailLog") + 1);
