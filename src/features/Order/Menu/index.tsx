@@ -429,9 +429,26 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 ))}
               </div>
               {cart.length > 0 && (
-                <button className={styles["purchase-button"]} onClick={orderCheck}>
-                  注文する
-                </button>
+                <div>
+                  <div>
+                    合計金額：
+                    {cart.reduce(
+                      (acc, cur) =>
+                        acc +
+                        menuData
+                          .map((menu) => menu.menuProducts)
+                          .flat()
+                          .filter((menuProduct) => menuProduct.menuProductId === cur.menuProductId)
+                          .map((menuProduct) => menuProduct.product.price)[0] *
+                          cur.count,
+                      0,
+                    )}
+                    円
+                  </div>
+                  <button className={styles["purchase-button"]} onClick={orderCheck}>
+                    注文する
+                  </button>
+                </div>
               )}
             </div>
           </div>
