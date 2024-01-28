@@ -148,7 +148,6 @@ export const EditProfile = () => {
               {touched.email && email && !ValidateEmail(email) && <span>メールアドレスの形式が正しくありません</span>}
             </label>
           </div>
-
           <br />
           <button
             type="submit"
