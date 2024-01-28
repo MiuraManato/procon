@@ -4,6 +4,8 @@ import { CheckPasswordMatch } from "@/utils/Auth/CheckPasswordMatch";
 import { doChangePassword } from "./doChangePassword";
 import useAuth from "@/features/hooks/useAuth";
 import router from "next/router";
+import Head from "next/head";
+import styles from "./index.module.css";
 
 /**
  *パスワードを変更するページの実体部分
@@ -88,49 +90,53 @@ export const ChangePassword = () => {
 
   return (
     <>
+      <Head>
+        <title>パスワード変更</title>
+      </Head>
       {changePasswordError && <div>{changePasswordError}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form method={"post"} onSubmit={handleSubmit}>
-        <label>
-          <br />
-          現在のパスワード
-          <input
-            type="password"
-            onBlur={() => handleBlur("oldPassword")}
-            value={oldPassword}
-            onChange={(e) => handleOldPassword(e.target.value)}
-          ></input>
-        </label>
-        <label>
-          <br />
-          新しいパスワード
-          <input
-            type="password"
-            onBlur={() => handleBlur("newPassword")}
-            onChange={(e) => handleNewPasswordChange(e.target.value)}
-            value={newPassword}
-          ></input>
-          {newPassword && !ValidatePassword(newPassword) && (
-            <span>パスワードは8文字以上かつ、大文字小文字を使用してください</span>
-          )}
-        </label>
-        <label>
-          <br />
-          新しいパスワード（再度入力）
-          <input
-            type="password"
-            onBlur={() => handleBlur("newPasswordConfirmation")}
-            onChange={(e) => handleNewPasswordConfirmation(e.target.value)}
-            value={newPasswordConfirmation}
-          ></input>
-          {newPasswordConfirmation && !CheckPasswordMatch(newPassword, newPasswordConfirmation) && (
-            <span>同じ値を入力してください。</span>
-          )}
-        </label>
-        <label>
+      <div className={styles.base}>
+        <form method={"post"} onSubmit={handleSubmit} className={styles.form}>
+          <label className={styles.label}>
+            <br />
+            <div className={styles["label-text"]}>現在のパスワード</div>
+            <input
+              type="password"
+              onBlur={() => handleBlur("oldPassword")}
+              value={oldPassword}
+              onChange={(e) => handleOldPassword(e.target.value)}
+            ></input>
+          </label>
+          <label className={styles.label}>
+            <br />
+            <div className={styles["label-text"]}>新しいパスワード</div>
+            <input
+              type="password"
+              onBlur={() => handleBlur("newPassword")}
+              onChange={(e) => handleNewPasswordChange(e.target.value)}
+              value={newPassword}
+            ></input>
+            {newPassword && !ValidatePassword(newPassword) && (
+              <span>パスワードは8文字以上かつ、大文字小文字を使用してください</span>
+            )}
+          </label>
+          <label className={styles.label}>
+            <br />
+            <div className={styles["label-text"]}>新しいパスワード（再度入力）</div>
+            <input
+              type="password"
+              onBlur={() => handleBlur("newPasswordConfirmation")}
+              onChange={(e) => handleNewPasswordConfirmation(e.target.value)}
+              value={newPasswordConfirmation}
+            ></input>
+            {newPasswordConfirmation && !CheckPasswordMatch(newPassword, newPasswordConfirmation) && (
+              <span>同じ値を入力してください。</span>
+            )}
+          </label>
           <br />
           <button
             type="submit"
+            className={styles.button}
             disabled={
               !oldPassword ||
               !newPassword ||
@@ -141,8 +147,8 @@ export const ChangePassword = () => {
           >
             変更
           </button>
-        </label>
-      </form>
+        </form>
+      </div>
     </>
   );
 };
