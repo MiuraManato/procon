@@ -117,7 +117,7 @@ export const ChangePassword = () => {
               value={newPassword}
             ></input>
             {newPassword && !ValidatePassword(newPassword) && (
-              <span>パスワードは8文字以上かつ、大文字小文字を使用してください</span>
+              <span className={styles.span}>パスワードは8文字以上かつ、大文字小文字を使用してください</span>
             )}
           </label>
           <label className={styles.label}>
@@ -130,7 +130,7 @@ export const ChangePassword = () => {
               value={newPasswordConfirmation}
             ></input>
             {newPasswordConfirmation && !CheckPasswordMatch(newPassword, newPasswordConfirmation) && (
-              <span>同じ値を入力してください。</span>
+              <span className={styles.span}>同じ値を入力してください。</span>
             )}
           </label>
           <br />

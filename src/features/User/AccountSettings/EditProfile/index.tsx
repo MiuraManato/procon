@@ -116,7 +116,9 @@ export const EditProfile = () => {
                 onBlur={() => handleBlur("firstName")}
                 onChange={(e) => handleFirstNameChange(e.target.value)}
               />
-              {touched.firstName && !firstName && touched.lastName && !lastName && <span>名前を入力してください</span>}
+              {touched.firstName && !firstName && touched.lastName && !lastName && (
+                <span className={styles.span}>名前を入力してください</span>
+              )}
             </label>
           </div>
           <br />
@@ -132,7 +134,7 @@ export const EditProfile = () => {
                   handleAgeChange(e.target.value);
                 }}
               />
-              {touched.age && !age && <span>年齢を入力してください</span>}
+              {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
             </label>
           </div>
           <br />
@@ -145,7 +147,9 @@ export const EditProfile = () => {
                 onBlur={() => handleBlur("email")}
                 onChange={(e) => handleEmailChange(e.target.value)}
               />
-              {touched.email && email && !ValidateEmail(email) && <span>メールアドレスの形式が正しくありません</span>}
+              {touched.email && email && !ValidateEmail(email) && (
+                <span className={styles.span}>メールアドレスの形式が正しくありません</span>
+              )}
             </label>
           </div>
           <br />
