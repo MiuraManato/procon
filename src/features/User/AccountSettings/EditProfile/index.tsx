@@ -99,6 +99,7 @@ export const EditProfile = () => {
         <title>プロフィール編集</title>
       </Head>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <h1 className={styles.title}>アカウント情報変更</h1>
       <div className={styles.base}>
         <form method="post" onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>

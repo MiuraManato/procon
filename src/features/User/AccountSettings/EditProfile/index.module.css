@@ -1,11 +1,14 @@
+.title {
+  width: 100%;
+  text-align: center;
+}
+
 .base {
   background-color: #ffffff; /* 全体の背景色 */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 26vh;
   margin: 34px;
-  margin-top: 20vh;
 }
 
 .form {
@@ -15,6 +18,7 @@
   text-align: center;
   width: 100%;
   max-width: 600px;
+  margin-top: auto;
 }
 
 .form input {

@@ -60,7 +60,6 @@ export const Withdrawal = () => {
       <Head>
         <title>退会確認</title>
       </Head>
-
       <h1 className={styles.title}>退会確認</h1>
       {withdrawalError && <p>{withdrawalError}</p>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}

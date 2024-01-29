@@ -95,6 +95,7 @@ export const ChangePassword = () => {
       </Head>
       {changePasswordError && <div>{changePasswordError}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <h1 className={styles.title}>パスワード変更</h1>
       <div className={styles.base}>
         <form method={"post"} onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.label}>

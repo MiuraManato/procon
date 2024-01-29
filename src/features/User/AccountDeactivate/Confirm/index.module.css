@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 49vh;
   margin: 34px;
 }
 
@@ -19,6 +18,7 @@
   text-align: center;
   width: 100%;
   max-width: 600px;
+  margin-top: auto;
 }
 
 .form input {
