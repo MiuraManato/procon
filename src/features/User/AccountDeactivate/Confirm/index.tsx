@@ -4,6 +4,8 @@ import router from "next/router";
 import useAuth from "@/features/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import styles from "./index.module.css";
+import Head from "next/head";
 
 // 退会確認を行うReactコンポーネント
 export const Withdrawal = () => {
@@ -55,27 +57,33 @@ export const Withdrawal = () => {
 
   return (
     <>
-      <div>
-        <h1>退会確認</h1>
-        {withdrawalError && <p>{withdrawalError}</p>}
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-        <form onSubmit={handleSubmit}>
-          <label>
-            <div>パスワード</div>
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              autoComplete="current-password"
-              value={password}
-              onBlur={() => setTouched({ ...touched, password: true })}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="button" onClick={togglePasswordVisibility}>
-              <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-            </button>
-            {touched.password && !password && <span>パスワードを入力してください</span>}
+      <Head>
+        <title>退会確認</title>
+      </Head>
+
+      <h1 className={styles.title}>退会確認</h1>
+      {withdrawalError && <p>{withdrawalError}</p>}
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <div className={styles.base}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>パスワード</div>
+            <div className={styles["password-form"]}>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                autoComplete="current-password"
+                value={password}
+                onBlur={() => setTouched({ ...touched, password: true })}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </button>
+            </div>
+            {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
           </label>
-          <button type="submit" disabled={!password}>
+          <button type="submit" disabled={!password} className={styles.button}>
             退会する
           </button>
         </form>
