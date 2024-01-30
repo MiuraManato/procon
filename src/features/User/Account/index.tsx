@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import styles from "./index.module.css";
 import useAuth from "@/features/hooks/useAuth";
 import { useEffect, useState } from "react";
 
@@ -23,10 +24,18 @@ export const AccountInfo = () => {
       <Head>
         <title>アカウント情報</title>
       </Head>
-      <h1>アカウント情報</h1>
-      <Link href={"/user/account/settings/edit-profile"}>アカウント情報変更</Link>
-      <Link href={"/user/account/settings/change-password"}>パスワード変更</Link>
-      <Link href={"/user/account/deactivate/confirm"}>退会</Link>
+      <div className={styles.container}>
+        <h1 className={styles.title}>アカウント情報</h1>
+        <Link href={"/user/account/settings/edit-profile"} className={styles.link}>
+          <div className={styles.btn}>アカウント情報変更</div>
+        </Link>
+        <Link href={"/user/account/settings/change-password"} className={styles.link}>
+          <div className={styles.btn}>パスワード変更</div>
+        </Link>
+        <Link href={"/user/account/deactivate/confirm"} className={styles.link}>
+          <div className={styles.btn}>退会</div>
+        </Link>
+      </div>
     </>
   );
 };

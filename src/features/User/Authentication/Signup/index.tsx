@@ -190,17 +190,15 @@ export const Signup = () => {
           <div className={styles.inputGroup}>
             <label className={styles.label}>
               <div className={styles["label-text"]}>年齢</div>
-              <div className={styles["input-box"]}>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={age}
-                  onBlur={() => handleBlur("age")}
-                  onChange={(e) => {
-                    handleAgeChange(e.target.value);
-                  }}
-                />
-              </div>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={age}
+                onBlur={() => handleBlur("age")}
+                onChange={(e) => {
+                  handleAgeChange(e.target.value);
+                }}
+              />
               {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
             </label>
           </div>
@@ -227,21 +225,19 @@ export const Signup = () => {
           <div className={styles.inputGroup}>
             <label className={styles.label}>
               <div className={styles["label-text"]}>パスワード</div>
-              <div className={styles["input-box"]}>
-                <div className={styles["password-form"]}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onBlur={() => {
-                      handleBlur("password");
-                      handleAllowPassword(password);
-                    }}
-                    onChange={(e) => handlePasswordChange(e.target.value)}
-                  />
-                  <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
-                    <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-                  </button>
-                </div>
+              <div className={styles["password-form"]}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onBlur={() => {
+                    handleBlur("password");
+                    handleAllowPassword(password);
+                  }}
+                  onChange={(e) => handlePasswordChange(e.target.value)}
+                />
+                <button className={styles["show-password"]} type="button" onClick={togglePasswordVisibility}>
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                </button>
               </div>
               {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
               {touched.password && password && allowPassword && (

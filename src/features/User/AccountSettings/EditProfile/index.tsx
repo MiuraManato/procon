@@ -5,12 +5,13 @@ import Head from "next/head";
 import Link from "next/link";
 import router from "next/router";
 import { User } from "@prisma/client";
+import styles from "./index.module.css";
 
 export const EditProfile = () => {
   const [id, setId] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [age, setAge] = useState<number>(0);
+  const [age, setAge] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [touched, setTouched] = useState({
     firstName: false,
@@ -32,7 +33,7 @@ export const EditProfile = () => {
       setId(user.uid);
       setFirstName(userData.firstName);
       setLastName(userData.lastName);
-      setAge(userData.age);
+      setAge(userData.age as unknown as string);
       setEmail(userData.email);
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -47,8 +48,24 @@ export const EditProfile = () => {
     setLastName(lastName);
   };
 
-  const handleAgeChange = (age: number): void => {
-    setAge(age);
+  const handleAgeChange = (value: string) => {
+    if (value === "") {
+      setAge("");
+      return;
+    }
+    // 条件：0以上、整数
+    if (Number(value) < 0 || Number(value) % 1 !== 0) {
+      return;
+    }
+    // 条件：数字のみ
+    if (value.match(/^[0-9]+$/) === null) {
+      return;
+    }
+    // 先頭の0を削除
+    if (value.startsWith("0")) {
+      value = value.replace(/^0+/, "");
+    }
+    setAge(value);
   };
 
   const handleEmailChange = (email: string): void => {
@@ -82,56 +99,73 @@ export const EditProfile = () => {
         <title>プロフィール編集</title>
       </Head>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form method="post" onSubmit={handleSubmit}>
-        <label>
-          名前
-          <input
-            type="text"
-            value={firstName}
-            onBlur={() => handleBlur("lastName")}
-            onChange={(e) => handleLastNameChange(e.target.value)}
-          />
-          <input
-            type="text"
-            value={firstName}
-            onBlur={() => handleBlur("firstName")}
-            onChange={(e) => handleFirstNameChange(e.target.value)}
-          />
-          {touched.firstName && !firstName && touched.lastName && !lastName && <span>名前を入力してください</span>}
-        </label>
-        <br />
-        <label>
-          年齢
-          <input
-            type="number"
-            value={age}
-            onBlur={() => handleBlur("age")}
-            onChange={(e) => handleAgeChange(Number(e.target.value))}
-          />
-          {touched.age && !age && <span>年齢を入力してください</span>}
-        </label>
-        <br />
-        <label>
-          メールアドレス
-          <input
-            type="email"
-            value={email}
-            onBlur={() => handleBlur("email")}
-            onChange={(e) => handleEmailChange(e.target.value)}
-          />
-          {touched.email && email && !ValidateEmail(email) && <span>メールアドレスの形式が正しくありません</span>}
-        </label>
-        <br />
-        <button
-          type="submit"
-          disabled={!id || !firstName || !lastName || !age || !email || !ValidateEmail(email)}
-          onClick={() => console.log(id, firstName, lastName, age, email)}
-        >
-          情報を保存する
-        </button>
-      </form>
-      <div>
-        <Link href={`/user/account`}>戻る</Link>
+      <h1 className={styles.title}>アカウント情報変更</h1>
+      <div className={styles.base}>
+        <form method="post" onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              <div className={styles["label-text"]}>名前</div>
+              <input
+                type="text"
+                value={firstName}
+                onBlur={() => handleBlur("lastName")}
+                onChange={(e) => handleLastNameChange(e.target.value)}
+              />
+              <input
+                type="text"
+                value={firstName}
+                onBlur={() => handleBlur("firstName")}
+                onChange={(e) => handleFirstNameChange(e.target.value)}
+              />
+              {touched.firstName && !firstName && touched.lastName && !lastName && (
+                <span className={styles.span}>名前を入力してください</span>
+              )}
+            </label>
+          </div>
+          <br />
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              <div className={styles["label-text"]}>年齢</div>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={age}
+                onBlur={() => handleBlur("age")}
+                onChange={(e) => {
+                  handleAgeChange(e.target.value);
+                }}
+              />
+              {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
+            </label>
+          </div>
+          <br />
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              <div className={styles["label-text"]}>メールアドレス</div>
+              <input
+                type="email"
+                value={email}
+                onBlur={() => handleBlur("email")}
+                onChange={(e) => handleEmailChange(e.target.value)}
+              />
+              {touched.email && email && !ValidateEmail(email) && (
+                <span className={styles.span}>メールアドレスの形式が正しくありません</span>
+              )}
+            </label>
+          </div>
+          <br />
+          <button
+            type="submit"
+            className={styles.button}
+            disabled={!id || !firstName || !lastName || !age || !email || !ValidateEmail(email)}
+            onClick={() => console.log(id, firstName, lastName, age, email)}
+          >
+            情報を保存する
+          </button>
+          <div className={styles.linkContainer}>
+            <Link href={`/user/account`}>戻る</Link>
+          </div>
+        </form>
       </div>
     </>
   );
