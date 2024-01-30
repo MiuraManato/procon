@@ -4,7 +4,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 const getUserHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { uid } = req.query;
 
-  if (req.method === "GET") {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
     const user = await prisma.user.findUnique({
       where: {
         userId: uid as string,
@@ -20,9 +24,12 @@ const getUserHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error during user findUnique:", error);
+    return res.status(500).json({ error: "Error during get user findUnique" });
+  } finally {
+    await prisma.$disconnect();
   }
-
-  return res.status(405).json({ error: "Method not allowed" });
 };
 
 export default getUserHandler;
