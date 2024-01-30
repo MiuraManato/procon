@@ -99,12 +99,11 @@ export const EditProfile = () => {
       <Head>
         <title>プロフィール編集</title>
       </Head>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <h1 className={styles.title}>アカウント情報変更</h1>
       <div className={styles.base}>
-        {editComplete && <p className={styles.complete}>変更が完了しました。</p>}
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method="post" onSubmit={handleSubmit} className={styles.form}>
+          {editComplete && <p className={styles.complete}>変更が完了しました。</p>}
           <div className={styles.inputGroup}>
             <label className={styles.label}>
               <div className={styles["label-text"]}>名前</div>

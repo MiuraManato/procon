@@ -11,6 +11,11 @@
   margin: 34px;
 }
 
+.complete {
+  color: green;
+  margin-bottom: 20px;
+}
+
 .form {
   background-color: #ffffff; /* フォームの背景色 */
   padding: 20px;
