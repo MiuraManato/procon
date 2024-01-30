@@ -145,6 +145,10 @@
     margin-bottom: 16px;
   }
 
+  .error-text {
+    margin-top: 100px;
+  }
+
   .form {
     background-color: #ffffff; /* フォームの背景色 */
     padding: 20px;
