@@ -6,6 +6,8 @@ import useAuth from "@/features/hooks/useAuth";
 import router from "next/router";
 import Head from "next/head";
 import styles from "./index.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 /**
  *パスワードを変更するページの実体部分
@@ -16,6 +18,8 @@ export const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState<string>("");
+  const [showOldPassword, setShowOldPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
   const [changePasswordError, setChangePasswordError] = useState("");
   const [touched, setTouched] = useState({
     oldPassword: false,
@@ -61,6 +65,16 @@ export const ChangePassword = () => {
     setNewPasswordConfirmation(newPasswordConfirmation);
   };
 
+  // パスワード表示/非表示のトグル処理
+  const toggleOldPasswordVisibility = (): void => {
+    setShowOldPassword(!showOldPassword);
+  };
+
+  // パスワード表示/非表示のトグル処理
+  const toggleNewPasswordVisibility = (): void => {
+    setShowNewPassword(!showNewPassword);
+  };
+
   /**
    *新しいパスワードを変更するための処理
    *
@@ -94,29 +108,39 @@ export const ChangePassword = () => {
         <title>パスワード変更</title>
       </Head>
       {changePasswordError && <div>{changePasswordError}</div>}
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <h1 className={styles.title}>パスワード変更</h1>
       <div className={styles.base}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method={"post"} onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.label}>
             <br />
             <div className={styles["label-text"]}>現在のパスワード</div>
-            <input
-              type="password"
-              onBlur={() => handleBlur("oldPassword")}
-              value={oldPassword}
-              onChange={(e) => handleOldPassword(e.target.value)}
-            ></input>
+            <div className={styles["password-form"]}>
+              <input
+                type={showOldPassword ? "text" : "password"}
+                onBlur={() => handleBlur("oldPassword")}
+                value={oldPassword}
+                onChange={(e) => handleOldPassword(e.target.value)}
+              />
+              <button className={styles["show-password"]} type="button" onClick={toggleOldPasswordVisibility}>
+                <FontAwesomeIcon icon={showOldPassword ? faEye : faEyeSlash} />
+              </button>
+            </div>
           </label>
           <label className={styles.label}>
             <br />
             <div className={styles["label-text"]}>新しいパスワード</div>
-            <input
-              type="password"
-              onBlur={() => handleBlur("newPassword")}
-              onChange={(e) => handleNewPasswordChange(e.target.value)}
-              value={newPassword}
-            ></input>
+            <div className={styles["password-form"]}>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                onBlur={() => handleBlur("newPassword")}
+                onChange={(e) => handleNewPasswordChange(e.target.value)}
+                value={newPassword}
+              />
+              <button className={styles["show-password"]} type="button" onClick={toggleNewPasswordVisibility}>
+                <FontAwesomeIcon icon={showNewPassword ? faEye : faEyeSlash} />
+              </button>
+            </div>
             {newPassword && !ValidatePassword(newPassword) && (
               <span className={styles.span}>パスワードは8文字以上かつ、大文字小文字を使用してください</span>
             )}
