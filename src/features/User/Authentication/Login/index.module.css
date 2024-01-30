@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 49vh;
   margin: 34px;
 }
 
@@ -11,7 +10,7 @@
   color: red;
   margin-bottom: 57px;
   font-size: 20px;
-  margin-top: 150px;
+  /* margin-top: 150px; */
 }
 
 .form {
@@ -21,6 +20,7 @@
   width: 100%;
   max-width: 600px;
   text-align: center;
+  height: 49vh;
 }
 
 .form input {
