@@ -95,7 +95,7 @@ export const Login = () => {
           </div>
           <div className={styles.signuplink}>
             <Link href={"/user/auth/signup"} className={styles.link}>
-              サインアップはこちら
+              新規登録はこちら
             </Link>
           </div>
         </form>

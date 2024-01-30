@@ -272,6 +272,8 @@ export const Signup = () => {
             type="submit"
             disabled={
               !username ||
+              !firstName ||
+              !lastName ||
               !email ||
               !password ||
               !passwordConfirmation ||
