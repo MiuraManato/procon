@@ -1,8 +1,9 @@
 .base {
   background-color: #ffffff; /* 全体の背景色 */
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
+  height: 49vh;
   margin: 34px;
 }
 
@@ -10,7 +11,7 @@
   color: red;
   margin-bottom: 57px;
   font-size: 20px;
-  /* margin-top: 150px; */
+  /* margin-top: 0px; */
 }
 
 .form {
@@ -18,9 +19,8 @@
   padding: 20px;
   border-radius: 8px;
   width: 100%;
-  max-width: 600px;
+  /* max-width: 600px; */
   text-align: center;
-  height: 49vh;
 }
 
 .form input {
@@ -126,6 +126,11 @@
 
 .blank {
   margin-top: 20px;
+}
+
+.link-forgot {
+  color: #1e90ff;
+  text-align: right;
 }
 
 .link {
