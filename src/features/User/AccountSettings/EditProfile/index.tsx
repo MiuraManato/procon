@@ -141,12 +141,13 @@ export const EditProfile = () => {
           <br />
           <div className={styles.inputGroup}>
             <label className={styles.label}>
-              <div className={styles["label-text"]}>メールアドレス</div>
+              <div className={styles["label-text"]}>メールアドレス（変更不可）</div>
               <input
                 type="email"
                 value={email}
                 onBlur={() => handleBlur("email")}
                 onChange={(e) => handleEmailChange(e.target.value)}
+                readOnly={true}
               />
               {touched.email && email && !ValidateEmail(email) && (
                 <span className={styles.span}>メールアドレスの形式が正しくありません</span>

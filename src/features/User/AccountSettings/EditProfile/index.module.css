@@ -55,6 +55,10 @@
   white-space: pre;
 }
 
+.label input:read-only {
+  background-color: #cfcfcf;
+}
+
 /* ボタンのスタイル */
 .button {
   background-color: #7fe8fb; /* ボタンの背景色 */
