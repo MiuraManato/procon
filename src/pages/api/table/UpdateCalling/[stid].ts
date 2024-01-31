@@ -29,6 +29,8 @@ const updateCallingHandler = async (req: UpdateCallingRequest, res: NextApiRespo
     } catch (error) {
       console.error("Error during storeTableStatus update:", error);
       return res.status(500).json({ error: "Error during update" });
+    } finally {
+      await prisma.$disconnect();
     }
   }
 

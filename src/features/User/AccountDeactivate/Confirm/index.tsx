@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { doWithdrawal } from "./doWithdrawal";
-import router from "next/router";
+import { CompleteWithdrawal } from "../Complete";
 import useAuth from "@/features/hooks/useAuth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,7 @@ export const Withdrawal = () => {
   const [touched, setTouched] = useState({
     password: false,
   });
+  const [withdrawalSuccess, setWithdrawalSuccess] = useState<boolean>(false);
 
   const user = useAuth();
   const uid = user?.uid || "";
@@ -37,7 +38,7 @@ export const Withdrawal = () => {
 
         // サーバーのステータスコードを確認し、成功ならば特定のページにリダイレクト
         if (res.status === 200) {
-          await router.push("/user/auth/logout");
+          setWithdrawalSuccess(true);
         } else {
           throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
         }
@@ -55,6 +56,10 @@ export const Withdrawal = () => {
     setShowPassword(!showPassword);
   };
 
+  if (withdrawalSuccess) {
+    return <CompleteWithdrawal />;
+  }
+
   return (
     <>
       <Head>
@@ -62,8 +67,8 @@ export const Withdrawal = () => {
       </Head>
       <h1 className={styles.title}>退会確認</h1>
       {withdrawalError && <p>{withdrawalError}</p>}
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <div className={styles.base}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>
           <label className={styles.label}>
             <div className={styles["label-text"]}>パスワード</div>

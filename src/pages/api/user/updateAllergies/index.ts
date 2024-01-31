@@ -34,6 +34,8 @@ const updateAllergyHandler = async (req: UpdateAllergyNextApiRequest, res: NextA
     return res.status(200).json({ message: "Success" });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

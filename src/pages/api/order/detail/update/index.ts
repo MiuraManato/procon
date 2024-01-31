@@ -25,6 +25,8 @@ const updateOrderStatuses = async (req: NextApiRequestWithOrderStatus, res: Next
   } catch (error) {
     console.error("Failed to update order statuses:", error);
     return res.status(500).json({ message: "Failed to update order statuses" });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

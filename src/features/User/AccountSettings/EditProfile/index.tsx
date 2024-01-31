@@ -3,7 +3,6 @@ import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import useAuth from "@/features/hooks/useAuth";
 import Head from "next/head";
 import Link from "next/link";
-import router from "next/router";
 import { User } from "@prisma/client";
 import styles from "./index.module.css";
 
@@ -19,6 +18,7 @@ export const EditProfile = () => {
     age: false,
     email: false,
   });
+  const [editComplete, setEditComplete] = useState<boolean>(false);
 
   const user = useAuth();
 
@@ -86,9 +86,10 @@ export const EditProfile = () => {
       },
       body: JSON.stringify({ id, firstName, lastName, age, email }),
     });
-    if (res.status === 200) {
-      await router.push("/user/auth/edit-profile/complete");
+    if (res.ok) {
+      setEditComplete(true);
     } else {
+      console.error(res);
       throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
     }
   };
@@ -98,16 +99,17 @@ export const EditProfile = () => {
       <Head>
         <title>プロフィール編集</title>
       </Head>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <h1 className={styles.title}>アカウント情報変更</h1>
       <div className={styles.base}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method="post" onSubmit={handleSubmit} className={styles.form}>
+          {editComplete && <p className={styles.complete}>変更が完了しました。</p>}
           <div className={styles.inputGroup}>
             <label className={styles.label}>
               <div className={styles["label-text"]}>名前</div>
               <input
                 type="text"
-                value={firstName}
+                value={lastName}
                 onBlur={() => handleBlur("lastName")}
                 onChange={(e) => handleLastNameChange(e.target.value)}
               />
@@ -117,9 +119,7 @@ export const EditProfile = () => {
                 onBlur={() => handleBlur("firstName")}
                 onChange={(e) => handleFirstNameChange(e.target.value)}
               />
-              {touched.firstName && !firstName && touched.lastName && !lastName && (
-                <span className={styles.span}>名前を入力してください</span>
-              )}
+              {(!firstName || !lastName) && <span className={styles.span}>名前を入力してください</span>}
             </label>
           </div>
           <br />
@@ -141,12 +141,13 @@ export const EditProfile = () => {
           <br />
           <div className={styles.inputGroup}>
             <label className={styles.label}>
-              <div className={styles["label-text"]}>メールアドレス</div>
+              <div className={styles["label-text"]}>メールアドレス（変更不可）</div>
               <input
                 type="email"
                 value={email}
                 onBlur={() => handleBlur("email")}
                 onChange={(e) => handleEmailChange(e.target.value)}
+                readOnly={true}
               />
               {touched.email && email && !ValidateEmail(email) && (
                 <span className={styles.span}>メールアドレスの形式が正しくありません</span>
@@ -158,7 +159,6 @@ export const EditProfile = () => {
             type="submit"
             className={styles.button}
             disabled={!id || !firstName || !lastName || !age || !email || !ValidateEmail(email)}
-            onClick={() => console.log(id, firstName, lastName, age, email)}
           >
             情報を保存する
           </button>

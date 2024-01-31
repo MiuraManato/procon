@@ -79,6 +79,8 @@ const payTableHandler = async (req: NextApiRequestExtendsTableId, res: NextApiRe
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

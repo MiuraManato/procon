@@ -61,6 +61,8 @@ const editProductHandler = async (req: NextApiRequestWithEditProduct, res: NextA
   } catch (error) {
     console.error("Error updating product", error);
     res.status(500).json({ message: "Something went wrong. Please try again later." });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 

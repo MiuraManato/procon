@@ -30,6 +30,8 @@ const getOrder = async (req: NextApiRequest, res: NextApiResponse) => {
   } catch (error) {
     console.error("Failed to get order:", error);
     res.status(500).json({ message: "Failed to get order" });
+  } finally {
+    await prisma.$disconnect();
   }
 };
 
