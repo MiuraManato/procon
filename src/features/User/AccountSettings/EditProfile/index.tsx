@@ -163,7 +163,7 @@ export const EditProfile = () => {
             情報を保存する
           </button>
           <div className={styles.linkContainer}>
-            <Link href={`/user/account`}>戻る</Link>
+            <Link href={`/user/account`} className={styles.link}>戻る</Link>
           </div>
         </form>
       </div>
