@@ -1,0 +1,29 @@
+.base {
+  background-color: #ffffff; /* 全体の背景色 */
+  margin: 34px;
+  text-align: center;
+}
+
+.label-text {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+.label-text ::after {
+  white-space: pre;
+}
+
+/* ボタンのスタイル */
+.button {
+  background-color: #7fe8fb; /* ボタンの背景色 */
+  color: #000000; /* ボタンのテキスト色 */
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 100px;
+  
+}
