@@ -349,7 +349,7 @@ INSERT INTO "Product" ("productId", "productName", "price", "categoryId", "descr
 (36, 'オレンジ', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false),
 (37, 'カルピス', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false),
 (38, '王老吉', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false),
-(39 'ウーロン茶', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false),
+(39, 'ウーロン茶', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false),
 (40, 'コーヒー', 200, 5, '説明', 'https://firebasestorage.googleapis.com/v0/b/procon-72310.appspot.com/o/images%2Fcola.jpg?alt=media&token=6ea63d0b-983f-47a7-8ffb-53ff19cea57b', false);
 
 INSERT INTO "Ingredient" ("ingredientId", "ingredientName") VALUES 
@@ -381,7 +381,34 @@ INSERT INTO "Ingredient" ("ingredientId", "ingredientName") VALUES
 (26, 'キウイ'),
 (27, 'オレンジ'),
 (28, 'やまいも'),
-and more...
+(29, 'キャベツ'),
+(30, '白菜'),
+(31, '唐辛子'),
+(32, '海苔'),
+(33, '玉ねぎ'),
+(34, 'ネギ'),
+(35, 'トウモロコシ'),
+(36, 'じゃがいも'),
+(37, 'チーズ'),
+(38, 'バター'),
+(39, 'マヨネーズ'),
+(40, 'かつお節'),
+(41, 'にんじん'),
+(42, 'ピーマン'),
+(43, 'しいたけ'),
+(44, 'えのきだけ'),
+(45, '豆腐'),
+(46, 'ほうれん草'),
+(47, 'ブロッコリー'),
+(48, 'レタス'),
+(49, 'アボカド'),
+(50, 'パセリ'),
+(51, 'ミント'),
+(52, 'ライム'),
+(53, 'レモン'),
+(54, 'オリーブオイル'),
+(55, 'にんにく'),
+(56, '生姜');
 
 INSERT INTO "Menu" ("menuId", "menuCategoryName", "displayOrder") VALUES 
 (1, 'おつまみ', 1),
