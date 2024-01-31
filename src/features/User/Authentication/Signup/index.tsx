@@ -151,7 +151,7 @@ export const Signup = () => {
   return (
     <>
       <Head>
-        <title>ユーザー登録</title>
+        <title>新規登録 | PersonalizedMenu</title>
       </Head>
       <div className={styles.body}>
         <form method="post" onSubmit={handleSubmit} className={styles.form}>

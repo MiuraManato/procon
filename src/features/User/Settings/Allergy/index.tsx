@@ -3,6 +3,7 @@ import { Allergies } from "./type";
 import { exUser } from "@/features/Order/Menu/type";
 import useAuth from "@/features/hooks/useAuth";
 import styles from "./index.module.css";
+import Head from "next/head";
 
 export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   const [user, setUser] = useState<exUser>();
@@ -93,6 +94,9 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
 
   return (
     <>
+    <Head>
+        <title>アレルギー設定 | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         {updated && <div className={styles["update-success"]}>更新が完了しました</div>}
         <div className={styles["allergy-list"]}>

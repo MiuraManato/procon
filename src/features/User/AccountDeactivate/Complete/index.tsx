@@ -10,7 +10,7 @@ export const CompleteWithdrawal = () => {
   return (
     <>
       <Head>
-        <title>退会完了</title>
+        <title>退会完了 | PersonalizedMenu</title>
       </Head>
       <div className={styles.base}>
       <div className={styles["label-text"]}>アカウントが削除されました。</div>

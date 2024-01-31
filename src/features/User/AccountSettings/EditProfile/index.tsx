@@ -104,7 +104,7 @@ export const EditProfile = () => {
   return (
     <>
       <Head>
-        <title>プロフィール編集</title>
+        <title>アカウント情報変更 | PersonalizedMenu</title>
       </Head>
       <h1 className={styles.title}>アカウント情報変更</h1>
       <div className={styles.base}>

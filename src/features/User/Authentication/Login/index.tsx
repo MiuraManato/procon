@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { doLogin } from "./doLogin";
-
+import Head from "next/head";
 import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -43,6 +43,9 @@ export const Login = () => {
 
   return (
     <>
+    <Head>
+        <title>ログイン | PersonalizedMenu</title>
+      </Head>
       <div className={styles.base}>
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>

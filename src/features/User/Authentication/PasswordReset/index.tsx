@@ -3,6 +3,7 @@ import { doPasswordReset } from "./doPasswordReset";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import styles from "./index.module.css";
 import Link from "next/link";
+import Head from "next/head";
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,9 @@ export const PasswordReset = () => {
   };
   return (
     <>
+      <Head>
+        <title>パスワードリセット | PersonalizedMenu</title>
+      </Head>
     <div className={styles.base}>
       <div>
         <h1>パスワードリセット</h1>
