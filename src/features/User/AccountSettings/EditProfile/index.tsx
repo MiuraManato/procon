@@ -68,6 +68,13 @@ export const EditProfile = () => {
     setAge(value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 数字以外のキーが押された場合、入力を無効化
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const handleEmailChange = (email: string): void => {
     setEmail(email);
   };
@@ -134,6 +141,7 @@ export const EditProfile = () => {
                 onChange={(e) => {
                   handleAgeChange(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
               {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
             </label>
