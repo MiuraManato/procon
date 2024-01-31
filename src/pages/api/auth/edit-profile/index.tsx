@@ -17,7 +17,7 @@ const updateUserHandler = async (req: NextApiRequestEditUser, res: NextApiRespon
       data: {
         firstName: firstName,
         lastName: lastName,
-        age: age,
+        age: Number(age),
         email: email,
       },
     });
