@@ -35,14 +35,15 @@ export const PasswordReset = () => {
   };
   return (
     <>
+    <div className={styles.base}>
       <div>
         <h1>パスワードリセット</h1>
       </div>
       {passwordResetError && <div>{passwordResetError}</div>}
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form onSubmit={handleSubmit}>
-        <label>
-          <div>登録されているメールアドレスを入力してください</div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+      <label className={styles.label}>
+          <div className={styles["label-text"]}>登録されているメールアドレスを入力してください</div>
           <input
             type="email"
             name="email"
@@ -51,13 +52,14 @@ export const PasswordReset = () => {
             onBlur={() => setTouched({ ...touched, email: true })}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {touched.email && !email && <span>メールアドレスを入力してください</span>}
+          {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
         </label>
         <br />
-        <button type="submit" disabled={!email || !touched.email || !ValidateEmail(email)}>
+        <button className={styles.button} type="submit" disabled={!email || !touched.email || !ValidateEmail(email)}>
           メールを送信
         </button>
       </form>
+      </div>
       {modalIsOpen && (
         <div className={`${styles["outside-modal"]}`}>
           <div className={`${styles["confirm-modal"]}`}>
