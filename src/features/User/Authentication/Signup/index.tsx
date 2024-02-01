@@ -70,6 +70,13 @@ export const Signup = () => {
     setAge(value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 数字以外のキーが押された場合、入力を無効化
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   // 入力欄の変更を管理する関数
   const handleEmailChange = (email: string): void => {
     setEmail(email);
@@ -144,7 +151,7 @@ export const Signup = () => {
   return (
     <>
       <Head>
-        <title>ユーザー登録</title>
+        <title>新規登録 | PersonalizedMenu</title>
       </Head>
       <div className={styles.body}>
         <form method="post" onSubmit={handleSubmit} className={styles.form}>
@@ -198,6 +205,7 @@ export const Signup = () => {
                 onChange={(e) => {
                   handleAgeChange(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
               {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
             </label>

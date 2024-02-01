@@ -68,6 +68,13 @@ export const EditProfile = () => {
     setAge(value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 数字以外のキーが押された場合、入力を無効化
+    if (!/^\d$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
   const handleEmailChange = (email: string): void => {
     setEmail(email);
   };
@@ -97,7 +104,7 @@ export const EditProfile = () => {
   return (
     <>
       <Head>
-        <title>プロフィール編集</title>
+        <title>アカウント情報変更 | PersonalizedMenu</title>
       </Head>
       <h1 className={styles.title}>アカウント情報変更</h1>
       <div className={styles.base}>
@@ -134,6 +141,7 @@ export const EditProfile = () => {
                 onChange={(e) => {
                   handleAgeChange(e.target.value);
                 }}
+                onKeyPress={handleKeyPress}
               />
               {touched.age && !age && <span className={styles.span}>年齢を入力してください</span>}
             </label>
@@ -163,7 +171,9 @@ export const EditProfile = () => {
             情報を保存する
           </button>
           <div className={styles.linkContainer}>
-            <Link href={`/user/account`}>戻る</Link>
+            <Link href={`/user/account`} className={styles.link}>
+              戻る
+            </Link>
           </div>
         </form>
       </div>

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { doLogin } from "./doLogin";
-
+import Head from "next/head";
 import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -43,6 +43,9 @@ export const Login = () => {
 
   return (
     <>
+      <Head>
+        <title>ログイン | PersonalizedMenu</title>
+      </Head>
       <div className={styles.base}>
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -80,13 +83,13 @@ export const Login = () => {
             </div>
             <br />
             {touched.password && !password && <span className={styles.span}>パスワードを入力してください</span>}
-            <div className={styles["blank"]}></div>
-            <div>
-              <Link href={"/user/auth/password/reset"} className={styles.link}>
-                パスワードを忘れた場合
-              </Link>
-            </div>
           </label>
+          <div className={styles["blank"]}></div>
+          <div className={styles["link-forgot"]}>
+            <Link href={"/user/auth/password/reset"} className={styles.link}>
+              パスワードを忘れた場合
+            </Link>
+          </div>
           <br />
           <div className={styles.newline}>
             <button type="submit" disabled={!email || !password} className={styles.button}>

@@ -63,7 +63,7 @@ export const Withdrawal = () => {
   return (
     <>
       <Head>
-        <title>退会確認</title>
+        <title>退会確認 | PersonalizedMenu</title>
       </Head>
       <h1 className={styles.title}>退会確認</h1>
       {withdrawalError && <p>{withdrawalError}</p>}
