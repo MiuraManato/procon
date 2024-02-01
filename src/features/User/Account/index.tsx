@@ -22,7 +22,7 @@ export const AccountInfo = () => {
   return (
     <>
       <Head>
-        <title>アカウント情報</title>
+        <title>アカウント管理メニュー | PersonalizedMenu</title>
       </Head>
       <div className={styles.container}>
         <h1 className={styles.title}>アカウント情報</h1>

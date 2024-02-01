@@ -3,6 +3,7 @@ import { doPasswordReset } from "./doPasswordReset";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import styles from "./index.module.css";
 import Link from "next/link";
+import Head from "next/head";
 
 export const PasswordReset = () => {
   const [email, setEmail] = useState("");
@@ -35,29 +36,34 @@ export const PasswordReset = () => {
   };
   return (
     <>
-      <div>
-        <h1>パスワードリセット</h1>
+      <Head>
+        <title>パスワードリセット | PersonalizedMenu</title>
+      </Head>
+      <div className={styles.base}>
+        <div>
+          <h1>パスワードリセット</h1>
+        </div>
+        {passwordResetError && <div>{passwordResetError}</div>}
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <label className={styles.label}>
+            <div className={styles["label-text"]}>登録されているメールアドレスを入力してください</div>
+            <input
+              type="email"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onBlur={() => setTouched({ ...touched, email: true })}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {touched.email && !email && <span className={styles.span}>メールアドレスを入力してください</span>}
+          </label>
+          <br />
+          <button className={styles.button} type="submit" disabled={!email || !touched.email || !ValidateEmail(email)}>
+            メールを送信
+          </button>
+        </form>
       </div>
-      {passwordResetError && <div>{passwordResetError}</div>}
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form onSubmit={handleSubmit}>
-        <label>
-          <div>登録されているメールアドレスを入力してください</div>
-          <input
-            type="email"
-            name="email"
-            autoComplete="email"
-            value={email}
-            onBlur={() => setTouched({ ...touched, email: true })}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          {touched.email && !email && <span>メールアドレスを入力してください</span>}
-        </label>
-        <br />
-        <button type="submit" disabled={!email || !touched.email || !ValidateEmail(email)}>
-          メールを送信
-        </button>
-      </form>
       {modalIsOpen && (
         <div className={`${styles["outside-modal"]}`}>
           <div className={`${styles["confirm-modal"]}`}>

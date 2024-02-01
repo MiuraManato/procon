@@ -41,7 +41,7 @@ export const Top = () => {
   return (
     <>
       <Head>
-        <title>TOP画面</title>
+        <title>トップ | PersonalizedMenu</title>
       </Head>
       <div className={styles.base}>
         <div className={styles.title}>ログイン用QRコード</div>

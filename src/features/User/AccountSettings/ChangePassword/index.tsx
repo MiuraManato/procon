@@ -105,7 +105,7 @@ export const ChangePassword = () => {
   return (
     <>
       <Head>
-        <title>パスワード変更</title>
+        <title>パスワード変更 | PersonalizedMenu</title>
       </Head>
       {changePasswordError && <div>{changePasswordError}</div>}
       <h1 className={styles.title}>パスワード変更</h1>
