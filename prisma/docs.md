@@ -24,3 +24,12 @@ DATABASE_URL="postgresql://postgres:パスワード@localhost:5432/データベ�
 パスワードはインストール時に設定したものです。
 
 5432の部分はポート番号なので必要に応じて変更してください。
+
+
+[tera term手順]
+sudo su
+su - postgres
+psql
+\c {データベース名}
+
+これでDBに接続できます。
