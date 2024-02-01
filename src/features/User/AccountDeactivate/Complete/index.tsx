@@ -13,10 +13,12 @@ export const CompleteWithdrawal = () => {
         <title>退会完了 | PersonalizedMenu</title>
       </Head>
       <div className={styles.base}>
-      <div className={styles["label-text"]}>アカウントが削除されました。</div>
-      <div className={styles["label-text"]}>ご利用ありがとうございました。</div>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <button className={styles.button} onClick={handleClick}>トップへ</button>
+        <div className={styles["label-text"]}>アカウントが削除されました。</div>
+        <div className={styles["label-text"]}>ご利用ありがとうございました。</div>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <button className={styles.button} onClick={handleClick}>
+          トップへ
+        </button>
       </div>
     </>
   );

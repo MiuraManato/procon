@@ -7,7 +7,7 @@ const PasswordResetPage = () => {
       <UserHeader />
       <PasswordReset />
     </div>
-  )
+  );
 };
 
 export default PasswordResetPage;

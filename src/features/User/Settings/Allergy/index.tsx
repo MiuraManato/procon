@@ -94,7 +94,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>アレルギー設定 | PersonalizedMenu</title>
       </Head>
       <div className={styles["container"]}>

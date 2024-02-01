@@ -43,7 +43,7 @@ export const Login = () => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>ログイン | PersonalizedMenu</title>
       </Head>
       <div className={styles.base}>
