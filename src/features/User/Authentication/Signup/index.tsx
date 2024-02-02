@@ -33,6 +33,7 @@ export const Signup = () => {
   });
   // ユーザー登録完了モーダルの表示を管理するstate
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // 入力欄の変更を管理する関数
   const handleUsernameChange = (username: string): void => {
@@ -138,13 +139,16 @@ export const Signup = () => {
           body: JSON.stringify({ uid, username, firstName, lastName, age: Number(age), email }),
         });
         if (res.status === 200) {
+          setLoading(false);
           handleSetOpenModal();
         } else {
+          setLoading(false);
           throw new Error("ユーザー登録に失敗しました。時間をあけ、再度お試しください。");
         }
       })
       .catch((e: Error) => {
         alert(e.message);
+        setLoading(false);
       });
   };
 
@@ -290,6 +294,7 @@ export const Signup = () => {
               !CheckPasswordMatch(password, passwordConfirmation)
             }
             className={styles.button}
+            onClick={() => setLoading(true)}
           >
             登録
           </button>
@@ -311,6 +316,11 @@ export const Signup = () => {
           </div>
         )}
       </div>
+      {loading && (
+        <div className={styles["signup-modal"]}>
+          <div>ユーザー登録中です。しばらくお待ちください</div>
+        </div>
+      )}
     </>
   );
 };
