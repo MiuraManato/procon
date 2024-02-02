@@ -166,6 +166,35 @@
   height: 2.5em;
 }
 
+.quantity-selector {
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff; /* 背景色 */
+  border: 2px solid #000000; /* 枠線 */
+  border-radius: 50px; /* 丸みを持たせる */
+  padding: 5px 10px;
+  max-width: 80%;
+}
+
+.quantity-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 20px;
+  font-size: 24px; /* フォントサイズ */
+  user-select: none; /* テキスト選択を無効にする */
+}
+
+.quantity-button:focus {
+  outline: none; /* フォーカス時の枠線を消す */
+}
+
+.quantity-number {
+  font-size: 24px; /* 数量のフォントサイズ */
+}
+
 .margin-right {
   margin-right: 5px;
 }

@@ -6,6 +6,7 @@ import { QrReader } from "react-qr-reader";
 import router from "next/router";
 import { exUser } from "./type";
 import { Order } from "@/features/Employee/OrderList/type";
+import Head from "next/head";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
@@ -411,7 +412,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
                           <div className={styles["cart-item-price"]}>{menuProduct.product.price}円</div>
-                          <div className={styles["cart-item-count"]}>数量: {item.count}</div>
+                          {/* <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                           <div>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-right"]}`}
@@ -424,6 +425,21 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                               onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               -
+                            </button>
+                          </div> */}
+                          <div className={styles["quantity-selector"]}>
+                            <button
+                              className={styles["quantity-button"]}
+                              onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
+                            >
+                              -
+                            </button>
+                            <span className="quantity-number">{item.count}</span>
+                            <button
+                              className={styles["quantity-button"]}
+                              onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
+                            >
+                              +
                             </button>
                           </div>
                         </React.Fragment>
