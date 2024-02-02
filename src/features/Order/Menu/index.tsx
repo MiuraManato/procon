@@ -718,6 +718,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 ))}
               </div>
               <div className={styles["order-button"]}>
+                <button className={styles["order-modal-button"]} onClick={() => setOrderCheckModal(false)}>
+                  やめる
+                </button>
                 {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                 <button className={styles["order-modal-button"]} onClick={handleOrder}>
                   注文する
