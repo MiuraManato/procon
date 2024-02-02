@@ -32,7 +32,7 @@
 
 .category-list {
   margin: 0;
-  font-size: 2em;
+  font-size: 1.7em;
   color: #333;
   text-align: center;
   padding: 15px 0px;
@@ -42,7 +42,7 @@
 
 .category-button {
   border: none;
-  background-color: transparent;
+  background-color: #fffee2;
   font-size: 1em;
   color: #333;
   cursor: pointer;
@@ -320,7 +320,7 @@
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  background-color: #ddd;
+  background-color: #fffce5;
 }
 
 .cart-items {
