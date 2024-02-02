@@ -36,6 +36,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [nowLoading, setNowLoading] = useState<boolean>(false);
   const [paymentModal, setPaymentModal] = useState<boolean>(false);
   const [sum, setSum] = useState<number>(0);
+  const [isOrdering, setIsOrdering] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -220,6 +222,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleOrder = async () => {
     if (!isOrdered) setIsOrdered(true);
+    setIsOrdering(true);
     const users = LoginUsers.map((user) => user.userId);
     const res = await fetch("/api/order", {
       method: "POST",
@@ -233,6 +236,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     }
     setCart([]);
     setOrderCheckModal(false);
+    setIsOrdering(false);
+    setOrderPlaced(true);
   };
 
   const getTableName = async () => {
@@ -802,6 +807,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
                 閉じる
               </button>
+            </div>
+          </div>
+        )}
+
+        {isOrdering && (
+          <div className={styles["ordering-modal"]}>
+            <div>注文中です...</div>
+          </div>
+        )}
+        {orderPlaced && (
+          <div className={styles["order-placed-modal"]}>
+            <div className={styles["order-placed-modal-content"]}>
+              <p>注文しました。</p>
+              <button onClick={() => setOrderPlaced(false)}>OK</button>
             </div>
           </div>
         )}

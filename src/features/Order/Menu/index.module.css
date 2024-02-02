@@ -837,6 +837,80 @@
   font-weight: bold;
 }
 
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ordering-modal {
+  position: fixed; /* モーダルの位置を画面に固定 */
+  top: 0;
+  left: 0;
+  width: 100%; /* フルスクリーン */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  z-index: 999; /* 他の要素より前面に表示 */
+}
+
+.ordering-modal div {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+}
+
+.order-placed-modal {
+  position: fixed; /* モーダルの位置を画面に固定 */
+  top: 0;
+  left: 0;
+  width: 100%; /* フルスクリーン */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  z-index: 999; /* 他の要素より前面に表示 */
+}
+
+.order-placed-modal-content {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+  width: 30%;
+  height: 20%;
+}
+
+.order-placed-modal-content p {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-placed-modal-content button {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1rem;
+}
+
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .product-item {
