@@ -152,12 +152,15 @@
 
 .purchase-button {
   padding: 10px 20px;
-  background-color: #fbe600;
+  background-color: #ffb700;
   color: #333;
   border: 1px solid #ddd;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .cart-quantity {
