@@ -282,6 +282,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   return (
     <>
+      <Head>
+        <title>メニュー一覧 | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         <div className={styles["menu-container"]}>
           <div className={styles["menu-header"]}>

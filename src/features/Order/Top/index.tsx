@@ -5,6 +5,7 @@ import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { firebaseApp } from "@/utils/Firebase/firebaseConfig";
+import Head from "next/head";
 
 const EmployeeButton = () => {
   return (
@@ -81,6 +82,9 @@ export const OrderTop = () => {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>人数入力 | PersonalizedMenu</title>
+      </Head>
       <div className={styles.EmployeeButton}>
         <EmployeeButton />
       </div>
