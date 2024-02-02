@@ -17,6 +17,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
     const fetchUser = async () => {
       try {
         if (u === undefined || u === null) {
+          setLoading(true);
           return;
         }
         const userData: exUser = await fetch(`/api/user/${u.uid}`).then((res: Response): Promise<exUser> => res.json());
@@ -88,7 +89,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
     }
   };
 
-  if (loading) {
+  if (u === undefined || u === null || loading) {
     return <div className={styles.loading}>Loading...</div>;
   }
 
