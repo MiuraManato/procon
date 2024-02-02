@@ -911,6 +911,44 @@
   font-size: 1rem;
 }
 
+.confirm-delete-item-modal {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+  width: 35%;
+  height: 20%;
+}
+
+.confirm-delete-item-modal button {
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.confirm-delete-item-modal p {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.confirm-delete-item-button {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1rem;
+}
+
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   .product-item {

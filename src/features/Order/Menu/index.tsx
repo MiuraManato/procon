@@ -38,6 +38,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [sum, setSum] = useState<number>(0);
   const [isOrdering, setIsOrdering] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [confirmDeleteItemModal, setConfirmDeleteItemModal] = useState<{
+    menuProductId: number;
+    productId: number;
+    count: number;
+  } | null>(null);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -167,7 +172,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       if (existingItem) {
         // 既存の商品の数量を減らす
         if (existingItem.count - 1 === 0) {
-          // 商品の数量が0になったら、その商品をカートから削除
+          // 商品の数量が0になったら、削除するか確認をする
+          setConfirmDeleteItemModal(existingItem);
+          return prevCart;
+          //その商品をカートから削除
           return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
@@ -477,6 +485,38 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         </div>
+        {confirmDeleteItemModal && (
+          <div>
+            <div className={styles["modal"]} onClick={() => setConfirmDeleteItemModal(null)}>
+              <div className={styles["confirm-delete-item-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+                <p>商品をカートから削除しますか？</p>
+                <div>
+                  <button
+                    className={styles["confirm-delete-item-button"]}
+                    onClick={() => setConfirmDeleteItemModal(null)}
+                  >
+                    キャンセル
+                  </button>
+                  <button
+                    className={styles["confirm-delete-item-button"]}
+                    onClick={() => {
+                      setCart((prevCart) =>
+                        prevCart.filter(
+                          (item) =>
+                            item.menuProductId !== confirmDeleteItemModal.menuProductId ||
+                            item.productId !== confirmDeleteItemModal.productId,
+                        ),
+                      );
+                      setConfirmDeleteItemModal(null);
+                    }}
+                  >
+                    削除する
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {isOpenedFilterModal && (
           <div className={styles["modal"]} onClick={handleModalOutsideClick}>
             <div className={styles["filter-modal"]} onClick={handleModalInsideClick}>
@@ -724,9 +764,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                 <button className={styles["order-modal-button"]} onClick={handleOrder}>
                   注文する
-                </button>
-                <button className={styles["order-modal-button"]} onClick={() => setOrderCheckModal(false)}>
-                  やめる
                 </button>
               </div>
             </div>
