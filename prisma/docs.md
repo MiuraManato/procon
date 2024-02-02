@@ -42,6 +42,14 @@ sudo docker pull postgres:15
 [postgresの起動]
 sudo docker run --name postgres15 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v my_pgdata:/var/lib/postgresql/data -d postgres:15
 
+sudo docker container start postgres15
 sudo docker exec -it postgres15 bash
 
+psql -h localhost -U postgres
+
+sudo yum install docker
+sudo service docker start
+sudo docker pull postgres:15
+sudo docker container start postgres15
+sudo docker exec -it postgres15 bash
 psql -h localhost -U postgres
