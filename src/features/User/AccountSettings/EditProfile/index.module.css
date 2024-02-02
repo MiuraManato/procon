@@ -117,3 +117,9 @@
   text-align: center; /* テキストを中央揃え */
   animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
 }
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  text-align: center;
+}

@@ -106,7 +106,7 @@ export const EditProfile = () => {
   };
 
   if (email === "") {
-    return <p>Loading...</p>;
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (
