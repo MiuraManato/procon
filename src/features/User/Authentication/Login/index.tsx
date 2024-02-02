@@ -16,6 +16,7 @@ export const Login = () => {
     email: false,
     password: false,
   });
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const togglePasswordVisibility = (): void => {
@@ -24,6 +25,7 @@ export const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const loginSuccess = await doLogin(email, password);
       if (loginSuccess) {
@@ -38,6 +40,8 @@ export const Login = () => {
         console.error(err);
         setLoginError("ログイン中にエラーが発生しました。時間をあけ、再度実行してください。");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,6 +107,11 @@ export const Login = () => {
           </div>
         </form>
       </div>
+      {loading && (
+        <div className={styles["login-modal"]}>
+          <div>ログイン中です</div>
+        </div>
+      )}
     </>
   );
 };
