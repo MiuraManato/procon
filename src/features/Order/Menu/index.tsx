@@ -710,14 +710,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={styles["confirm-login-modal"]} onClick={(e) => handleModalInsideClick(e)}>
               <p>以下のユーザーでログインしますか？</p>
               <p className={styles["confirm-login-user"]}>{pendingLoginUser?.username}</p>
-              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
-                ログイン
-              </button>
               <button
                 className={styles["confirm-login-button-cancel"]}
                 onClick={() => setIsConfirmLoginModalOpen(false)}
               >
                 キャンセル
+              </button>
+              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
+                ログイン
               </button>
             </div>
           </div>
