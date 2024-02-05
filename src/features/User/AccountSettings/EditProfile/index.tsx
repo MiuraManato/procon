@@ -19,6 +19,7 @@ export const EditProfile = () => {
     email: false,
   });
   const [editComplete, setEditComplete] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const user = useAuth();
 
@@ -85,6 +86,7 @@ export const EditProfile = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    setLoading(true);
 
     const res = await fetch("/api/auth/edit-profile", {
       method: "POST",
@@ -94,12 +96,18 @@ export const EditProfile = () => {
       body: JSON.stringify({ id, firstName, lastName, age, email }),
     });
     if (res.ok) {
+      setLoading(false);
       setEditComplete(true);
     } else {
       console.error(res);
+      setLoading(false);
       throw new Error("情報変更に失敗しました。時間をあけ、再度お試しください。");
     }
   };
+
+  if (email === "") {
+    return <div className={styles.loading}>Loading...</div>;
+  }
 
   return (
     <>
@@ -177,6 +185,11 @@ export const EditProfile = () => {
           </div>
         </form>
       </div>
+      {loading && (
+        <div className={styles["edit-profile-modal"]}>
+          <div>ユーザー情報を更新中です。</div>
+        </div>
+      )}
     </>
   );
 };

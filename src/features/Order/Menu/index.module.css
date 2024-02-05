@@ -32,7 +32,7 @@
 
 .category-list {
   margin: 0;
-  font-size: 2em;
+  font-size: 1.7em;
   color: #333;
   text-align: center;
   padding: 15px 0px;
@@ -42,7 +42,7 @@
 
 .category-button {
   border: none;
-  background-color: transparent;
+  background-color: #fffee2;
   font-size: 1em;
   color: #333;
   cursor: pointer;
@@ -152,18 +152,50 @@
 
 .purchase-button {
   padding: 10px 20px;
-  background-color: #fbe600;
+  background-color: #ffb700;
   color: #333;
   border: 1px solid #ddd;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: 100%;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .cart-quantity {
   border-radius: 100%;
   width: 2.5em;
   height: 2.5em;
+}
+
+.quantity-selector {
+  display: flex;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff; /* 背景色 */
+  border: 2px solid #000000; /* 枠線 */
+  border-radius: 50px; /* 丸みを持たせる */
+  padding: 5px 10px;
+  max-width: 80%;
+}
+
+.quantity-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 20px;
+  font-size: 24px; /* フォントサイズ */
+  user-select: none; /* テキスト選択を無効にする */
+}
+
+.quantity-button:focus {
+  outline: none; /* フォーカス時の枠線を消す */
+}
+
+.quantity-number {
+  font-size: 24px; /* 数量のフォントサイズ */
 }
 
 .margin-right {
@@ -291,7 +323,7 @@
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
-  background-color: #ddd;
+  background-color: #fffce5;
 }
 
 .cart-items {
@@ -806,6 +838,118 @@
 
 .tableName {
   font-weight: bold;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ordering-modal {
+  position: fixed; /* モーダルの位置を画面に固定 */
+  top: 0;
+  left: 0;
+  width: 100%; /* フルスクリーン */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  z-index: 999; /* 他の要素より前面に表示 */
+}
+
+.ordering-modal div {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+}
+
+.order-placed-modal {
+  position: fixed; /* モーダルの位置を画面に固定 */
+  top: 0;
+  left: 0;
+  width: 100%; /* フルスクリーン */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  z-index: 999; /* 他の要素より前面に表示 */
+}
+
+.order-placed-modal-content {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+  width: 30%;
+  height: 20%;
+}
+
+.order-placed-modal-content p {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-placed-modal-content button {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1rem;
+}
+
+.confirm-delete-item-modal {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+  width: 35%;
+  height: 20%;
+}
+
+.confirm-delete-item-modal button {
+  margin-top: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.confirm-delete-item-modal p {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.confirm-delete-item-button {
+  padding: 10px 20px;
+  background-color: #ffb700;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 45%;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1rem;
 }
 
 /* 表示用端末(タブレットに反映させる用のメディアクエリ) */

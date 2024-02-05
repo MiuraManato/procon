@@ -1,6 +1,6 @@
 /* 全体のコンテナスタイル */
 .container {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: flex-start;
 }
@@ -45,6 +45,7 @@
 
 /* 更新成功メッセージのスタイル */
 .update-success {
+  display: flex;
   color: green;
   margin-bottom: 20px;
   justify-content: center;

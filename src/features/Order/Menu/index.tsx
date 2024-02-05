@@ -6,6 +6,7 @@ import { QrReader } from "react-qr-reader";
 import router from "next/router";
 import { exUser } from "./type";
 import { Order } from "@/features/Employee/OrderList/type";
+import Head from "next/head";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
@@ -35,6 +36,13 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const [nowLoading, setNowLoading] = useState<boolean>(false);
   const [paymentModal, setPaymentModal] = useState<boolean>(false);
   const [sum, setSum] = useState<number>(0);
+  const [isOrdering, setIsOrdering] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [confirmDeleteItemModal, setConfirmDeleteItemModal] = useState<{
+    menuProductId: number;
+    productId: number;
+    count: number;
+  } | null>(null);
 
   const handleSetNowCategory = (menuId: number) => {
     setNowCategoryId(menuId);
@@ -164,7 +172,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       if (existingItem) {
         // 既存の商品の数量を減らす
         if (existingItem.count - 1 === 0) {
-          // 商品の数量が0になったら、その商品をカートから削除
+          // 商品の数量が0になったら、削除するか確認をする
+          setConfirmDeleteItemModal(existingItem);
+          return prevCart;
+          //その商品をカートから削除
           return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
@@ -219,6 +230,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handleOrder = async () => {
     if (!isOrdered) setIsOrdered(true);
+    setIsOrdering(true);
     const users = LoginUsers.map((user) => user.userId);
     const res = await fetch("/api/order", {
       method: "POST",
@@ -232,6 +244,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     }
     setCart([]);
     setOrderCheckModal(false);
+    setIsOrdering(false);
+    setOrderPlaced(true);
   };
 
   const getTableName = async () => {
@@ -282,6 +296,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   return (
     <>
+      <Head>
+        <title>メニュー一覧 | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         <div className={styles["menu-container"]}>
           <div className={styles["menu-header"]}>
@@ -408,7 +425,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
                           <div className={styles["cart-item-price"]}>{menuProduct.product.price}円</div>
-                          <div className={styles["cart-item-count"]}>数量: {item.count}</div>
+                          {/* <div className={styles["cart-item-count"]}>数量: {item.count}</div>
                           <div>
                             <button
                               className={`${styles["cart-quantity"]} ${styles["margin-right"]}`}
@@ -421,6 +438,21 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                               onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
                             >
                               -
+                            </button>
+                          </div> */}
+                          <div className={styles["quantity-selector"]}>
+                            <button
+                              className={styles["quantity-button"]}
+                              onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
+                            >
+                              -
+                            </button>
+                            <span className="quantity-number">{item.count}</span>
+                            <button
+                              className={styles["quantity-button"]}
+                              onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
+                            >
+                              +
                             </button>
                           </div>
                         </React.Fragment>
@@ -453,6 +485,38 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             </div>
           </div>
         </div>
+        {confirmDeleteItemModal && (
+          <div>
+            <div className={styles["modal"]} onClick={() => setConfirmDeleteItemModal(null)}>
+              <div className={styles["confirm-delete-item-modal"]} onClick={(e) => handleModalInsideClick(e)}>
+                <p>商品をカートから削除しますか？</p>
+                <div>
+                  <button
+                    className={styles["confirm-delete-item-button"]}
+                    onClick={() => setConfirmDeleteItemModal(null)}
+                  >
+                    キャンセル
+                  </button>
+                  <button
+                    className={styles["confirm-delete-item-button"]}
+                    onClick={() => {
+                      setCart((prevCart) =>
+                        prevCart.filter(
+                          (item) =>
+                            item.menuProductId !== confirmDeleteItemModal.menuProductId ||
+                            item.productId !== confirmDeleteItemModal.productId,
+                        ),
+                      );
+                      setConfirmDeleteItemModal(null);
+                    }}
+                  >
+                    削除する
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {isOpenedFilterModal && (
           <div className={styles["modal"]} onClick={handleModalOutsideClick}>
             <div className={styles["filter-modal"]} onClick={handleModalInsideClick}>
@@ -506,7 +570,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                                 </div>
                                 <div className={styles["order-history-item-price"]}>{orderDetail.product.price}円</div>
                                 <div className={styles["order-history-item-count"]}>数量：{orderDetail.quantity}</div>
-                                <div>調理ステータス：{convertStatus(orderDetail.orderStatus)}</div>
+                                <div>{convertStatus(orderDetail.orderStatus)}</div>
                               </div>
                             </React.Fragment>
                           ))}
@@ -694,12 +758,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 ))}
               </div>
               <div className={styles["order-button"]}>
+                <button className={styles["order-modal-button"]} onClick={() => setOrderCheckModal(false)}>
+                  やめる
+                </button>
                 {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                 <button className={styles["order-modal-button"]} onClick={handleOrder}>
                   注文する
-                </button>
-                <button className={styles["order-modal-button"]} onClick={() => setOrderCheckModal(false)}>
-                  やめる
                 </button>
               </div>
             </div>
@@ -783,6 +847,20 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
                 閉じる
               </button>
+            </div>
+          </div>
+        )}
+
+        {isOrdering && (
+          <div className={styles["ordering-modal"]}>
+            <div>注文中です...</div>
+          </div>
+        )}
+        {orderPlaced && (
+          <div className={styles["order-placed-modal"]}>
+            <div className={styles["order-placed-modal-content"]}>
+              <p>注文しました。</p>
+              <button onClick={() => setOrderPlaced(false)}>OK</button>
             </div>
           </div>
         )}

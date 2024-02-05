@@ -4,6 +4,7 @@ import { exUser } from "@/features/Order/Menu/type";
 import useAuth from "@/features/hooks/useAuth";
 import styles from "./index.module.css";
 import Head from "next/head";
+import Router from "next/router";
 
 export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
   const [user, setUser] = useState<exUser>();
@@ -17,6 +18,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
     const fetchUser = async () => {
       try {
         if (u === undefined || u === null) {
+          setLoading(true);
           return;
         }
         const userData: exUser = await fetch(`/api/user/${u.uid}`).then((res: Response): Promise<exUser> => res.json());
@@ -30,7 +32,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
 
     if (u === undefined) return;
     if (u === null) {
-      window.location.href = "/user/auth/login";
+      Router.push("/user/auth/login").catch(console.error);
     }
     fetchUser().catch((err) => console.error(err));
   }, [u]);
@@ -88,7 +90,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
     }
   };
 
-  if (loading) {
+  if (u === undefined || u === null || loading) {
     return <div className={styles.loading}>Loading...</div>;
   }
 

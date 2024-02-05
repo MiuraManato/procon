@@ -142,6 +142,28 @@
   white-space: pre;
 }
 
+.login-modal {
+  position: fixed; /* モーダルの位置を画面に固定 */
+  top: 0;
+  left: 0;
+  width: 100%; /* フルスクリーン */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  align-items: center; /* 垂直方向の中央揃え */
+  z-index: 999; /* 他の要素より前面に表示 */
+}
+
+.login-modal div {
+  padding: 20px;
+  background: #fff; /* 背景色 */
+  border-radius: 10px; /* 角丸 */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* 影をつける */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.5s ease-out; /* 表示時のアニメーション */
+}
+
 @media only screen and (max-device-width: 375px) and (max-device-height: 667px) and (orientation: portrait) {
   .error {
     font-size: 17px;
