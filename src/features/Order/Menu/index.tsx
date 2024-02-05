@@ -570,7 +570,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                                 </div>
                                 <div className={styles["order-history-item-price"]}>{orderDetail.product.price}円</div>
                                 <div className={styles["order-history-item-count"]}>数量：{orderDetail.quantity}</div>
-                                <div>調理ステータス：{convertStatus(orderDetail.orderStatus)}</div>
+                                <div>{convertStatus(orderDetail.orderStatus)}</div>
                               </div>
                             </React.Fragment>
                           ))}
