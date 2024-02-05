@@ -196,9 +196,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const convertStatus = (ORDERSTATUS: string) => {
     switch (ORDERSTATUS) {
-      case "ORDERED":
-        return "注文済み";
       case "COOKING":
+        return "調理中";
+      case "COOKED":
         return "調理中";
       case "SERVED":
         return "提供済み";
