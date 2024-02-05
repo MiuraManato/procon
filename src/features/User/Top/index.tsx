@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import QRCodeComponent from "@/components/User/QRCode";
 import useAuth from "@/features/hooks/useAuth";
 import { useEffect, useState } from "react";
+import Router from "next/router";
 
 export const Top = () => {
   const [uid, setUid] = useState<string>("");
@@ -16,7 +17,7 @@ export const Top = () => {
   useEffect(() => {
     if (user === undefined) return;
     if (user === null) {
-      window.location.href = "/user/auth/login";
+      Router.push("/user/auth/login").catch(console.error);
       return;
     }
     setUid(user.uid);
@@ -37,7 +38,7 @@ export const Top = () => {
     event.stopPropagation();
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className={styles.loading}>Loading...</div>;
   return (
     <>
       <Head>
