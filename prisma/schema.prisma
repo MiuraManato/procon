@@ -14,7 +14,7 @@ model User {
   firstName   String
   lastName    String
   age         Int
-  email       String
+  email       String           @unique
   authority   Int              @default(0)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
