@@ -17,7 +17,7 @@ export const AccountInfo = () => {
   useEffect(() => {
     if (user === undefined) return;
     if (user === null) {
-      window.location.href = "/user/auth/login";
+      router.push("/user/auth/login").catch(console.error);
       return;
     }
     setLoading(false);
@@ -40,7 +40,7 @@ export const AccountInfo = () => {
     e.stopPropagation();
   };
 
-  if (loading) return <>Loading...</>;
+  if (loading) return <div className={styles.loading}>Loading...</div>;
 
   return (
     <>

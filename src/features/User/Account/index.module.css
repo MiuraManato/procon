@@ -127,3 +127,9 @@
   backdrop-filter: blur(3px);
   z-index: 999;
 }
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  text-align: center;
+}
