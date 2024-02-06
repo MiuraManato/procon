@@ -265,9 +265,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const handlePay = async () => {
     setIsRunningProcess(true);
     await getOrderHistory().then().catch();
-    setSum(
-      orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0),
-    );
+    const s = orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0);
+    setSum(s);
     await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
@@ -804,21 +803,22 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={`${styles["check-accounting-modal"]}`}>
               <div className={styles["check-accounting-contents"]} onClick={handleModalInsideClick}>
                 <p className={styles["check-accounting"]}>お会計に進みます。よろしいですか？</p>
-                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                
                 <button
                   className={styles["check-accounting-button"]}
+                  onClick={() => setCheckAccounting(false)}
+                >
+                  戻る
+                </button>
+                {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+                <button
+                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
                   onClick={() => {
                     setCheckAccounting(false);
                     void handlePay();
                   }}
                 >
                   会計に進む
-                </button>
-                <button
-                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
-                  onClick={() => setCheckAccounting(false)}
-                >
-                  戻る
                 </button>
               </div>
             </div>
