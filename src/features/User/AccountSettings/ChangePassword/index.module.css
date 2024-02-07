@@ -88,3 +88,8 @@
 .show-password {
   color: #333;
 }
+
+.error {
+  color: #ff0000;
+  white-space: pre-line;
+}
