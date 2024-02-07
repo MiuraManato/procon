@@ -175,8 +175,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           // 商品の数量が0になったら、削除するか確認をする
           setConfirmDeleteItemModal(existingItem);
           return prevCart;
-          //その商品をカートから削除
-          return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
           return prevCart.map((item) =>
