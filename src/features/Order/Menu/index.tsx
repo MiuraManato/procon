@@ -263,7 +263,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const handlePay = async () => {
     setIsRunningProcess(true);
     await getOrderHistory().then().catch();
-    const s = orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0);
+    const s = orderHistory.reduce(
+      (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+      0,
+    );
     setSum(s);
     await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
@@ -290,6 +293,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       setIsErrorTableId(true);
     }
   }, []);
+
+  // 画像を事前に読み込む
+  useEffect(() => {
+    const images = menuData
+      .map((menu) => menu.menuProducts)
+      .flat()
+      .map((menuProduct) => menuProduct.product.imageUrl);
+
+    images.forEach((image) => {
+      const img = new Image();
+      img.src = image;
+    });
+  }, [menuData]);
 
   return (
     <>
@@ -801,11 +817,8 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={`${styles["check-accounting-modal"]}`}>
               <div className={styles["check-accounting-contents"]} onClick={handleModalInsideClick}>
                 <p className={styles["check-accounting"]}>お会計に進みます。よろしいですか？</p>
-                
-                <button
-                  className={styles["check-accounting-button"]}
-                  onClick={() => setCheckAccounting(false)}
-                >
+
+                <button className={styles["check-accounting-button"]} onClick={() => setCheckAccounting(false)}>
                   戻る
                 </button>
                 {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
