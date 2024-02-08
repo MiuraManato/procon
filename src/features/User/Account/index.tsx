@@ -55,9 +55,9 @@ export const AccountInfo = () => {
         <Link href={"/user/account/settings/change-password"} className={styles.link}>
           <div className={styles.btn}>パスワード変更</div>
         </Link>
-        <button className={styles.btn} onClick={() => setIsLogoutModalOpen(true)}>
+        <div className={styles.btn} onClick={() => setIsLogoutModalOpen(true)}>
           ログアウト
-        </button>
+        </div>
         <Link href={"/user/account/deactivate/confirm"} className={styles.link}>
           <div className={styles.tbtn}>退会</div>
         </Link>

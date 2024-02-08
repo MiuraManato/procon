@@ -91,7 +91,7 @@ export const ChangePassword = () => {
         .then(async (res) => {
           res
             ? await router.push("/user/account")
-            : setChangePasswordError("パスワードが間違っています。お確かめ下さい。");
+            : setChangePasswordError("パスワードが間違っています。正しいパスワードを入力してください。");
         })
         .catch((e: Error) => {
           console.error(e);
@@ -107,11 +107,11 @@ export const ChangePassword = () => {
       <Head>
         <title>パスワード変更 | PersonalizedMenu</title>
       </Head>
-      {changePasswordError && <div>{changePasswordError}</div>}
       <h1 className={styles.title}>パスワード変更</h1>
       <div className={styles.base}>
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form method={"post"} onSubmit={handleSubmit} className={styles.form}>
+        {changePasswordError && <div className={styles["error"]}>{changePasswordError}</div>}
           <label className={styles.label}>
             <br />
             <div className={styles["label-text"]}>現在のパスワード</div>

@@ -491,6 +491,7 @@
   transition:
     background-color 0.3s ease,
     transform 0.2s ease;
+  margin: 12px;
 }
 
 .confirm-login-button-cancel {

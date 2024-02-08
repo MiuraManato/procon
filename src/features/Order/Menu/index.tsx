@@ -175,8 +175,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           // 商品の数量が0になったら、削除するか確認をする
           setConfirmDeleteItemModal(existingItem);
           return prevCart;
-          //その商品をカートから削除
-          return prevCart.filter((item) => item.menuProductId !== menuProductId);
         } else {
           // それ以外の場合は、商品の数量を減らす
           return prevCart.map((item) =>
@@ -196,9 +194,9 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const convertStatus = (ORDERSTATUS: string) => {
     switch (ORDERSTATUS) {
-      case "ORDERED":
-        return "注文済み";
       case "COOKING":
+        return "調理中";
+      case "COOKED":
         return "調理中";
       case "SERVED":
         return "提供済み";
@@ -265,9 +263,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const handlePay = async () => {
     setIsRunningProcess(true);
     await getOrderHistory().then().catch();
-    setSum(
-      orderHistory.reduce((acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0), 0),
+    const s = orderHistory.reduce(
+      (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+      0,
     );
+    setSum(s);
     await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
@@ -293,6 +293,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
       setIsErrorTableId(true);
     }
   }, []);
+
+  // 画像を事前に読み込む
+  useEffect(() => {
+    const images = menuData
+      .map((menu) => menu.menuProducts)
+      .flat()
+      .map((menuProduct) => menuProduct.product.imageUrl);
+
+    images.forEach((image) => {
+      const img = new Image();
+      img.src = image;
+    });
+  }, [menuData]);
 
   return (
     <>
@@ -710,14 +723,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={styles["confirm-login-modal"]} onClick={(e) => handleModalInsideClick(e)}>
               <p>以下のユーザーでログインしますか？</p>
               <p className={styles["confirm-login-user"]}>{pendingLoginUser?.username}</p>
-              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
-                ログイン
-              </button>
               <button
                 className={styles["confirm-login-button-cancel"]}
                 onClick={() => setIsConfirmLoginModalOpen(false)}
               >
                 キャンセル
+              </button>
+              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
+                ログイン
               </button>
             </div>
           </div>
@@ -804,21 +817,19 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
             <div className={`${styles["check-accounting-modal"]}`}>
               <div className={styles["check-accounting-contents"]} onClick={handleModalInsideClick}>
                 <p className={styles["check-accounting"]}>お会計に進みます。よろしいですか？</p>
+
+                <button className={styles["check-accounting-button"]} onClick={() => setCheckAccounting(false)}>
+                  戻る
+                </button>
                 {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
                 <button
-                  className={styles["check-accounting-button"]}
+                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
                   onClick={() => {
                     setCheckAccounting(false);
                     void handlePay();
                   }}
                 >
                   会計に進む
-                </button>
-                <button
-                  className={`${styles["check-accounting-button"]} ${styles["margin-left-40px"]}`}
-                  onClick={() => setCheckAccounting(false)}
-                >
-                  戻る
                 </button>
               </div>
             </div>

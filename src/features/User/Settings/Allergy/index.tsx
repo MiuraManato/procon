@@ -100,6 +100,7 @@ export const AllergySetting = ({ allergy }: { allergy: Allergies }) => {
         <title>アレルギー設定 | PersonalizedMenu</title>
       </Head>
       <div className={styles["container"]}>
+        <h1 className={styles.title}>アカウント情報変更</h1>
         {updated && <div className={styles["update-success"]}>更新が完了しました</div>}
         <div className={styles["allergy-list"]}>
           {allergy.allergies.map((a) => (
