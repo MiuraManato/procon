@@ -852,16 +852,18 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         {paymentModal && (
           <div className={`${styles["payment-modal"]}`}>
             <div className={styles["payment-contents"]} onClick={handleModalInsideClick}>
-              <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
-              <p className={styles["payment-text"]}>
-                お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
-              </p>
-              <p className={styles["payment-text"]}>
-                レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
-              </p>
-              <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
-                閉じる
-              </button>
+              <div className={styles["payment-con"]}>
+                <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
+                <p className={styles["payment-text"]}>
+                  お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
+                </p>
+                <p className={styles["payment-text"]}>
+                  レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
+                </p>
+                <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
+                  閉じる
+                </button>
+              </div>
             </div>
           </div>
         )}
