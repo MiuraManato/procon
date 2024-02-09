@@ -3,6 +3,7 @@ import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import router from "next/dist/client/router";
 import Head from "next/head";
+import { supabase } from "@/utils/Supabase/supabaseClient";
 
 export const EmployeeTop = ({ tables }: { tables: Tables }) => {
   const [tablesState, setTablesState] = useState<Tables>(tables);
@@ -58,6 +59,16 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
       : tablesState;
     setFilteredTables(filtered);
   }, [selectedStore, tablesState]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onReceive = (payload: any) => {
+    console.log("Change received!", payload);
+  };
+
+  supabase
+    .channel("procon-test")
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "StoreTableStatus" }, onReceive)
+    .subscribe();
 
   return (
     <>

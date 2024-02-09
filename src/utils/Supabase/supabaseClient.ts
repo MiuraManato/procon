@@ -1,8 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-// const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_APIKEY;
-const SERVICE_ROLE = process.env.SERVICE_ROLE;
+const SERVICE_ROLE = process.env.NEXT_PUBLIC_SERVICE_ROLE;
 
 const createSupabaseClient = () => {
   if (SUPABASE_URL !== undefined && SERVICE_ROLE !== undefined) {
