@@ -18,4 +18,21 @@ type StoreTable = {
 
 type Tables = StoreTable[];
 
-export type { Tables };
+type payloadNew = {
+  calling: boolean;
+  numberOfPeople: number;
+  status: "EMPTY" | "USING";
+  storeTableStatusId: number;
+  tableId: number;
+};
+
+type payloadType = {
+  schema: string;
+  comnmit_timestamp: string;
+  errors?: string;
+  eventType: "INSERT" | "UPDATE" | "DELETE";
+  new: payloadNew;
+  table: string;
+};
+
+export type { Tables, payloadType };

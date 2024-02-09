@@ -1,4 +1,4 @@
-import { Tables } from "./type";
+import { Tables, payloadType } from "./type";
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import router from "next/dist/client/router";
@@ -10,7 +10,8 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
   const [selectedStore, setSelectedStore] = useState("");
   const [filteredTables, setFilteredTables] = useState<Tables>(tablesState);
 
-  const handleButtonClick = async (tableId: number) => {
+  const handleButtonClick = async (e: React.MouseEvent, tableId: number) => {
+    e.stopPropagation();
     try {
       await handleUpdateCalling(tableId);
       // 呼び出し状態を更新したテーブルの状態を更新
@@ -60,9 +61,20 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
     setFilteredTables(filtered);
   }, [selectedStore, tablesState]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onReceive = (payload: any) => {
-    console.log("Change received!", payload);
+  const onReceive = (payload: payloadType) => {
+    if (payload.new.calling) {
+      setTablesState((prevTables) =>
+        prevTables.map((table) => {
+          if (table.tableId === payload.new.tableId) {
+            const updatedStatuses = table.storeTableStatus.map((status) => {
+              return { ...status, calling: true };
+            });
+            return { ...table, storeTableStatus: updatedStatuses };
+          }
+          return table;
+        }),
+      );
+    }
   };
 
   supabase
@@ -111,7 +123,7 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
                         type="button"
                         className={styles["tableCallingButton"]}
                         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                        onClick={() => handleButtonClick(table.tableId)}
+                        onClick={(e) => handleButtonClick(e, table.tableId)}
                         disabled={!table.storeTableStatus.some((status) => status.calling)}
                       >
                         呼び出し停止
