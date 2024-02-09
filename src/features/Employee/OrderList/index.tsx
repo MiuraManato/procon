@@ -101,9 +101,9 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
 
   return (
     <>
-    <Head>
-      <title>オーダー一覧 | PersonalizedMenu</title>
-    </Head>
+      <Head>
+        <title>オーダー一覧 | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         <h1>オーダー一覧</h1>
         <div className={styles["order-list"]}>
