@@ -1,9 +1,13 @@
 import { Tables } from "./type";
 import styles from "./index.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import router from "next/dist/client/router";
+import Head from "next/head";
 
 export const EmployeeTop = ({ tables }: { tables: Tables }) => {
   const [tablesState, setTablesState] = useState<Tables>(tables);
+  const [selectedStore, setSelectedStore] = useState("");
+  const [filteredTables, setFilteredTables] = useState<Tables>(tablesState);
 
   const handleButtonClick = async (tableId: number) => {
     try {
@@ -39,11 +43,43 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
     }
   };
 
+  const handleRowClick = (tableId: number) => {
+    // 指定されたURLにナビゲート
+    void router.push(`/employee/table/detail/${tableId}`);
+  };
+
+  const handleStoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStore(e.target.value);
+  };
+
+  useEffect(() => {
+    const filtered = selectedStore
+      ? tablesState.filter((table) => table.store.storeName === selectedStore)
+      : tablesState;
+    setFilteredTables(filtered);
+  }, [selectedStore, tablesState]);
+
   return (
     <>
+      <Head>
+        <title>従業員トップ | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         <div className={styles["table-list-container"]}>
-          <h2>すべてのテーブル一覧</h2>
+          <div className={styles["table-list-header"]}>
+            <h2>すべてのテーブル一覧</h2>
+            <select onChange={handleStoreChange} value={selectedStore} className={styles.filterSelect}>
+              <option value="">すべての店舗</option>
+              {Array.from(new Set(tablesState.map((table) => table.store.storeName)))
+                .sort()
+                .map((storeName) => (
+                  <option key={storeName} value={storeName}>
+                    {storeName}
+                  </option>
+                ))}
+            </select>
+          </div>
+
           <table className={styles["table"]}>
             <thead>
               <tr>
@@ -53,10 +89,10 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
               </tr>
             </thead>
             <tbody>
-              {tablesState.map((table) => {
+              {filteredTables.map((table) => {
                 const key = table.tableId;
                 return (
-                  <tr key={key}>
+                  <tr key={key} onClick={() => handleRowClick(table.tableId)}>
                     <td>{table.store.storeName}</td>
                     <td>{table.tableName}</td>
                     <td>
