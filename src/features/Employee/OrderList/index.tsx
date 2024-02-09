@@ -3,6 +3,7 @@ import { formatTime } from "@/utils/Formatters/formatTime";
 import { useState } from "react";
 import { ORDERSTATUS } from "@prisma/client";
 import styles from "./index.module.css";
+import Head from "next/head";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
   // オーダー一覧を管理するstate
@@ -100,6 +101,9 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
 
   return (
     <>
+    <Head>
+      <title>オーダー一覧 | PersonalizedMenu</title>
+    </Head>
       <div className={styles["container"]}>
         <h1>オーダー一覧</h1>
         <div className={styles["order-list"]}>
