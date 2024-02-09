@@ -244,6 +244,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setOrderCheckModal(false);
     setIsOrdering(false);
     setOrderPlaced(true);
+    await getOrderHistory();
   };
 
   const getTableName = async () => {
@@ -262,12 +263,15 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handlePay = async () => {
     setIsRunningProcess(true);
-    await getOrderHistory().then().catch();
-    const s = orderHistory.reduce(
-      (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
-      0,
-    );
-    setSum(s);
+
+    await getOrderHistory().then(() => {
+      const s = orderHistory.reduce(
+        (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+        0,
+      );
+      setSum(s);
+    });
+
     await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
