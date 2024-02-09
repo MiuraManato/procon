@@ -3,6 +3,7 @@ import { getAllergies } from "@/features/Employee/Product/Add/getAllergies";
 import { getIngredients } from "@/features/Employee/Product/Add/getIngredients";
 import { getCategory } from "@/features/Employee/Product/Add/getCategory";
 import { Allergy, Category, Ingredient } from "@prisma/client";
+import { EmployeeHeader } from "@/components/Employee/Header";
 
 const AddProductPage = ({
   allergies,
@@ -13,7 +14,12 @@ const AddProductPage = ({
   ingredients: Ingredient[];
   categories: Category[];
 }) => {
-  return <AddProduct allergies={allergies} ingredients={ingredients} categories={categories} />;
+  return (
+    <>
+      <EmployeeHeader />
+      <AddProduct allergies={allergies} ingredients={ingredients} categories={categories} />
+    </>
+  );
 };
 
 export const getServerSideProps = async () => {
