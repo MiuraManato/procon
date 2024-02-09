@@ -1,0 +1,53 @@
+/* コンテナーの基本スタイル */
+.container {
+  padding: 20px;
+}
+
+/* テーブル一覧コンテナのスタイル */
+.tableListContainer {
+  margin-bottom: 30px;
+}
+
+/* テーブルのスタイル設定 */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+/* ヘッダー行のスタイル */
+.table th {
+  background-color: #f2f2f2;
+}
+
+/* ボタンのスタイル */
+.tableCallingButton {
+  background-color: #4caf50; /* 緑色 */
+  color: white;
+  padding: 10px 20px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tableCallingButton:disabled {
+  background-color: #ccc;
+}
+
+/* ボタンがhoverされたときのスタイル */
+.tableCallingButton:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+/* 行のhover効果 */
+.table tr:hover {
+  background-color: #f5f5f5;
+}

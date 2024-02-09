@@ -1,31 +1,29 @@
 import { Tables } from "./type";
 import styles from "./index.module.css";
-import { useEffect, useState } from "react";
-import { StoreTable } from "@prisma/client";
-import Link from "next/link";
+import { useState } from "react";
 
 export const EmployeeTop = ({ tables }: { tables: Tables }) => {
-  const [callingTables, setCallingTables] = useState<StoreTable[]>([]);
+  const [tablesState, setTablesState] = useState<Tables>(tables);
 
-  useEffect(() => {
-    // 呼び出し中のテーブルをフィルタリングしてステートにセットする。storeTableStatusが配列になっていることを前提とする。
-    const filteredTables = tables.filter((table) => table.storeTableStatus.some((status) => status.calling));
-    setCallingTables(filteredTables);
-  }, [tables]);
-
-  const handleButtonClick = (tableId: number) => {
-    const updateCalling = async () => {
-      try {
-        await handleUpdateCalling(tableId);
-        setCallingTables((prev) => prev.filter((table: StoreTable) => table.tableId !== tableId));
-      } catch (error) {
-        alert("呼び出しの更新に失敗しました");
-      }
-    };
-
-    updateCalling().catch((error) => {
-      alert(error);
-    });
+  const handleButtonClick = async (tableId: number) => {
+    try {
+      await handleUpdateCalling(tableId);
+      // 呼び出し状態を更新したテーブルの状態を更新
+      setTablesState((prevTables) =>
+        prevTables.map((table) => {
+          if (table.tableId === tableId) {
+            // 新しいオブジェクトを作成して、特定のテーブルのstoreTableStatusを更新
+            const updatedStatuses = table.storeTableStatus.map((status) => {
+              return { ...status, calling: false };
+            });
+            return { ...table, storeTableStatus: updatedStatuses };
+          }
+          return table;
+        }),
+      );
+    } catch (error) {
+      alert("呼び出しの更新に失敗しました");
+    }
   };
 
   const handleUpdateCalling = async (storeTableId: number) => {
@@ -45,34 +43,38 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
     <>
       <div className={styles["container"]}>
         <div className={styles["table-list-container"]}>
-          {tables.map((table) => {
-            const key = table.storeTableStatus[0]?.storeTableStatusId || table.tableId;
-            return (
-              <Link href={`/employee/table/detail/${table.tableId}`} key={key}>
-                <div className={styles["table-item"]} key={key}>
-                  <div className={styles["table-name"]}>{table.tableName}</div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-        <div className={styles["table-calling-container"]}>
-          <div className={styles["table-calling-title"]}>呼び出し中</div>
-          {callingTables.map((table) => {
-            const key = `${table.tableId}-${table.storeId}`;
-            return (
-              <div className={styles["table-calling-item"]} key={key}>
-                <div className={styles["table-name"]}>{table.tableName}</div>
-                <button
-                  type="button"
-                  className={styles["table-calling-button"]}
-                  onClick={() => handleButtonClick(table.tableId)}
-                >
-                  OK
-                </button>
-              </div>
-            );
-          })}
+          <h2>すべてのテーブル一覧</h2>
+          <table className={styles["table"]}>
+            <thead>
+              <tr>
+                <th>店舗名</th>
+                <th>テーブルID</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tablesState.map((table) => {
+                const key = table.tableId;
+                return (
+                  <tr key={key}>
+                    <td>{table.store.storeName}</td>
+                    <td>{table.tableName}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className={styles["tableCallingButton"]}
+                        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                        onClick={() => handleButtonClick(table.tableId)}
+                        disabled={!table.storeTableStatus.some((status) => status.calling)}
+                      >
+                        呼び出し停止
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </>
