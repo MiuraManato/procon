@@ -102,7 +102,7 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
 
   const onReceive = async (payload: unknown) => {
     const pl = payload as payloadType;
-    if (pl.eventType !== "INSERT") return;
+    if (pl.eventType === "UPDATE") return;
     const res = await fetch("/api/order/getall", {
       method: "GET",
       headers: {
@@ -119,7 +119,7 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
   supabase
     .channel("procon-test")
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    .on("postgres_changes", { event: "INSERT", schema: "public", table: "Order" }, onReceive)
+    .on("postgres_changes", { event: "*", schema: "public", table: "Order" }, onReceive)
     .subscribe();
 
   return (

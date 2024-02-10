@@ -35,6 +35,9 @@ const getOrders = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         },
       },
+      orderBy: {
+        orderedAt: "asc",
+      },
     });
 
     const serializedOrders = orders.map((order) => ({
