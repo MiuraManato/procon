@@ -60,6 +60,9 @@ export const EmployeeHeader = () => {
           <div className={styles["header-item"]}>
             <Link href="/employee/product/add">商品追加</Link>
           </div>
+          <div className={styles["header-item"]}>
+            <Link href="/employee/product/edit">商品編集</Link>
+          </div>
         </div>
         <div className={styles["header-right"]}>
           <div className={styles["header-item"]}>
