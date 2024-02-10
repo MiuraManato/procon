@@ -1,9 +1,10 @@
-import { Order } from "./type";
+import { Order, payloadType } from "./type";
 import { formatTime } from "@/utils/Formatters/formatTime";
 import { useState } from "react";
 import { ORDERSTATUS } from "@prisma/client";
 import styles from "./index.module.css";
 import Head from "next/head";
+import { supabase } from "@/utils/Supabase/supabaseClient";
 
 export const OrderList = ({ orders }: { orders: Order[] }) => {
   // オーダー一覧を管理するstate
@@ -98,6 +99,28 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
   const handleCLickModal = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onReceive = async (payload: payloadType) => {
+    if (payload.eventType !== "INSERT") return;
+    const res = await fetch("/api/order/getall", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.ok) {
+      const data = (await res.json()) as Order[];
+      setOrderList(data);
+    }
+  };
+
+  supabase
+    .channel("procon-test")
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "Order" }, onReceive)
+    .subscribe();
 
   return (
     <>
