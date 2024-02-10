@@ -1,0 +1,46 @@
+/* index.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.contents {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.product-list-container {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.product-list-header {
+  margin-bottom: 15px;
+}
+
+.product-name {
+  cursor: pointer;
+  padding: 5px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.3s ease;
+}
+
+.product-name:hover {
+  background-color: #f0f0f0;
+}
+
+.loading {
+  font-size: 20px;
+  color: #666;
+}
+
+/* 商品名がクリックされた時の視覚的フィードバックを強化するために、選択された商品のスタイルを追加することを検討してください */
+.selected-product {
+  background-color: #e0e0e0;
+}
