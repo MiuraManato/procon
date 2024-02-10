@@ -100,9 +100,9 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
     e.stopPropagation();
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onReceive = async (payload: payloadType) => {
-    if (payload.eventType !== "INSERT") return;
+  const onReceive = async (payload: unknown) => {
+    const pl = payload as payloadType;
+    if (pl.eventType !== "INSERT") return;
     const res = await fetch("/api/order/getall", {
       method: "GET",
       headers: {

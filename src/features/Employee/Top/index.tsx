@@ -61,11 +61,12 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
     setFilteredTables(filtered);
   }, [selectedStore, tablesState]);
 
-  const onReceive = (payload: payloadType) => {
-    if (payload.new.calling) {
+  const onReceive = (payload: unknown) => {
+    const pl = payload as payloadType;
+    if (pl.new.calling) {
       setTablesState((prevTables) =>
         prevTables.map((table) => {
-          if (table.tableId === payload.new.tableId) {
+          if (table.tableId === pl.new.tableId) {
             const updatedStatuses = table.storeTableStatus.map((status) => {
               return { ...status, calling: true };
             });
