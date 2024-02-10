@@ -80,8 +80,6 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
         } else if (!response.ok) {
           throw new Error("Server error occurred");
         }
-
-        console.log("All statuses updated successfully");
       } catch (error) {
         console.error("Error updating statuses", error);
       }

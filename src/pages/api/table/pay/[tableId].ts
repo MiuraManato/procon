@@ -11,8 +11,6 @@ const payTableHandler = async (req: NextApiRequestExtendsTableId, res: NextApiRe
   try {
     const parsedTableId = parseInt(tableId);
 
-    console.log("parsedTableId: ", parsedTableId);
-
     // Order と OrderDetail のデータを取得
     const orders = await prisma.order.findMany({
       where: { tableId: parsedTableId },

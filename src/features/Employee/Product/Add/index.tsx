@@ -168,7 +168,6 @@ export const AddProduct = ({
       });
 
       if (res.ok) {
-        console.log("DBへの登録に成功");
         alert("商品の登録に成功しました。");
         await router.push("/employee/product/add");
       } else {

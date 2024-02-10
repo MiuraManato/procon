@@ -21,7 +21,6 @@ const checkEmailHandler = async (req: NextApiRequestWithEmail, res: NextApiRespo
 
     res.status(200).json({ user: user });
   } catch (e) {
-    console.log(e);
     res.status(500).json({ message: "Something went wrong. Please try again later." });
   } finally {
     await prisma.$disconnect();

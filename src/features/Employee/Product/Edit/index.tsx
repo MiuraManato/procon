@@ -185,7 +185,6 @@ export const ProductEdit = ({
       });
 
       if (res.ok) {
-        console.log("DBの更新に成功");
         alert("商品の更新に成功しました。");
       } else {
         const errorText = await res.text();

@@ -8,7 +8,6 @@ const updateOrderStatuses = async (req: NextApiRequestWithOrderStatus, res: Next
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  console.log(req.body);
   const { updates } = req.body;
 
   try {
