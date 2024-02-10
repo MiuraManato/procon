@@ -58,7 +58,7 @@ export const EmployeeHeader = () => {
             {/* /employee/table/edit */}
           </div>
           <div className={styles["header-item"]}>
-            <Link href="/employee/product/add">メニュー追加</Link>
+            <Link href="/employee/product/add">商品追加</Link>
           </div>
         </div>
         <div className={styles["header-right"]}>
