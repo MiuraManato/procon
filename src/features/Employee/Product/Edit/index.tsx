@@ -1,5 +1,5 @@
 import { Allergy, Category, Ingredient } from "@prisma/client";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./index.module.css";
 import { ProductType } from "./type";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -196,6 +196,15 @@ export const ProductEdit = ({
       alert("DBへの登録に失敗しました。");
     }
   };
+
+  useEffect(() => {
+    setNewProduct(product);
+    setIngredient(product.productIngredients.map((item) => item.ingredientId));
+    setAllergy(product.productAllergies.map((item) => item.allergyId));
+    setSelectedIngredients(product.productIngredients.map((item) => item.ingredient.ingredientName));
+    setSelectedAllergies(product.productAllergies.map((item) => item.allergy.allergyName));
+    setImagePreviewUrl(product.imageUrl);
+  }, [product]);
 
   return (
     <>
