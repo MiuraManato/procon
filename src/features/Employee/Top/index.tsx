@@ -63,6 +63,19 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
 
   const onReceive = (payload: unknown) => {
     const pl = payload as payloadType;
+    if (pl.new.status) {
+      setTablesState((prevTables) =>
+        prevTables.map((table) => {
+          if (table.tableId === pl.new.tableId) {
+            const updatedStatuses = table.storeTableStatus.map((status) => {
+              return { ...status, status: pl.new.status };
+            });
+            return { ...table, storeTableStatus: updatedStatuses };
+          }
+          return table;
+        }),
+      );
+    }
     if (pl.new.calling) {
       setTablesState((prevTables) =>
         prevTables.map((table) => {
@@ -109,6 +122,7 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
               <tr>
                 <th>店舗名</th>
                 <th>テーブルID</th>
+                <th>使用状況</th>
                 <th>操作</th>
               </tr>
             </thead>
@@ -119,6 +133,9 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
                   <tr key={key} onClick={() => handleRowClick(table.tableId)}>
                     <td>{table.store.storeName}</td>
                     <td>{table.tableName}</td>
+                    <td>
+                      {table.storeTableStatus.some((status) => status.status === "USING") ? "使用中" : "使用可能"}
+                    </td>
                     <td>
                       <button
                         type="button"
