@@ -133,17 +133,20 @@ export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables 
         <title>オーダー一覧 | PersonalizedMenu</title>
       </Head>
       <div className={styles["container"]}>
-        <h1>オーダー一覧</h1>
-        <select onChange={handleStoreChange} value={selectedStore} className={styles.filterSelect}>
-          <option value="">すべての店舗</option>
-          {Array.from(new Set(tables.map((table) => table.store.storeName)))
-            .sort()
-            .map((storeName) => (
-              <option key={storeName} value={storeName}>
-                {storeName}
-              </option>
-            ))}
-        </select>
+        <div className={styles["header"]}>
+          <h1>オーダー一覧</h1>
+          <select onChange={handleStoreChange} value={selectedStore} className={styles.filterSelect}>
+            <option value="">すべての店舗</option>
+            {Array.from(new Set(tables.map((table) => table.store.storeName)))
+              .sort()
+              .map((storeName) => (
+                <option key={storeName} value={storeName}>
+                  {storeName}
+                </option>
+              ))}
+          </select>
+        </div>
+
         <div className={styles["order-list"]}>
           <div className={styles["order-container"]}>
             {orderList.map((order) => (

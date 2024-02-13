@@ -116,3 +116,17 @@
   align-items: center; /* アイテムを垂直方向に中央揃え */
   margin-bottom: 10px; /* 下部の余白を設定 */
 }
+
+.filterSelect {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
