@@ -122,7 +122,7 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
               <tr>
                 <th>店舗名</th>
                 <th>テーブルID</th>
-                <th>使用状況</th>
+                <th>座席使用状況</th>
                 <th>操作</th>
               </tr>
             </thead>
