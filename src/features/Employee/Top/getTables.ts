@@ -15,13 +15,13 @@ export const getTables = async () => {
           calling: true,
         },
       },
+      store: {
+        select: {
+          storeName: true,
+        },
+      },
     },
-    where: {
-      storeId: 1,
-    },
-    orderBy: {
-      tableId: "asc",
-    },
+    orderBy: [{ storeId: "asc" }, { tableId: "asc" }],
   });
   return tables;
 };

@@ -4,6 +4,9 @@ type Order = {
   tableId: number;
   storeTable: {
     tableName: string;
+    store: {
+      storeName: string;
+    };
   };
   orderDetail: Array<{
     orderDetailId: number;
@@ -23,4 +26,19 @@ type Order = {
 // Function return type
 type GetOrdersReturnType = Promise<Order[]>;
 
-export type { Order, GetOrdersReturnType };
+type payloadNew = {
+  orderId: number;
+  orderedAt: string;
+  tableId: number;
+};
+
+type payloadType = {
+  schema: string;
+  comnmit_timestamp: string;
+  errors?: string;
+  eventType: "INSERT" | "UPDATE" | "DELETE";
+  new: payloadNew;
+  table: string;
+};
+
+export type { Order, GetOrdersReturnType, payloadType };

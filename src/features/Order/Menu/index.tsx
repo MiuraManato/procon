@@ -244,6 +244,7 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setOrderCheckModal(false);
     setIsOrdering(false);
     setOrderPlaced(true);
+    await getOrderHistory();
   };
 
   const getTableName = async () => {
@@ -262,12 +263,15 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
 
   const handlePay = async () => {
     setIsRunningProcess(true);
-    await getOrderHistory().then().catch();
-    const s = orderHistory.reduce(
-      (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
-      0,
-    );
-    setSum(s);
+
+    await getOrderHistory().then(() => {
+      const s = orderHistory.reduce(
+        (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+        0,
+      );
+      setSum(s);
+    });
+
     await getTableName();
     const res = await fetch(`/api/table/pay/${table}`, {
       method: "PUT",
@@ -320,7 +324,11 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                 <div key={menu.menuCategoryName} className={styles["category-container"]}>
                   <button
                     className={`${styles["category-button"]}
-                ${menu.menuId === nowCategoryId ? styles["category-button-active"] : styles["category-button-notactive"]}`}
+                    ${
+                      menu.menuId === nowCategoryId
+                        ? styles["category-button-active"]
+                        : styles["category-button-notactive"]
+                    }`}
                     onClick={() => handleSetNowCategory(menu.menuId)}
                   >
                     <p className={styles["category-list"]}>{menu.menuCategoryName}</p>
@@ -559,6 +567,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   {user.username}
                 </button>
               ))}
+              <button
+                className={styles["reset-filter-button"]}
+                onClick={() => {
+                  setAllergyFilter([]);
+                }}
+              >
+                クリア
+              </button>
             </div>
           </div>
         )}
@@ -848,16 +864,18 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
         {paymentModal && (
           <div className={`${styles["payment-modal"]}`}>
             <div className={styles["payment-contents"]} onClick={handleModalInsideClick}>
-              <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
-              <p className={styles["payment-text"]}>
-                お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
-              </p>
-              <p className={styles["payment-text"]}>
-                レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
-              </p>
-              <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
-                閉じる
-              </button>
+              <div className={styles["payment-con"]}>
+                <p className={styles["payment-text"]}>ご利用いただきありがとうございました。</p>
+                <p className={styles["payment-text"]}>
+                  お会計の金額は<span className={styles["tableName"]}> {sum} 円</span>です。
+                </p>
+                <p className={styles["payment-text"]}>
+                  レジで<span className={styles["tableName"]}>{tableName}番</span>とお伝えください。
+                </p>
+                <button className={styles["payment-button"]} onClick={() => void router.push("/order").then().catch()}>
+                  閉じる
+                </button>
+              </div>
             </div>
           </div>
         )}

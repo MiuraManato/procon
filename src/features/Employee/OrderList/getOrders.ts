@@ -9,6 +9,11 @@ export const getOrders = async () => {
       storeTable: {
         select: {
           tableName: true,
+          store: {
+            select: {
+              storeName: true,
+            },
+          },
         },
       },
       orderDetail: {
