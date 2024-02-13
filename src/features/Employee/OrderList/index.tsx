@@ -5,14 +5,17 @@ import { ORDERSTATUS } from "@prisma/client";
 import styles from "./index.module.css";
 import Head from "next/head";
 import { supabase } from "@/utils/Supabase/supabaseClient";
+import { Tables } from "../Top/type";
 
-export const OrderList = ({ orders }: { orders: Order[] }) => {
+export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables }) => {
   // オーダー一覧を管理するstate
   const [orderList, setOrderList] = useState<Order[]>(orders);
   // モーダルの表示状態を管理するstate
   const [isModalOpen, setIsModalOpen] = useState(false);
   // 選択されたオーダーを管理するstate
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  // 店舗のフィルター
+  const [selectedStore, setSelectedStore] = useState("");
 
   // モーダルを開く関数
   const handleOpenModal = (order: Order) => {
@@ -98,6 +101,10 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
     e.stopPropagation();
   };
 
+  const handleStoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStore(e.target.value);
+  };
+
   const onReceive = async (payload: unknown) => {
     const pl = payload as payloadType;
     if (pl.eventType === "UPDATE") return;
@@ -127,26 +134,40 @@ export const OrderList = ({ orders }: { orders: Order[] }) => {
       </Head>
       <div className={styles["container"]}>
         <h1>オーダー一覧</h1>
+        <select onChange={handleStoreChange} value={selectedStore} className={styles.filterSelect}>
+          <option value="">すべての店舗</option>
+          {Array.from(new Set(tables.map((table) => table.store.storeName)))
+            .sort()
+            .map((storeName) => (
+              <option key={storeName} value={storeName}>
+                {storeName}
+              </option>
+            ))}
+        </select>
         <div className={styles["order-list"]}>
           <div className={styles["order-container"]}>
             {orderList.map((order) => (
-              <div key={order.orderId} className={styles["order-card"]}>
-                <div className={styles["order-header"]}>
-                  <h2>{order.storeTable.tableName}</h2>
-                  <p>{formatTime(order.orderedAt)}</p>
-                </div>
-                <ul className={styles["order-details"]}>
-                  {order.orderDetail.map((detail) => (
-                    <li key={detail.orderDetailId} className={styles["order-item"]}>
-                      <span>{detail.product.productName}</span>
-                      <span>×{detail.quantity}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className={styles["button"]} onClick={() => handleOpenModal(order)}>
-                  変更
-                </button>
-              </div>
+              <>
+                {(selectedStore === "" || order.storeTable.store.storeName === selectedStore) && (
+                  <div key={order.orderId} className={styles["order-card"]}>
+                    <div className={styles["order-header"]}>
+                      <h2>{order.storeTable.tableName}</h2>
+                      <p>{formatTime(order.orderedAt)}</p>
+                    </div>
+                    <ul className={styles["order-details"]}>
+                      {order.orderDetail.map((detail) => (
+                        <li key={detail.orderDetailId} className={styles["order-item"]}>
+                          <span>{detail.product.productName}</span>
+                          <span>×{detail.quantity}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={styles["button"]} onClick={() => handleOpenModal(order)}>
+                      変更
+                    </button>
+                  </div>
+                )}
+              </>
             ))}
           </div>
         </div>
