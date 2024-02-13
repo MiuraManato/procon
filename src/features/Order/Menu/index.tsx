@@ -567,6 +567,14 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                   {user.username}
                 </button>
               ))}
+              <button
+                className={styles["reset-filter-button"]}
+                onClick={() => {
+                  setAllergyFilter([]);
+                }}
+              >
+                クリア
+              </button>
             </div>
           </div>
         )}

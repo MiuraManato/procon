@@ -308,6 +308,18 @@
   font-weight: bold;
 }
 
+.reset-filter-button {
+  padding: 20px 20px;
+  background-color: skyblue;
+  width: 200px;
+  height: 15%;
+  color: #333;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
 .productName {
   font-size: 1.2em;
   font-weight: bold;
