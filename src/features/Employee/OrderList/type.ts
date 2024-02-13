@@ -4,6 +4,9 @@ type Order = {
   tableId: number;
   storeTable: {
     tableName: string;
+    store: {
+      storeName: string;
+    };
   };
   orderDetail: Array<{
     orderDetailId: number;
