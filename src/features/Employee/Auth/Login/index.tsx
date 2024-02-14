@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
 import { doEmployeeLogin } from "./doEmployeeLogin";
+import Head from "next/head";
 
 export const EmployeeLogin = () => {
   // 入力を管理するstate
@@ -48,6 +49,9 @@ export const EmployeeLogin = () => {
 
   return (
     <>
+      <Head>
+        <title>従業員ログイン | PersonalizedMenu</title>
+      </Head>
       <div className={styles["container"]}>
         <div className={styles["form-container"]}>
           <div className={styles["form-title"]}>

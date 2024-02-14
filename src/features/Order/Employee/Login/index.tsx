@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import router from "next/router";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
+import Head from "next/head";
 
 export const OrderEmployeeLogin = () => {
   // 入力を管理するstate
@@ -26,7 +27,7 @@ export const OrderEmployeeLogin = () => {
     try {
       const loginSuccess = await doEmployeeLogin(email, password);
       if (loginSuccess) {
-        await router.push("/order/employee/settings");
+        await router.push("/order/employee/settings/table");
       } else {
         setLoginError("ログインに失敗しました");
       }
@@ -58,8 +59,11 @@ export const OrderEmployeeLogin = () => {
 
   return (
     <>
+      <Head>
+        <title>店舗ログイン | PersonalizedMenu</title>
+      </Head>
       <div className={styles.container}>
-        <div>
+        <div className={styles.h1}>
           <h1>店舗ログイン</h1>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -93,10 +97,10 @@ export const OrderEmployeeLogin = () => {
             </button>
           </div>
         </form>
-        <button className={styles["button"]} onClick={toOrderTop}>
-          <span>人数登録画面</span>
-        </button>
       </div>
+      <button className={styles["toTopButton"]} onClick={toOrderTop}>
+        <span>人数登録画面に戻る</span>
+      </button>
     </>
   );
 };
