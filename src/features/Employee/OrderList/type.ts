@@ -9,7 +9,6 @@ type Order = {
     };
   };
   orderDetail: Array<{
-    orderDetail: any;
     orderDetailId: number;
     orderId: number;
     productId: number;
