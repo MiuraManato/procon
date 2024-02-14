@@ -4,6 +4,7 @@ import styles from "./index.module.css";
 import router from "next/router";
 import { ValidateEmail } from "@/utils/Auth/ValidateEmail";
 import { ValidatePassword } from "@/utils/Auth/ValidatePassword";
+import Head from "next/head";
 
 export const OrderEmployeeLogin = () => {
   // 入力を管理するstate
@@ -58,6 +59,9 @@ export const OrderEmployeeLogin = () => {
 
   return (
     <>
+      <Head>
+        <title>店舗ログイン | PersonalizedMenu</title>
+      </Head>
       <div className={styles.container}>
         <div className={styles.h1}>
           <h1>店舗ログイン</h1>
