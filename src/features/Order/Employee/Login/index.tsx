@@ -59,7 +59,7 @@ export const OrderEmployeeLogin = () => {
   return (
     <>
       <div className={styles.container}>
-        <div>
+        <div className={styles.h1}>
           <h1>店舗ログイン</h1>
         </div>
         <form className={styles.form} onSubmit={handleSubmit}>
@@ -93,10 +93,10 @@ export const OrderEmployeeLogin = () => {
             </button>
           </div>
         </form>
-        <button className={styles["button"]} onClick={toOrderTop}>
-          <span>人数登録画面</span>
-        </button>
       </div>
+      <button className={styles["toTopButton"]} onClick={toOrderTop}>
+        <span>人数登録画面に戻る</span>
+      </button>
     </>
   );
 };
