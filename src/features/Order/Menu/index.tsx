@@ -265,8 +265,26 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
     setIsRunningProcess(true);
 
     await getOrderHistory().then(() => {
+      // 個数の計算がされていないバグがあるため、一旦コメントアウト
+      // const s = orderHistory.reduce(
+      //   (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+      //   0,
+      // );
+
       const s = orderHistory.reduce(
-        (acc, cur) => acc + cur.orderDetail.reduce((acc, cur) => acc + cur.product.price, 0),
+        (acc, cur) =>
+          acc +
+          cur.orderDetail.reduce(
+            (acc, cur) =>
+              acc +
+              menuData
+                .map((menu) => menu.menuProducts)
+                .flat()
+                .filter((menuProduct) => menuProduct.menuProductId === cur.productId)
+                .map((menuProduct) => menuProduct.product.price)[0] *
+                cur.quantity,
+            0,
+          ),
         0,
       );
       setSum(s);
