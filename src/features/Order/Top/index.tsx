@@ -113,8 +113,8 @@ export const OrderTop = () => {
           </div>
         </div>
         <div className={styles.humanlabel}>
-          <div className={styles.bighuman}>大人</div>
-          <div className={styles.smallhuman}>子供</div>
+          <div className={styles.bighuman}>20歳以上</div>
+          <div className={styles.smallhuman}>20歳未満</div>
         </div>
 
         <button
