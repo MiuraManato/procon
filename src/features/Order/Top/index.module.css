@@ -32,7 +32,7 @@
   top: 80px;
   /* right: 440px; */
   font-size: 72px;
-  right: 370px
+  right: 370px;
 }
 
 .selectionArea {
@@ -140,4 +140,70 @@
   border: none;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+.warningModal {
+  position: fixed;
+  width: 80%;
+  max-width: 80%;
+  height: 80%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  top: 10%;
+  left: 10%;
+}
+
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 警告モーダルコンテンツのスタイル */
+.warningModalContent {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* 警告タイトルのスタイル */
+.warningTitle {
+  color: #dc3545; /* 赤色系で注意を引く */
+  font-size: 20px; /* タイトルのフォントサイズ */
+  margin-bottom: 15px; /* タイトル下の余白 */
+  font-weight: bold; /* 文字を太くする */
+}
+
+/* 警告テキストのスタイル */
+.warningText {
+  color: #333; /* テキストの色 */
+  font-size: 16px; /* テキストのフォントサイズ */
+  line-height: 1.5; /* 行間 */
+  margin-bottom: 10px; /* 段落間の余白 */
+}
+
+/* 閉じるボタンのスタイル */
+.closeButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 20px;
+  justify-content: center;
+  height: 50px;
+}
+
+/* ボタンホバー時のスタイル変更 */
+.closeButton:hover {
+  background-color: #0056b3; /* ホバー時の背景色を少し暗く */
 }

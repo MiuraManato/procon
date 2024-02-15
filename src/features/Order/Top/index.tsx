@@ -27,6 +27,7 @@ export const OrderTop = () => {
   });
   const [tableId, setTableId] = useState<number | null>(null);
   const [isErrorTableId, setIsErrorTableId] = useState(false);
+  const [warning, setWarning] = useState(true);
 
   // 人数を変更する関数
   const handleChangeNumberOfPeople = (key: "adult" | "child", method: "add" | "sub") => {
@@ -138,6 +139,44 @@ export const OrderTop = () => {
             >
               テーブルIDを設定する
             </button>
+          </div>
+        </div>
+      )}
+      {warning && (
+        <div className={styles.modal}>
+          <div className={styles.warningModal}>
+            <div className={styles.warningModalContent}>
+              <h2 className={styles.warningTitle}>重要：20歳未満のお客様へのアルコール提供に関するご注意</h2>
+              <li className={styles.warningText}>
+                当店では、お客様と社会の安全を守るため、未成年者（20歳未満の方）へのアルコール提供を固く禁じています。日本国内の法律では、20歳未満の方の飲酒は法律で禁止されており、違反した場合には罰則が適用されます。
+              </li>
+              <li className={styles.warningText}>
+                20歳未満の方には、アルコール飲料の提供、販売、または飲酒をさせることはできません。
+              </li>
+              <li className={styles.warningText}>
+                ご注文の際、アルコール含有飲料を選択されるお客様には、年齢確認を実施しております。身分証明書の提示をお願いする場合がございますので、ご協力をお願いいたします。
+              </li>
+              <li className={styles.warningText}>
+                アルコール飲料をご注文の場合、20歳未満の方と一緒にいるお客様も、同席している未成年者への提供は厳禁であることを予めご了承ください。
+              </li>
+              <br />
+              <p className={styles.warningText}>
+                未成年者の健康と成長を守るため、また、社会的責任を果たすため、ご理解とご協力を心よりお願い申し上げます。
+              </p>
+              <p className={styles.warningText}>
+                <b>
+                  ボタンを押された場合、「20歳未満のお客様へのアルコール提供に関する重要なご注意」に同意したとみなします。
+                </b>
+              </p>
+              <button
+                className={styles.closeButton}
+                onClick={() => {
+                  setWarning(false);
+                }}
+              >
+                閉じる
+              </button>
+            </div>
           </div>
         </div>
       )}
