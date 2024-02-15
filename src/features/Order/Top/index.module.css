@@ -30,8 +30,9 @@
 .title {
   position: fixed;
   top: 80px;
-  right: 440px;
+  /* right: 440px; */
   font-size: 72px;
+  right: 370px
 }
 
 .selectionArea {
@@ -99,7 +100,7 @@
   font-size: 50px;
   position: fixed;
   bottom: 72px;
-  right: 502px;
+  right: 430px;
 }
 
 .submitButton:disabled {
