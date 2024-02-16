@@ -63,10 +63,12 @@
 .button {
   background-color: blue;
   color: white;
-  padding: 10px 20px;
+  padding: 20px 40px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 60px;
+  font-size: 14px;
 }
 
 .title {
