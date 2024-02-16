@@ -7,6 +7,7 @@ import router from "next/router";
 import { exUser } from "./type";
 import { Order } from "@/features/Employee/OrderList/type";
 import Head from "next/head";
+import Notification from "@/components/Order/Notification";
 
 export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; allergies: Allergy[] }) => {
   const [LoginUsers, setLoginUsers] = useState<exUser[]>([]);
@@ -208,6 +209,26 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
   const handleSetOpenOrderHistory = async () => {
     setOpenOrderHistory(true);
     await getOrderHistory().then().catch();
+  };
+
+  const [isNotificationVisible, setNotificationVisible] = useState<boolean>(false);
+
+  const showNotification = () => {
+    setNotificationVisible(true);
+  };
+
+  const hideNotification = () => {
+    setNotificationVisible(false);
+  };
+
+  const [isNotificationVisible2, setNotificationVisible2] = useState<boolean>(false);
+
+  const showNotification2 = () => {
+    setNotificationVisible2(true);
+  };
+
+  const hideNotification2 = () => {
+    setNotificationVisible2(false);
   };
 
   const getOrderHistory = async () => {
@@ -573,7 +594,10 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               {LoginUsers.map((user) => (
                 <button
                   key={user.userId}
-                  onClick={() => handleSetUserAllergyFilter(user)}
+                  onClick={() => {
+                    handleSetUserAllergyFilter(user);
+                    showNotification2();
+                  }}
                   className={styles["user-button"]}
                 >
                   {user.username}
@@ -776,7 +800,13 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
               >
                 キャンセル
               </button>
-              <button className={styles["confirm-login-button-accept"]} onClick={confirmLogin}>
+              <button
+                className={styles["confirm-login-button-accept"]}
+                onClick={() => {
+                  confirmLogin();
+                  showNotification();
+                }}
+              >
                 ログイン
               </button>
             </div>
@@ -925,6 +955,12 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
           </div>
         )}
       </div>
+      <Notification message="ログインされました" isVisible={isNotificationVisible} onClose={hideNotification} />
+      <Notification
+        message="ユーザーのアレルギーを適用しました"
+        isVisible={isNotificationVisible2}
+        onClose={hideNotification2}
+      />
     </>
   );
 };
