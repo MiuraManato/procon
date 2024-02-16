@@ -149,9 +149,16 @@ export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables 
 
         <div className={styles["order-list"]}>
           <div className={styles["order-container"]}>
-            {orderList.map((order) => (
-              <>
-                {(selectedStore === "" || order.storeTable.store.storeName === selectedStore) && (
+            {orderList.map((order) => {
+              // ここで全てのorderDetailがSERVEDかどうかをチェック
+              const isAllServed = order.orderDetail.every((detail) => detail.orderStatus === ORDERSTATUS.SERVED);
+
+              // 全てがSERVEDなら何も表示しない
+              if (isAllServed) return null;
+
+              // それ以外の場合、注文を表示
+              return (
+                (selectedStore === "" || order.storeTable.store.storeName === selectedStore) && (
                   <div key={order.orderId} className={styles["order-card"]}>
                     <div className={styles["order-header"]}>
                       <h2>{order.storeTable.tableName}</h2>
@@ -169,9 +176,9 @@ export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables 
                       変更
                     </button>
                   </div>
-                )}
-              </>
-            ))}
+                )
+              );
+            })}
           </div>
         </div>
       </div>
