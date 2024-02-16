@@ -68,9 +68,9 @@ export const EmployeeTop = ({ tables }: { tables: Tables }) => {
         prevTables.map((table) => {
           if (table.tableId === pl.new.tableId) {
             const updatedStatuses = table.storeTableStatus.map((status) => {
-              return { ...status, status: pl.new.status };
+              return { ...status, status: pl.new.status, calling: false };
             });
-            return { ...table, storeTableStatus: updatedStatuses };
+            return { ...table, storeTableStatus: updatedStatuses, calling: false };
           }
           return table;
         }),
