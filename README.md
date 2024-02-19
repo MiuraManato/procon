@@ -64,6 +64,14 @@ npx prisma migrate dev --name init
 ```
 マイグレートでエラーが出てないことを確認し、Supabaseのデータベースにテーブルが作成されていることを確認してください。
 
+次に、Database -> Table に移動します。
+
+Orderの右の三点リーダーをクリックし、Edit tableを選択します。
+
+Enable Row Level Security (RLS)とEnable Realtimeを有効にしてください。その後、右下のSaveをクリックしてください。
+
+同じ手順でStoreTableStatusも有効にしてください。
+
 ## [Firebaseのセットアップ](#Firebaseのセットアップ)
 Firebaseを使用しています。登録してください。
 
