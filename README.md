@@ -13,7 +13,7 @@
 
 # 手順
 
-### [プロジェクトのセットアップ](#プロジェクトのセットアップ)
+## [プロジェクトのセットアップ](#プロジェクトのセットアップ)
 ```bash
 # Clone the repository
 git clone https://github.com/mmiura-2351/procon.git
@@ -24,7 +24,7 @@ npm run i
 # or yarn i
 ```
 
-### [データベースのセットアップ](#データベースのセットアップ)
+## [データベースのセットアップ](#データベースのセットアップ)
 Supabaseを使用しています。登録してください。
 
 [登録する | Supabase](https://supabase.com/dashboard/sign-in)
@@ -46,7 +46,7 @@ npx prisma migrate dev --name init
 ```
 マイグレートでエラーが出てないことを確認し、Supabaseのデータベースにテーブルが作成されていることを確認してください。
 
-### [Firebaseのセットアップ](#Firebaseのセットアップ)
+## [Firebaseのセットアップ](#Firebaseのセットアップ)
 Firebaseを使用しています。登録してください。
 
 [登録する | Firebase](https://console.firebase.google.com/)
