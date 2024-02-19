@@ -49,13 +49,13 @@ Supabaseの左のメニュー -> Project settings -> DATABASE -> Connection stri
 この時にデフォルトで入っているUse connection poolingをつけた状態、つけない状態の2つをコピーしておいてください。
 
 ```yaml
-# つけた状態のURI
+# つけた状態のURI(postgres://postgres.[PROJECT-ID]:[YOUR-PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres)
 DATABASE_URL=YOUR_SUPABASE_DATABASE_URL
-# つけない状態のURI
+# つけない状態のURI(postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-ID].supabase.co:5432/postgres)
 DIRECT_URL=YOUR_SUPABASE_DIRECT_DATABASE_URL
 ```
 
-[YOUR-PASSWORD]は適切に変更してください。
+[YOUR-PASSWORD], [PROJECT-ID]は適切に変更してください。
 
 データベースの作成
 ```bash
