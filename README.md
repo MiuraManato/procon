@@ -31,6 +31,8 @@ Supabaseを使用しています。登録してください。
 
 登録をしたら、プロジェクトを作成し、API URLとAPI KEY(Service role)を取得してください。
 
+プロジェクト名は`procon-test`にしてください。
+
 Supabaseの左のメニュー -> Project settings -> API -> API URLとService roleをコピーしておいてください。
 
 
