@@ -31,6 +31,9 @@ Supabaseを使用しています。登録してください。
 
 登録をしたら、プロジェクトを作成し、API URLとAPI KEY(Service role)を取得してください。
 
+Supabaseの左のメニュー -> Project settings -> API -> API URLとService roleをコピーしておいてください。
+
+
 取得したAPI URLとAPI KEYを`.env`ファイルに記述してください。
 
 ```yaml
@@ -38,6 +41,21 @@ Supabaseを使用しています。登録してください。
 NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
 NEXT_PUBLIC_SERVICE_ROLE=YOUR_SUPABASE_SERVICE_KEY
 ```
+
+また、他に接続のための情報を`.env`ファイルに記述してください。
+
+Supabaseの左のメニュー -> Project settings -> DATABASE -> Connection string -> URI をコピーしておいてください。
+
+この時にデフォルトで入っているUse connection poolingをつけた状態、つけない状態の2つをコピーしておいてください。
+
+```yaml
+# つけた状態のURI
+DATABASE_URL=YOUR_SUPABASE_DATABASE_URL
+# つけない状態のURI
+DIRECT_URL=YOUR_SUPABASE_DIRECT_DATABASE_URL
+```
+
+[YOUR-PASSWORD]は適切に変更してください。
 
 データベースの作成
 ```bash
