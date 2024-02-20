@@ -52,12 +52,11 @@ Supabaseを使用しています。登録してください。
 
 Supabaseの左のメニュー -> Project settings -> API -> Project URLとService roleをコピーしておいてください。
 
-
 取得したURLとAPI KEYを`.env`ファイルに記述してください。
 
-```yaml
-# Create `/procon/.env`
+`.env`はプロジェクトのルートディレクトリに作成してください。
 
+```yaml
 # "https://[URL].supabase.co"
 NEXT_PUBLIC_SUPABASE_URL="[YOUR_SUPABASE_URL]"
 NEXT_PUBLIC_SERVICE_ROLE="[YOUR_SUPABASE_SERVICE_KEY]"
