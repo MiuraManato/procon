@@ -59,8 +59,8 @@ Supabaseの左のメニュー -> Project settings -> API -> Project URLとServic
 # Create `/procon/.env`
 
 # "https://[URL].supabase.co"
-NEXT_PUBLIC_SUPABASE_URL="YOUR_SUPABASE_URL"
-NEXT_PUBLIC_SERVICE_ROLE="YOUR_SUPABASE_SERVICE_KEY"
+NEXT_PUBLIC_SUPABASE_URL="[YOUR_SUPABASE_URL]"
+NEXT_PUBLIC_SERVICE_ROLE="[YOUR_SUPABASE_SERVICE_KEY]"
 ```
 
 また、他に接続のための情報を`.env`ファイルに記述してください。
@@ -71,9 +71,9 @@ Supabaseの左のメニュー -> Project settings -> DATABASE -> Connection stri
 
 ```yaml
 # つけた状態のURI(postgres://postgres.[PROJECT-ID]:[YOUR-PASSWORD]@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres)
-DATABASE_URL=YOUR_SUPABASE_DATABASE_URL
+DATABASE_URL="[YOUR_SUPABASE_DATABASE_URL]"
 # つけない状態のURI(postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-ID].supabase.co:5432/postgres)
-DIRECT_URL=YOUR_SUPABASE_DIRECT_DATABASE_URL
+DIRECT_URL="[YOUR_SUPABASE_DIRECT_DATABASE_URL]"
 ```
 
 [YOUR-PASSWORD], [PROJECT-ID]は適切に変更してください。
