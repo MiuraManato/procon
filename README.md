@@ -82,6 +82,11 @@ DIRECT_URL="[YOUR_SUPABASE_DIRECT_DATABASE_URL]"
 # migrate database
 npx prisma migrate dev --name init
 ```
+
+[!WARNING]
+IPv4の環境では`Error: P1001: Can't reach database server at 'db.xxx.supabase.co':5432`というエラーが発生します。
+そのため、IPv6の環境で実行してください。
+
 マイグレートでエラーが出てないことを確認し、Supabaseのデータベースにテーブルが作成されていることを確認してください。
 
 次に、Database -> Table に移動します。
