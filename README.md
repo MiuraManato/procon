@@ -180,7 +180,8 @@ service firebase.storage {
 データは`/prisma/init_db.sql`に記述しています。
 コピーをして、SQL Editorに貼り付けて実行してください。
 
-注意点として、`/prisma/init_db.sql`に記述されている`'your_image_url'`を先ほどコピーした画像のURLに変更してください。(置換すると楽)
+>[!WARNING]
+>`/prisma/init_db.sql`に記述されている`'your_image_url'`を先ほどコピーした画像のURLに変更してください。(置換すると楽)
 
 ## [ローカルでの実行](#ローカルでの実行)
 ```bash
