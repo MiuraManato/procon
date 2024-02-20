@@ -33,15 +33,17 @@ Supabaseを使用しています。登録してください。
 
 プロジェクト名は`procon-test`にしてください。
 
-Supabaseの左のメニュー -> Project settings -> API -> API URLとService roleをコピーしておいてください。
+Supabaseの左のメニュー -> Project settings -> API -> Project URLとService roleをコピーしておいてください。
 
 
-取得したAPI URLとAPI KEYを`.env`ファイルに記述してください。
+取得したURLとAPI KEYを`.env`ファイルに記述してください。
 
 ```yaml
 # Create `/procon/.env`
-NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
-NEXT_PUBLIC_SERVICE_ROLE=YOUR_SUPABASE_SERVICE_KEY
+
+# "https://[URL].supabase.co"
+NEXT_PUBLIC_SUPABASE_URL="YOUR_SUPABASE_URL"
+NEXT_PUBLIC_SERVICE_ROLE="YOUR_SUPABASE_SERVICE_KEY"
 ```
 
 また、他に接続のための情報を`.env`ファイルに記述してください。
