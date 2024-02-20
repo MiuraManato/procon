@@ -479,21 +479,6 @@ export const CategoryMenu = ({ menuData, allergies }: { menuData: MenuData; alle
                         <React.Fragment key={menuProduct.menuProductId}>
                           <div className={styles["cart-item-name"]}>{menuProduct.product.productName}</div>
                           <div className={styles["cart-item-price"]}>{menuProduct.product.price}円</div>
-                          {/* <div className={styles["cart-item-count"]}>数量: {item.count}</div>
-                          <div>
-                            <button
-                              className={`${styles["cart-quantity"]} ${styles["margin-right"]}`}
-                              onClick={(e) => addCart(e, menuProduct.menuProductId, menuProduct.productId)}
-                            >
-                              +
-                            </button>
-                            <button
-                              className={`${styles["cart-quantity"]} ${styles["margin-left"]}`}
-                              onClick={(e) => decrementItem(e, menuProduct.menuProductId, menuProduct.productId)}
-                            >
-                              -
-                            </button>
-                          </div> */}
                           <div className={styles["quantity-selector"]}>
                             <button
                               className={styles["quantity-button"]}

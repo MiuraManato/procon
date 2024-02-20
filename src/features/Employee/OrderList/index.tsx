@@ -159,7 +159,7 @@ export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables 
               // それ以外の場合、注文を表示
               return (
                 (selectedStore === "" || order.storeTable.store.storeName === selectedStore) && (
-                  <div key={order.orderId} className={styles["order-card"]}>
+                  <div key={order.orderId} className={styles["order-card"]} onClick={() => handleOpenModal(order)}>
                     <div className={styles["order-header"]}>
                       <h2>{order.storeTable.tableName}</h2>
                       <p>{formatTime(order.orderedAt)}</p>
@@ -172,9 +172,6 @@ export const OrderList = ({ orders, tables }: { orders: Order[]; tables: Tables 
                         </li>
                       ))}
                     </ul>
-                    <button className={styles["button"]} onClick={() => handleOpenModal(order)}>
-                      変更
-                    </button>
                   </div>
                 )
               );
